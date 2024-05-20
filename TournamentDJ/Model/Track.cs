@@ -19,7 +19,6 @@ namespace TournamentDJ.Model
             {2, "for pros" },
             {3, "for intermediates" },
             {4, "for beginners" }
-
         };
 
         public static Dictionary<int, string> Characteristics = new Dictionary<int, string>
@@ -30,7 +29,6 @@ namespace TournamentDJ.Model
             {2, "ok" },
             {3, "good" },
             {4, "very good" }
-
         };
         public Track(Uri uri)
         {

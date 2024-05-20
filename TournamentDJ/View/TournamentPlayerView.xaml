@@ -62,6 +62,25 @@
                         IsReadOnly="true"/>
                 </StackPanel>
                 <StackPanel Grid.Column="2" HorizontalAlignment="Left">
+                    <TextBlock Text="Difficutly"/>
+                    <ComboBox
+                        ItemsSource="{Binding Difficulties}"
+                        DisplayMemberPath="Value"
+                        SelectedValuePath="Key"
+                        SelectedValue="{Binding TrackPlaying.Difficulty}"
+                        IsEditable="true"/>
+                </StackPanel>
+                <StackPanel Grid.Column="2" HorizontalAlignment="Left">
+                    <TextBlock Text="Characteristic"/>
+                    <ComboBox
+                        ItemsSource="{Binding Characteristics}"
+                        DisplayMemberPath="Value"
+                        SelectedValuePath="Key"
+                        SelectedValue="{Binding TrackPlaying.Characteristic, Mode=TwoWay}"
+                        IsEditable="true"
+                         />
+                </StackPanel>
+                <StackPanel Grid.Column="2" HorizontalAlignment="Left">
                     <TextBlock Text="Single"/>
                     <CheckBox IsChecked="{Binding IsSingleSelected}"/>
                 </StackPanel>
@@ -75,7 +94,7 @@
                 </StackPanel>
                 <StackPanel Grid.Column="2" HorizontalAlignment="Left" MinWidth="300" MinHeight="100">
                     <TextBlock Text="Comment"/>
-                    <TextBox Text="{Binding Player.TrackPlaying.Comment}"/>
+                    <TextBox Text="{Binding Player.TrackPlaying.Comment, Mode=TwoWay}"/>
                 </StackPanel>
             </DockPanel>
             <DockPanel Grid.Column="1" HorizontalAlignment="Left" MaxHeight="70">
