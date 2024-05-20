@@ -1,0 +1,101 @@
+﻿<Window x:Class="TournamentDJ.DatabaseUtilityWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TournamentDJ.View"
+        xmlns:ess="clr-namespace:TournamentDJ.Essentials"
+        xmlns:core="clr-namespace:System;assembly=mscorlib"
+        xmlns:vm="clr-namespace:TournamentDJ.ViewModel"
+        xmlns:conv="clr-namespace:TournamentDJ.Converter"
+        mc:Ignorable="d" 
+        d:DataContext="{d:DesignInstance Type=vm:DatabaseUtilityViewModel, IsDesignTimeCreatable=False}"
+        Title="DatabaseUtility" Height="450" Width="800">
+    <Window.Resources>
+        <CollectionViewSource x:Key="danceViewSource" Source="{Binding Dances}"/>
+        <CollectionViewSource x:Key="danceTrackViewSource" Source="{Binding Tracks}"/>
+        <ess:BindingProxy x:Key="BindingProxy" Data="{Binding}"/>
+    </Window.Resources>
+    <Viewbox Stretch="Uniform">
+        <Grid Height="450" Width="800">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="10*"/>
+            <RowDefinition Height="1*" MinHeight="60"/>
+        </Grid.RowDefinitions>
+        <TabControl Grid.Row="0">
+                <TabItem Header="Tracks">
+                    <Viewbox>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="1*"/>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Grid.Column="0" Margin="5">
+                                <Button Height="50" Content="Choose Folder" Command="{Binding ChooseFolderCommand}" Margin="5"/>
+                                <DataGrid AutoGenerateColumns="True" ItemsSource="{Binding TracksToAdd}" Height="400" Width="600">
+                                </DataGrid>
+                                <TextBlock Text="Failed Files:" FontSize="16"/>
+                                <ScrollViewer VerticalScrollBarVisibility="Auto" MaxHeight="100" Margin="10">
+                                    <ItemsControl ItemsSource="{Binding FailedUris}" ScrollViewer.VerticalScrollBarVisibility="Auto">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <DockPanel Height="20">
+                                                    <TextBlock Text="{Binding OriginalString}" Background="Azure" HorizontalAlignment="Left"/>
+                                                </DockPanel>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </ScrollViewer>
+                                <Button Height="50" Content="Add to Database" Command="{Binding AddToDatabaseCommand}"/>
+                            </StackPanel>
+                            <StackPanel Grid.Column="1" Margin="5">
+                                <DataGrid x:Name="danceDataGrid" AutoGenerateColumns="False" 
+                                      EnableRowVirtualization="True" 
+                                      ItemsSource="{Binding Source={StaticResource danceViewSource}}" 
+                                      RowDetailsVisibilityMode="VisibleWhenSelected"
+                                      CanUserAddRows="True"
+                                       Height="300" Width="600" 
+                                      Margin="5">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Binding="{Binding DanceTypeId}" Header="Id" Width="SizeToHeader" IsReadOnly="True"/>
+                                        <DataGridTextColumn Binding="{Binding Name}" Header="Name" Width="*"/>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                                <DataGrid x:Name="tracksDataGrid" AutoGenerateColumns="False" 
+                                      EnableRowVirtualization="True" 
+                                      ItemsSource="{Binding Tracks}" 
+                                      RowDetailsVisibilityMode="Visible" 
+                                      Height="300"
+                                      Width="600"
+                                      Margin="5">
+                                    <DataGrid.Resources>
+                                        <Style TargetType="ComboBox" x:Key="dances">
+                                            <Setter Property="ItemsSource" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}, Path=DataContext.Dances}" />
+                                        </Style>
+                                    </DataGrid.Resources>
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Binding="{Binding Title}" Header="Title" Width="*"/>
+                                        <DataGridTextColumn Binding="{Binding Genre}" Header="Genre" Width="*" IsReadOnly="True"/>
+                                        <DataGridComboBoxColumn
+                                                Header="Dance"
+                                                ElementStyle="{StaticResource dances}"
+                                                EditingElementStyle="{StaticResource dances}"
+                                                SelectedItemBinding="{Binding Dance}"
+                                                DisplayMemberPath="Name"/>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </StackPanel>
+                        </Grid>
+                    </Viewbox>
+                </TabItem>
+                <TabItem Header="DanceRounds">
+                    <Viewbox>
+                        <local:DanceRoundEditorView/>
+                    </Viewbox>
+                </TabItem>
+            </TabControl>
+
+        <Button Grid.Row="1" Content="Save" MinHeight="50" MinWidth="50" HorizontalAlignment="Center" VerticalAlignment="Center" Command="{Binding SaveDataCommand}"/>
+    </Grid>
+    </Viewbox>
+</Window>
