@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -9,7 +10,28 @@ using TournamentDJ.Essentials;
 namespace TournamentDJ.Model
 {
     public class Track : NotifyObject
-    { 
+    {
+        public static Dictionary<int, string> Difficulties = new Dictionary<int, string>
+        {
+            {-1, "undefined" },
+            {0, "too hard"},
+            {1, "hard for pros" },
+            {2, "for pros" },
+            {3, "for intermediates" },
+            {4, "for beginners" }
+
+        };
+
+        public static Dictionary<int, string> Characteristics = new Dictionary<int, string>
+        {
+            {-1, "undefined" },
+            {0, "fail"},
+            {1, "bad" },
+            {2, "ok" },
+            {3, "good" },
+            {4, "very good" }
+
+        };
         public Track(Uri uri)
         {
             TagLib.File file;
@@ -28,8 +50,15 @@ namespace TournamentDJ.Model
             Genre = (file.Tag.FirstGenre != null)  ? file.Tag.FirstGenre : string.Empty;
             //Duration = (file.Tag.Length != null) ? TimeSpan.TryParse();
             BeatsPerMinute = file.Tag.BeatsPerMinute;
+            Year = (int) file.Tag.Year;
             Uri = uri;
             Dance = null;
+            FlaggedAsFavourite = false;
+            FlaggedForReview = false;
+            Difficulty = -1;
+            Characteristic = -1;
+            Comment = string.Empty;
+
         }
 
         public virtual Dance? Dance {
@@ -40,6 +69,20 @@ namespace TournamentDJ.Model
         {
             get; set;
         }
+
+        public string? Comment
+        {
+            get; set;
+        }
+
+        public bool FlaggedAsFavourite { get; set; }
+
+        public bool FlaggedForReview { get; set; }
+
+        public int Year { get; set; }
+
+        public int Difficulty { get; set; }
+        public int Characteristic { get; set; }
 
         public string? Genre
         {

@@ -29,7 +29,7 @@
             <ColumnDefinition Width="1*" MinWidth="90"/>
         </Grid.ColumnDefinitions>
         <StackPanel MinHeight="200" MinWidth="300" MaxHeight="300">
-            <DockPanel MaxHeight="70">
+            <DockPanel MaxHeight="70" Background="NavajoWhite">
                 <TextBlock HorizontalAlignment="Left" Width="100" Height="50" Margin ="5" Background="Azure" Text="{Binding Player.TrackPlaying.Uri, Converter={StaticResource UriToStringConverter}}" TextWrapping="Wrap" />
                 <TextBlock HorizontalAlignment="Left" Width="100" Height="50" Margin ="5" Background="Azure" Text="{Binding Player.timeData}" />
                 <TextBlock HorizontalAlignment="Left" Width="100" Height="50" Margin ="5" Background="Azure" Text="{Binding Player.TrackPlaying.Title}" TextWrapping="Wrap" />
@@ -64,6 +64,18 @@
                 <StackPanel Grid.Column="2" HorizontalAlignment="Left">
                     <TextBlock Text="Single"/>
                     <CheckBox IsChecked="{Binding IsSingleSelected}"/>
+                </StackPanel>
+                <StackPanel Grid.Column="2" HorizontalAlignment="Left">
+                    <TextBlock Text="Mark as Favorite"/>
+                    <CheckBox IsChecked="{Binding Player.TrackPlaying.FlaggedAsFavourite}"/>
+                </StackPanel>
+                <StackPanel Grid.Column="2" HorizontalAlignment="Left">
+                    <TextBlock Text="Mark for Review"/>
+                    <CheckBox IsChecked="{Binding Player.TrackPlaying.FlaggedForReview}"/>
+                </StackPanel>
+                <StackPanel Grid.Column="2" HorizontalAlignment="Left" MinWidth="300" MinHeight="100">
+                    <TextBlock Text="Comment"/>
+                    <TextBox Text="{Binding Player.TrackPlaying.Comment}"/>
                 </StackPanel>
             </DockPanel>
             <DockPanel Grid.Column="1" HorizontalAlignment="Left" MaxHeight="70">
