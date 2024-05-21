@@ -18,10 +18,12 @@
                 <ResourceDictionary Source="pack://application:,,,/TournamentDJ;component/Styles/SliderStyles.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/TournamentDJ;component/Styles/ButtonStyles.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/TournamentDJ;component/Styles/Colors.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/TournamentDJ;component/Styles/TextBlockStyles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             <conv:UriToStringConverter x:Key="UriToStringConverter" />
             <ess:BindingProxy x:Key="BindingProxy" Data="{Binding}"/>
-            <SolidColorBrush x:Key="BackgroundBaseBrush" Color="{StaticResource Base800}"/>
+            <SolidColorBrush x:Key="BackgroundBaseBrush" Color="{StaticResource Base900}"/>
+            <SolidColorBrush x:Key="BorderBaseBrush" Color="{StaticResource Base600}"/>
         </ResourceDictionary>
     </UserControl.Resources>
 
@@ -34,11 +36,10 @@
             <ColumnDefinition Width="1*" MinWidth="90"/>
         </Grid.ColumnDefinitions>
         <StackPanel MinHeight="200" MinWidth="300" MaxHeight="300">
-            <DockPanel MaxHeight="70" Background="NavajoWhite">
-                <TextBlock HorizontalAlignment="Left" Width="100" Height="50" Margin ="5" Background="Azure" Text="{Binding Player.TrackPlaying.Uri, Converter={StaticResource UriToStringConverter}}" TextWrapping="Wrap" />
-                <TextBlock HorizontalAlignment="Left" Width="100" Height="50" Margin ="5" Background="Azure" Text="{Binding Player.timeData}" />
-                <TextBlock HorizontalAlignment="Left" Width="100" Height="50" Margin ="5" Background="Azure" Text="{Binding Player.TrackPlaying.Title}" TextWrapping="Wrap" />
-                <TextBlock HorizontalAlignment="Left" Width="100" Height="50" Margin ="5" Background="Azure" Text="{Binding Player.SelectedAudioDevice.Name}" TextWrapping="Wrap" />
+            <DockPanel MaxHeight="70">
+                <TextBlock Style="{StaticResource BasicTextBlock}" HorizontalAlignment="Left" Width="100" Height="50" Margin ="5" Text="{Binding Player.timeData}" ToolTip="Time played / Time remaining"/>
+                <TextBlock Style="{StaticResource BasicTextBlock}" HorizontalAlignment="Left" Width="100" Height="50" Margin ="5" Text="{Binding Player.TrackPlaying.Title}" ToolTip="Track Title"/>
+                <TextBlock Style="{StaticResource BasicTextBlock}" HorizontalAlignment="Left" Width="100" Height="50" Margin ="5" Text="{Binding Player.SelectedAudioDevice.Name}" ToolTip="Selected Audio Out Device"/>
                 <StackPanel Grid.Column="2" HorizontalAlignment="Left">
                     <TextBlock Text="Laufzeit"/>
                     <ComboBox Name="comboBox1"
@@ -104,23 +105,27 @@
                 </StackPanel>
             </DockPanel>
             <DockPanel Grid.Column="1" HorizontalAlignment="Left" MaxHeight="70">
-                <Button  Margin="5,5,0,5" Style="{StaticResource ImageButton}" Content="pack://application:,,,/Assets/play.png" Width="50" Height="50" HorizontalAlignment="Left" Command="{Binding PlayClickCommand}"/>
-                <Button  Margin="5,5,0,5" Style="{StaticResource ImageButton}" Content="pack://application:,,,/Assets/stop.png" Width="50" Height="50" HorizontalAlignment="Left" Command="{Binding StopClickCommand}"/>
-                <Button  Margin="5,5,0,5" Style="{StaticResource BasicButton}" Content="Fadeout" Width="50" Height="50" HorizontalAlignment="Left" Command="{Binding FadeoutClickCommand}"/>
-                <Button  Margin="5,5,0,5" Style="{StaticResource BasicButton}" Content="Reselect" Width="50" Height="50" HorizontalAlignment="Left" Command="{Binding ReselectClickCommand}" CommandParameter="{Binding Player.TrackPlaying}"/>
-                <Button  Margin="5,5,0,5" Style="{StaticResource BasicButton}" Content="OpenFile" Width="50" Height="50" HorizontalAlignment="Left" Command="{Binding OpenFileCommand}"/>
-                <Button  Margin="5,5,0,5" Style="{StaticResource BasicButton}" Content="Create Dance Round" Width="50" Height="50" HorizontalAlignment="Left" Command="{Binding CreateDanceRoundClickCommand}"/>
+                <Button  Style="{StaticResource ImageButton}" Content="pack://application:,,,/Assets/play.png" Width="50" Height="50" HorizontalAlignment="Left" Command="{Binding PlayClickCommand}"/>
+                <Button  Style="{StaticResource ImageButton}" Content="pack://application:,,,/Assets/stop.png" Width="50" Height="50" HorizontalAlignment="Left" Command="{Binding StopClickCommand}"/>
+                <Button  Style="{StaticResource BasicButton}" Content="Fadeout" Width="80" Height="50" HorizontalAlignment="Left" Command="{Binding FadeoutClickCommand}"/>
+                <Button  Style="{StaticResource BasicButton}" Content="Reselect" Width="80" Height="50" HorizontalAlignment="Left" Command="{Binding ReselectClickCommand}" CommandParameter="{Binding Player.TrackPlaying}"/>
+                <Button  Style="{StaticResource BasicButton}" Content="OpenFile" Width="80" Height="50" HorizontalAlignment="Left" Command="{Binding OpenFileCommand}"/>
+                <Button  Style="{StaticResource BasicButton}" Content="Create Dance Round" Width="80" Height="50" HorizontalAlignment="Left" Command="{Binding CreateDanceRoundClickCommand}"/>
             </DockPanel>
-            <ScrollViewer VerticalScrollBarVisibility="Visible" MinHeight="100" MaxHeight="140" Grid.Column="0" MinWidth="300" Background="Green">
+            <Border BorderBrush="{StaticResource BorderBaseBrush}" BorderThickness="0" CornerRadius="4">
+                
+
+            <ScrollViewer VerticalScrollBarVisibility="Visible" MinHeight="100" MaxHeight="140" Grid.Column="0" MinWidth="300">
                 <ItemsControl ItemsSource="{Binding TracksToPlay.Tracks}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
+                            <Border BorderBrush="{StaticResource ButtonBackgroundGradientBrush}" BorderThickness="1" Margin="3">
                             <DockPanel>
-                                <TextBlock Width="100" Height="50" Margin ="5" Background="Azure" Text="{Binding Title}" TextWrapping="Wrap" />
-                                <TextBlock Width="200" Height="50" Margin ="5" Background="Azure" Text="{Binding Uri, Converter={StaticResource UriToStringConverter}}" TextWrapping="Wrap" />
-                                <TextBlock Width="100" Height="50" Margin ="5" Background="Azure" Text="{Binding Dance.Name}" TextWrapping="Wrap" />
-                                <Button Content="Reselect" Width="100" Height="50" HorizontalAlignment="Right" Command="{Binding Data.ReselectClickCommand, Source={StaticResource BindingProxy}}" CommandParameter="{Binding}"/>
+                                        <TextBlock Style="{StaticResource BasicTextBlock}" Width="100" Height="50" Margin ="5" Text="{Binding Title}" />
+                                        <TextBlock Style="{StaticResource BasicTextBlock}" Width="100" Height="50" Margin ="5"  Text="{Binding Dance.Name}" />
+                                        <Button Style="{StaticResource BasicButton}" Content="Reselect" Width="100" Height="50" HorizontalAlignment="Right" Command="{Binding Data.ReselectClickCommand, Source={StaticResource BindingProxy}}" CommandParameter="{Binding}"/>
                             </DockPanel>
+                            </Border>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                     <ItemsControl.ItemsPanel>
@@ -130,6 +135,7 @@
                     </ItemsControl.ItemsPanel>
                 </ItemsControl>
             </ScrollViewer>
+            </Border>
         </StackPanel>
         <DockPanel Width="200" HorizontalAlignment="Right" Grid.Column="1">
             <Slider Ticks="20" Width="200" Height="30" HorizontalAlignment="Right" Value="{Binding Player.MedPlayer.Volume}" Maximum="1.0" LargeChange="0.1">

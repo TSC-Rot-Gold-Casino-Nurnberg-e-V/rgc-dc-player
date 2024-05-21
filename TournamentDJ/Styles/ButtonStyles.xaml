@@ -9,16 +9,38 @@
     <SolidColorBrush x:Key="MouseOverBrush" Color="{DynamicResource Primary600}"/>
     <SolidColorBrush x:Key="IsPressedBrush" Color="{DynamicResource Primary700}"/>
     <SolidColorBrush x:Key="TextBrush" Color="{DynamicResource Primary100}"/>
+    <LinearGradientBrush x:Key="ButtonBackgroundGradientBrush" StartPoint="0,0" EndPoint="1,1">
+        <GradientStopCollection>
+            <GradientStop Color="{StaticResource Primary600}" Offset="0"/>
+            <GradientStop Color="{StaticResource Primary500}" Offset="0.5"/>
+            <GradientStop Color="{StaticResource Primary800}" Offset="1"/>
+        </GradientStopCollection>
+    </LinearGradientBrush>
+    <LinearGradientBrush x:Key="ButtonMouseOverGradientBrush" StartPoint="0,0" EndPoint="1,1">
+        <GradientStopCollection>
+            <GradientStop Color="{StaticResource Primary700}" Offset="0"/>
+            <GradientStop Color="{StaticResource Primary600}" Offset="0.5"/>
+            <GradientStop Color="{StaticResource Primary900}" Offset="1"/>
+        </GradientStopCollection>
+    </LinearGradientBrush>
+    <LinearGradientBrush x:Key="ButtonIsPressedGradientBrush" StartPoint="0,0" EndPoint="1,1">
+        <GradientStopCollection>
+            <GradientStop Color="{StaticResource Primary800}" Offset="0"/>
+            <GradientStop Color="{StaticResource Primary700}" Offset="0.5"/>
+            <GradientStop Color="{StaticResource Primary950}" Offset="1"/>
+        </GradientStopCollection>
+    </LinearGradientBrush>
 
 
     <Style x:Key="ImageButton" TargetType="Button">
+        <Setter Property="Margin" Value="2,4,2,4"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
                     <Viewbox>
-                    <Grid Width="50" Height="50">
-                        <Border Margin="0" Name="border" CornerRadius="5" BorderThickness="0" Height="50" Width="50" Background="{StaticResource BackgroundBrush}">
-                        </Border>
+                        <Grid Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Width}" Height="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Height}">
+                            <Border Margin="0" Name="border" CornerRadius="5" BorderThickness="0" Height="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Height}" Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Width}" Background="{StaticResource ButtonBackgroundGradientBrush}">
+                            </Border>
                         <Rectangle Width="40" Height="40" SnapsToDevicePixels="true">
                             <Rectangle.Fill>
                                 <ImageBrush x:Name="ButtonImage" ImageSource="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content}" Stretch="UniformToFill"/>
@@ -28,10 +50,10 @@
                     </Viewbox>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="border" Property="Background" Value="{StaticResource MouseOverBrush}" />
+                            <Setter TargetName="border" Property="Background" Value="{StaticResource ButtonMouseOverGradientBrush}" />
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter TargetName="border" Property="Background" Value="{StaticResource IsPressedBrush}" />
+                            <Setter TargetName="border" Property="Background" Value="{StaticResource ButtonIsPressedGradientBrush}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -41,12 +63,13 @@
 
     <Style x:Key="BasicButton" TargetType="Button">
         <Setter Property="OverridesDefaultStyle" Value="True"/>
+        <Setter Property="Margin" Value="2,4,2,4"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
                     <Viewbox>
-                    <Grid Width="50" Height="50">
-                            <Border Margin="0" Name="border" CornerRadius="5" BorderThickness="0" Height="50" Width="50" Background="{StaticResource BackgroundBrush}">
+                        <Grid Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Width}" Height="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Height}">
+                            <Border Margin="0" Name="border" CornerRadius="5" BorderThickness="0" Height="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Height}" Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Width}" Background="{StaticResource ButtonBackgroundGradientBrush}">
                                 <Label Name="text" VerticalAlignment="Center" VerticalContentAlignment="Center" 
                                         HorizontalAlignment="Center" HorizontalContentAlignment="Center">
                                     <Label.Content>
@@ -65,10 +88,10 @@
                     </Viewbox>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="border" Property="Background" Value="{StaticResource MouseOverBrush}" />
+                            <Setter TargetName="border" Property="Background" Value="{StaticResource ButtonMouseOverGradientBrush}" />
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter TargetName="border" Property="Background" Value="{StaticResource IsPressedBrush}" />
+                            <Setter TargetName="border" Property="Background" Value="{StaticResource ButtonIsPressedGradientBrush}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
