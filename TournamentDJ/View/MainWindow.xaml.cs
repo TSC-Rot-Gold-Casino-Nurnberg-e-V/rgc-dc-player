@@ -21,6 +21,7 @@ namespace TournamentDJ
         {
             MainWindowViewModel viewModel = new MainWindowViewModel();
             DataContext = viewModel;
+            Loaded += viewModel.WindowOpened;
             Closing += viewModel.OnWindowClosing;
             InitializeComponent();
         }

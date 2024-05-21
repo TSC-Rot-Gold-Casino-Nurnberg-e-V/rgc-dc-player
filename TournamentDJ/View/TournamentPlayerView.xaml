@@ -33,6 +33,7 @@
                 <TextBlock HorizontalAlignment="Left" Width="100" Height="50" Margin ="5" Background="Azure" Text="{Binding Player.TrackPlaying.Uri, Converter={StaticResource UriToStringConverter}}" TextWrapping="Wrap" />
                 <TextBlock HorizontalAlignment="Left" Width="100" Height="50" Margin ="5" Background="Azure" Text="{Binding Player.timeData}" />
                 <TextBlock HorizontalAlignment="Left" Width="100" Height="50" Margin ="5" Background="Azure" Text="{Binding Player.TrackPlaying.Title}" TextWrapping="Wrap" />
+                <TextBlock HorizontalAlignment="Left" Width="100" Height="50" Margin ="5" Background="Azure" Text="{Binding Player.SelectedAudioDevice.Name}" TextWrapping="Wrap" />
                 <StackPanel Grid.Column="2" HorizontalAlignment="Left">
                     <TextBlock Text="Laufzeit"/>
                     <ComboBox Name="comboBox1"

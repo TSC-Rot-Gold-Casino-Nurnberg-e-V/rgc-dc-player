@@ -63,6 +63,13 @@ namespace TournamentDJ.ViewModel
             DatabaseUtility.SaveChanges();
         }
 
+        public void WindowOpened(object sender, RoutedEventArgs e)
+        {
+            var ChooseAudioDeviceWindow = new AudioDeviceSelectWindow(TournamentPlayerViewModel.Player);
+            ChooseAudioDeviceWindow.ShowDialog();
+        }
+
+
     }
 
 }
