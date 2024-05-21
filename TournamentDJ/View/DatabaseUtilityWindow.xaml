@@ -58,6 +58,8 @@
                                       Margin="5">
                                     <DataGrid.Columns>
                                         <DataGridTextColumn Binding="{Binding DanceTypeId}" Header="Id" Width="SizeToHeader" IsReadOnly="True"/>
+                                        <DataGridTextColumn Binding="{Binding MinBPM}" Header="MinBPM" Width="SizeToHeader"/>
+                                        <DataGridTextColumn Binding="{Binding MaxBPM}" Header="MaxBPM" Width="SizeToHeader"/>
                                         <DataGridTextColumn Binding="{Binding Name}" Header="Name" Width="*"/>
                                     </DataGrid.Columns>
                                 </DataGrid>

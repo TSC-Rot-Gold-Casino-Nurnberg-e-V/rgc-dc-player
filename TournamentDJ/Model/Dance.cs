@@ -16,6 +16,9 @@ namespace TournamentDJ.Model
         public int DanceTypeId { get; set; }
         public string? Name { get; set; }
 
+        public int MinBPM { get; set; }
+        public int MaxBPM { get; set; }
+
         public virtual ICollection<Track> Tracks
         { get; private set; } =
             new ObservableCollection<Track>();

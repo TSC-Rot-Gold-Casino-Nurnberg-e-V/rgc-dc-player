@@ -17,8 +17,7 @@ namespace TournamentDJ.Model
     {
         public DatabaseUtility()
         {
-            //Tracks = new ObservableCollection<Track>();
-            //FailedFiles = new ObservableCollection<Uri>();
+            player = new Player();
 
             //_context.Database.EnsureDeleted();
             _context.Database.EnsureCreated();
@@ -38,6 +37,8 @@ namespace TournamentDJ.Model
         }
 
         private static readonly TrackContext _context = new TrackContext();
+
+        public Player player { get; private set; }
 
         public static ObservableCollection<Dance> Dances
         {
