@@ -60,7 +60,7 @@ namespace TournamentDJ.ViewModel
             get { return Player.TrackPlaying; }
             set
             {
-                if (value.Equals(Player.TrackPlaying)) return;
+                if (value == null || value.Equals(Player.TrackPlaying)) return;
                 Player.TrackPlaying = value;
                 isPlaying = false;
                 if (playOnClick)

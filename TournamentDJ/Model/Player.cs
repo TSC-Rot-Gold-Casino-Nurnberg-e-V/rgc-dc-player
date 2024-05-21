@@ -87,7 +87,7 @@ namespace TournamentDJ.Model
         {
             get { return Get<TrackList>(); }
             set { Set(value);
-                if(TracksToPlay.Count > 0)
+                if(TracksToPlay.Tracks.Count > 0)
                 {
                     GetNextTrack();
                 }
@@ -236,7 +236,7 @@ namespace TournamentDJ.Model
                 TrackPlaying = GetRandomTrack(TrackPlaying);
             }
 
-            int indexToReselect = TracksToPlay.IndexOf(track);
+            int indexToReselect = TracksToPlay.Tracks.IndexOf(track);
 
             //No file selected (improper Binding?)
             if (indexToReselect < 0)
@@ -246,7 +246,7 @@ namespace TournamentDJ.Model
 
             else
             {
-                TracksToPlay[indexToReselect] = GetRandomTrack(TracksToPlay[indexToReselect]);
+                TracksToPlay.Tracks[indexToReselect] = GetRandomTrack(TracksToPlay.Tracks[indexToReselect]);
             }
         }
 
@@ -273,13 +273,13 @@ namespace TournamentDJ.Model
 
             if(TrackPlaying != null)
             {
-                TracksPlayed.Add(TrackPlaying);
+                TracksPlayed.Tracks.Add(TrackPlaying);
             }
 
-            if(TracksToPlay.Count > 0)
+            if(TracksToPlay.Tracks.Count > 0)
             {
-                TrackPlaying = TracksToPlay[0];
-                TracksToPlay.RemoveAt(0);
+                TrackPlaying = TracksToPlay.Tracks[0];
+                TracksToPlay.Tracks.RemoveAt(0);
             }
         }
 
@@ -289,13 +289,13 @@ namespace TournamentDJ.Model
 
             if (TrackPlaying != null)
             {
-                TracksToPlay.Insert(0, TrackPlaying);
+                TracksToPlay.Tracks.Insert(0, TrackPlaying);
             }
 
-            if (TracksPlayed.Count > 0)
+            if (TracksPlayed.Tracks.Count > 0)
             {
-                TrackPlaying = TracksPlayed[TracksPlayed.Count - 1];
-                TracksPlayed.RemoveAt(TracksPlayed.Count - 1);
+                TrackPlaying = TracksPlayed.Tracks[TracksPlayed.Tracks.Count - 1];
+                TracksPlayed.Tracks.RemoveAt(TracksPlayed.Tracks.Count - 1);
             }
         }
 

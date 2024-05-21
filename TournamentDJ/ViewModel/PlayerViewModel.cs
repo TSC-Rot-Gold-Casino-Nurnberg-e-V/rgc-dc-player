@@ -19,13 +19,6 @@ namespace TournamentDJ.ViewModel
         public PlayerViewModel() 
         {
             Player = new Player();
-            TracksToPlay = new TrackList();
-            TracksToPlay.AddTrack(new Uri(@"C:\Media\Vivi\Very Ballroom 2 [Disc 1]\01 Concerning Hobbits [SW].mp3"));
-            TracksToPlay.AddTrack(new Uri(@"C:\Media\Vivi\Very Ballroom 2 [Disc 1]\02 Promise [SW].mp3"));
-            TracksToPlay.AddTrack(new Uri(@"C:\Media\Vivi\Very Ballroom 2 [Disc 1]\03 Dark Waltz [SW].mp3"));
-            TracksToPlay.AddTrack(new Uri(@"C:\Media\Vivi\Very Ballroom 2 [Disc 1]\01 Concerning Hobbits [SW].mp3"));
-            TracksToPlay.AddTrack(new Uri(@"C:\Media\Vivi\Very Ballroom 2 [Disc 1]\02 Promise [SW].mp3"));
-            TracksToPlay.AddTrack(new Uri(@"C:\Media\Vivi\Very Ballroom 2 [Disc 1]\03 Dark Waltz [SW].mp3"));
             TrackPlaying = new Track(new Uri(@"C:\Media\Vivi\Very Ballroom 2 [Disc 1]\03 Dark Waltz [SW].mp3"));
             CreateCommands();
         }

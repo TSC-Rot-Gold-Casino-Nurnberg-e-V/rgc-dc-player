@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,28 +9,14 @@ using TournamentDJ.Model;
 
 namespace TournamentDJ.Model
 {
-    class TrackList : ObservableCollection<Track>
+    public class TrackList
     {
-        public void AddTrack(Track track)
-        {
-            this.Add(track);
-        }
+        [Key]
+        public int Id { get; set; }
+        public string? Name { get; set; }
 
-        public void AddTrack(Uri uri)
-        {
-            this.Add(new Track(uri));
-        }
-
-        public void ChangeTrack(int index, Track track)
-        {
-            this[index] = track;
-        }
-
-        public void ChangeTrack(int index, Uri uri)
-        {
-            this[index] = new Track(uri);
-        }
-
-
+        public virtual ObservableCollection<Track> Tracks
+        { get; private set; } =
+        new ObservableCollection<Track>();
     }
 }

@@ -107,7 +107,7 @@
                 <Button Margin="5" x:Name="CreateDanceRound" Content="Create Dance Round" Width="50" Height="50" HorizontalAlignment="Left" Command="{Binding CreateDanceRoundClickCommand}"/>
             </DockPanel>
             <ScrollViewer VerticalScrollBarVisibility="Visible" MinHeight="100" MaxHeight="140" Grid.Column="0" MinWidth="300" Background="Green">
-                <ItemsControl ItemsSource="{Binding TracksToPlay}">
+                <ItemsControl ItemsSource="{Binding TracksToPlay.Tracks}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <DockPanel>
