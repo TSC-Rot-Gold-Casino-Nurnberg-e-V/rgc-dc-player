@@ -16,13 +16,18 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/TournamentDJ;component/Styles/SliderStyles.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/TournamentDJ;component/Styles/ButtonStyles.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/TournamentDJ;component/Styles/Colors.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             <conv:UriToStringConverter x:Key="UriToStringConverter" />
             <ess:BindingProxy x:Key="BindingProxy" Data="{Binding}"/>
+            <SolidColorBrush x:Key="BackgroundBaseBrush" Color="{StaticResource Base800}"/>
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <Grid Background="Bisque">
+
+
+    <Grid Background="{StaticResource BackgroundBaseBrush}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="10*" MinWidth="300"/>
             <ColumnDefinition Width="1*" MinWidth="90"/>
@@ -99,12 +104,12 @@
                 </StackPanel>
             </DockPanel>
             <DockPanel Grid.Column="1" HorizontalAlignment="Left" MaxHeight="70">
-                <Button Margin="5" x:Name="Play" Content="Play" Width="50" Height="50" HorizontalAlignment="Left" Command="{Binding PlayClickCommand}"/>
-                <Button Margin="5" x:Name="Stop" Content="Stop" Width="50" Height="50" HorizontalAlignment="Left" Command="{Binding StopClickCommand}"/>
-                <Button Margin="5" x:Name="Fadeout" Content="Fadeout" Width="50" Height="50" HorizontalAlignment="Left" Command="{Binding FadeoutClickCommand}"/>
-                <Button Margin="5" x:Name="Reselect" Content="Reselect" Width="50" Height="50" HorizontalAlignment="Left" Command="{Binding ReselectClickCommand}" CommandParameter="{Binding Player.TrackPlaying}"/>
-                <Button Margin="5" x:Name="OpenFile" Content="OpenFile" Width="50" Height="50" HorizontalAlignment="Left" Command="{Binding OpenFileCommand}"/>
-                <Button Margin="5" x:Name="CreateDanceRound" Content="Create Dance Round" Width="50" Height="50" HorizontalAlignment="Left" Command="{Binding CreateDanceRoundClickCommand}"/>
+                <Button  Margin="5,5,0,5" Style="{StaticResource ImageButton}" Content="pack://application:,,,/Assets/play.png" Width="50" Height="50" HorizontalAlignment="Left" Command="{Binding PlayClickCommand}"/>
+                <Button  Margin="5,5,0,5" Style="{StaticResource ImageButton}" Content="pack://application:,,,/Assets/stop.png" Width="50" Height="50" HorizontalAlignment="Left" Command="{Binding StopClickCommand}"/>
+                <Button  Margin="5,5,0,5" Style="{StaticResource BasicButton}" Content="Fadeout" Width="50" Height="50" HorizontalAlignment="Left" Command="{Binding FadeoutClickCommand}"/>
+                <Button  Margin="5,5,0,5" Style="{StaticResource BasicButton}" Content="Reselect" Width="50" Height="50" HorizontalAlignment="Left" Command="{Binding ReselectClickCommand}" CommandParameter="{Binding Player.TrackPlaying}"/>
+                <Button  Margin="5,5,0,5" Style="{StaticResource BasicButton}" Content="OpenFile" Width="50" Height="50" HorizontalAlignment="Left" Command="{Binding OpenFileCommand}"/>
+                <Button  Margin="5,5,0,5" Style="{StaticResource BasicButton}" Content="Create Dance Round" Width="50" Height="50" HorizontalAlignment="Left" Command="{Binding CreateDanceRoundClickCommand}"/>
             </DockPanel>
             <ScrollViewer VerticalScrollBarVisibility="Visible" MinHeight="100" MaxHeight="140" Grid.Column="0" MinWidth="300" Background="Green">
                 <ItemsControl ItemsSource="{Binding TracksToPlay.Tracks}">

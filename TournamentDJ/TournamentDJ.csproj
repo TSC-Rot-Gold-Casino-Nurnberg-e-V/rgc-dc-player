@@ -10,6 +10,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Assets\next.png" />
+    <None Remove="Assets\pause.png" />
+    <None Remove="Assets\play.png" />
+    <None Remove="Assets\previous.png" />
+    <None Remove="Assets\stop.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="8.0.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.5" />
@@ -53,8 +61,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Assets\" />
     <Folder Include="SQL\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Assets\next.png" />
+    <Resource Include="Assets\pause.png" />
+    <Resource Include="Assets\play.png" />
+    <Resource Include="Assets\previous.png" />
+    <Resource Include="Assets\stop.png" />
   </ItemGroup>
 
 </Project>
