@@ -67,7 +67,7 @@
                         ItemsSource="{Binding Difficulties}"
                         DisplayMemberPath="Value"
                         SelectedValuePath="Key"
-                        SelectedValue="{Binding TrackPlaying.Difficulty}"
+                        SelectedValue="{Binding Player.TrackPlaying.Difficulty}"
                         IsEditable="true"/>
                 </StackPanel>
                 <StackPanel Grid.Column="2" HorizontalAlignment="Left">
@@ -76,7 +76,7 @@
                         ItemsSource="{Binding Characteristics}"
                         DisplayMemberPath="Value"
                         SelectedValuePath="Key"
-                        SelectedValue="{Binding TrackPlaying.Characteristic, Mode=TwoWay}"
+                        SelectedValue="{Binding Player.TrackPlaying.Characteristic, Mode=TwoWay}"
                         IsEditable="true"
                          />
                 </StackPanel>

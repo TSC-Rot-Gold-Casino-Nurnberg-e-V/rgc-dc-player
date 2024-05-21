@@ -19,7 +19,9 @@ namespace TournamentDJ
     {
         public MainWindow()
         {
-            DataContext = new MainWindowViewModel();
+            MainWindowViewModel viewModel = new MainWindowViewModel();
+            DataContext = viewModel;
+            Closing += viewModel.OnWindowClosing;
             InitializeComponent();
         }
     }

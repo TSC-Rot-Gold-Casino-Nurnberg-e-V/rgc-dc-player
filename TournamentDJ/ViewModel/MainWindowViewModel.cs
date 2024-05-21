@@ -9,6 +9,7 @@ using System.Windows;
 using TournamentDJ.Essentials;
 using TournamentDJ.Model;
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel;
 
 
 namespace TournamentDJ.ViewModel
@@ -55,6 +56,11 @@ namespace TournamentDJ.ViewModel
         {
             var databaseUtilityWindow = new DatabaseUtilityWindow();
             databaseUtilityWindow.ShowDialog();
+        }
+
+        public void OnWindowClosing(object sender, CancelEventArgs e)
+        {
+            DatabaseUtility.SaveChanges();
         }
 
     }
