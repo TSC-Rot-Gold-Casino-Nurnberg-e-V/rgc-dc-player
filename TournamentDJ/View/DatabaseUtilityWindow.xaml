@@ -18,11 +18,11 @@
     </Window.Resources>
     <Viewbox Stretch="Uniform">
         <Grid Height="450" Width="800">
-        <Grid.RowDefinitions>
+            <Grid.RowDefinitions>
             <RowDefinition Height="10*"/>
             <RowDefinition Height="1*" MinHeight="60"/>
         </Grid.RowDefinitions>
-        <TabControl Grid.Row="0">
+            <TabControl Grid.Row="0">
                 <TabItem Header="Tracks">
                     <Viewbox>
                         <Grid>
@@ -32,7 +32,7 @@
                             </Grid.ColumnDefinitions>
                             <StackPanel Grid.Column="0" Margin="5">
                                 <Button Height="50" Content="Choose Folder" Command="{Binding ChooseFolderCommand}" Margin="5"/>
-                                <DataGrid AutoGenerateColumns="True" ItemsSource="{Binding TracksToAdd}" Height="400" Width="600">
+                                <DataGrid AutoGenerateColumns="True" ItemsSource="{Binding TracksToAdd}" Height="400" Width="600" SelectedItem="{Binding TrackPlaying}">
                                 </DataGrid>
                                 <TextBlock Text="Failed Files:" FontSize="16"/>
                                 <ScrollViewer VerticalScrollBarVisibility="Auto" MaxHeight="100" Margin="10">
@@ -46,7 +46,19 @@
                                         </ItemsControl.ItemTemplate>
                                     </ItemsControl>
                                 </ScrollViewer>
-                                <Button Height="50" Content="Add to Database" Command="{Binding AddToDatabaseCommand}"/>
+                                <Button Height="50" Content="Add to Database" Command="{Binding AddToDatabaseCommand}" Margin="2"/>
+                                <StackPanel Grid.Row="1">
+                                    <TextBlock Text="Output Device"/>
+                                    <ComboBox
+                                            ItemsSource="{Binding Player.AudioDevices}"
+                                            SelectedItem="{Binding Player.SelectedAudioDevice}"
+                                            DisplayMemberPath="Name"
+                                            Text="Default"
+                                            IsEditable="true"
+                                            IsReadOnly="true"/>
+                                    <Button Content="Play/Pause" Command="{Binding PlayPauseCommand}" Margin="2"/>
+                                    <Button Content="Toggle Play On Click" Command="{Binding TogglePlayOnClickCommand}" Margin="2"/>
+                                </StackPanel>
                             </StackPanel>
                             <StackPanel Grid.Column="1" Margin="5">
                                 <DataGrid x:Name="danceDataGrid" AutoGenerateColumns="False" 
@@ -67,6 +79,7 @@
                                       EnableRowVirtualization="True" 
                                       ItemsSource="{Binding Tracks}" 
                                       RowDetailsVisibilityMode="Visible" 
+                                      SelectedItem="{Binding TrackPlaying}"
                                       Height="300"
                                       Width="600"
                                       Margin="5">
@@ -96,8 +109,7 @@
                     </Viewbox>
                 </TabItem>
             </TabControl>
-
-        <Button Grid.Row="1" Content="Save" MinHeight="50" MinWidth="50" HorizontalAlignment="Center" VerticalAlignment="Center" Command="{Binding SaveDataCommand}"/>
+            <Button Grid.Row="1" Content="Save" MinHeight="50" MinWidth="50" HorizontalAlignment="Center" VerticalAlignment="Center" Command="{Binding SaveDataCommand}"/>
     </Grid>
     </Viewbox>
 </Window>
