@@ -14,6 +14,10 @@ namespace TournamentDJ.Model
         public int DanceRoundId { get; set; }
         public string? Name { get; set; }
 
+        public int MinDifficulty { get; set; }
+        public int MaxDifficulty { get; set; }
+        public int MinCharacteristics { get; set; }
+
         public virtual ObservableCollection<Dance> Dances
         { get; private set; } =
             new ObservableCollection<Dance>();
@@ -21,10 +25,16 @@ namespace TournamentDJ.Model
         public DanceRound(string name)
         {
             Name = name;
+            MinDifficulty = 4;
+            MaxDifficulty = 1;
+            MinCharacteristics = 1;
         }
 
         public DanceRound()
         {
+            MinDifficulty = 4;
+            MaxDifficulty = 1;
+            MinCharacteristics = 1;
         }
     }
 }

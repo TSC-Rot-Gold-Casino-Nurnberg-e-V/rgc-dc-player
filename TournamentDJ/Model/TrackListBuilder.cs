@@ -30,7 +30,7 @@ namespace TournamentDJ.Model
         }
 
 
-        public static TrackList CreateDanceRound(DanceRound roundToCreate, int heats = 1, bool single = false)
+        public static TrackList CreateDanceRound(DanceRound roundToCreate, int heats = 1, bool single = false, TrackList tracklist = null)
         {
             if (roundToCreate == null) { return null; }
 
@@ -40,7 +40,7 @@ namespace TournamentDJ.Model
             {
                 foreach (var dance in roundToCreate.Dances)
                 {
-                    Track trackToAdd = GetRandomTrack(dance);
+                    Track trackToAdd = GetRandomTrack(dance, tracklist, roundToCreate.MinDifficulty, roundToCreate.MaxDifficulty, roundToCreate.MinCharacteristics);
                     for (int i = 0; i < heats; i++)
                     {
                         tracks.Add(trackToAdd);
@@ -52,7 +52,7 @@ namespace TournamentDJ.Model
             {
                 foreach (var dance in roundToCreate.Dances)
                 {
-                    var list = GetRandomTracks(dance, heats);
+                    var list = GetRandomTracks(dance, heats, tracklist, roundToCreate.MinDifficulty, roundToCreate.MaxDifficulty, roundToCreate.MinCharacteristics);
                     foreach (var track in list)
                     {
                         tracks.Add(track);
@@ -66,10 +66,21 @@ namespace TournamentDJ.Model
             return tracks;
         }
 
-        public static Track GetRandomTrack(Dance dance)
+        public static Track GetRandomTrack(Dance dance, TrackList trackListToUse = null, int minDiff = 4, int maxDiff = 0, int minChar = 0)
         {
+            Track[] TracksWithDance;
+
+            if(trackListToUse != null)
+            {
+                TracksWithDance = trackListToUse.Where(X => X.Dance == dance).ToArray();
+            }
+            else
+            {
+                TracksWithDance = DatabaseUtility.Tracks.Where(X => X.Dance == dance && X.Difficulty <= minDiff && X.Difficulty >= maxDiff && X.Characteristic >= minChar).ToArray();
+            }
+
+            
             Random random = new Random(Guid.NewGuid().GetHashCode());
-            var TracksWithDance = DatabaseUtility.Tracks.Where(X => X.Dance == dance).ToArray();
             if ( TracksWithDance.Length > 0 )
             {
                 int randInt = random.Next(0, TracksWithDance.Length - 1);
@@ -81,12 +92,22 @@ namespace TournamentDJ.Model
             }
         }
 
-        public static List<Track> GetRandomTracks(Dance dance, int count)
+        public static List<Track> GetRandomTracks(Dance dance, int count, TrackList trackListToUse = null, int minDiff = 4, int maxDiff = 1, int minChar = 1)
         {
+            List<Track> TracksWithDance;
+
+            if (trackListToUse != null)
+            {
+                TracksWithDance = trackListToUse.Where(X => X.Dance == dance).ToList();
+            }
+            else
+            {
+                TracksWithDance = DatabaseUtility.Tracks.Where(X => X.Dance == dance && X.Difficulty <= minDiff && X.Difficulty >= maxDiff && X.Characteristic >= minChar).ToList();
+            }
+
             Random random = new Random(Guid.NewGuid().GetHashCode());
             List<Track> list = new List<Track>();
-            var TracksWithDance = DatabaseUtility.Tracks.Where(X => X.Dance == dance).ToList();
-
+           
             if(TracksWithDance.Count < count)
             {
 
