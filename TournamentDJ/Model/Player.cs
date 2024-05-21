@@ -28,6 +28,7 @@ namespace TournamentDJ.Model
             Timer = new DispatcherTimer();
             TracksToPlay = new TrackList();
             TracksPlayed = new TrackList();
+            SelectedTrackList = null;
             Timer.Interval = TimeSpan.FromSeconds(1);
             Timer.Tick += timer_Tick;
             Timer.Start();
@@ -96,6 +97,12 @@ namespace TournamentDJ.Model
         }
 
         public TrackList TracksPlayed
+        {
+            get { return Get<TrackList>(); }
+            set { Set(value); }
+        }
+
+        public TrackList SelectedTrackList
         {
             get { return Get<TrackList>(); }
             set { Set(value); }
@@ -233,7 +240,7 @@ namespace TournamentDJ.Model
         {
             if (TrackPlaying == track && MedPlayer.PlaybackSession.PlaybackState != MediaPlaybackState.Playing)
             {
-                TrackPlaying = GetRandomTrack(TrackPlaying);
+                TrackPlaying = TrackListBuilder.GetRandomTrack(TrackPlaying.Dance, SelectedTrackList);
             }
 
             int indexToReselect = TracksToPlay.Tracks.IndexOf(track);
@@ -246,26 +253,10 @@ namespace TournamentDJ.Model
 
             else
             {
-                TracksToPlay.Tracks[indexToReselect] = GetRandomTrack(TracksToPlay.Tracks[indexToReselect]);
+                TracksToPlay.Tracks[indexToReselect] = TrackListBuilder.GetRandomTrack(TracksToPlay.Tracks[indexToReselect].Dance, SelectedTrackList);
             }
         }
 
-        //TODO: REMOVE
-        public Track GetRandomTrack(Track track = null)
-        {
-            Uri newTrackUri = track.Uri;
-
-            ExampeLists List = new ExampeLists();
-            int randInt = rand.Next(0, List.SlowWaltz.Count - 1);
-
-            while (newTrackUri == track.Uri && List.SlowWaltz.Count > 2)
-            {
-                randInt = rand.Next(0, List.SlowWaltz.Count - 1);
-                newTrackUri = new Track(List.SlowWaltz[randInt]).Uri;
-            }
-
-            return new Track(List.SlowWaltz[randInt]);
-        }
 
         public void GetNextTrack()
         {
