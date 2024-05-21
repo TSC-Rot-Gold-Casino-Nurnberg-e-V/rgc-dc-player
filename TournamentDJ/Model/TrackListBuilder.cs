@@ -64,7 +64,7 @@ namespace TournamentDJ.Model
             return tracks;
         }
 
-        public static Track GetRandomTrack(Dance dance, TrackList trackListToUse = null, int minDiff = 4, int maxDiff = 0, int minChar = 0, bool hasToBeFavorite = false)
+        public static Track GetRandomTrack(Dance dance, TrackList trackListToUse = null, int minDiff = 0, int maxDiff = 4, int minChar = 0, bool hasToBeFavorite = false)
         {
             Track[] TracksWithDance;
 
@@ -76,12 +76,12 @@ namespace TournamentDJ.Model
             {
                 if(hasToBeFavorite)
                 {
-                    TracksWithDance = DatabaseUtility.Tracks.Where(X => X.Dance == dance && X.Difficulty <= minDiff && X.Difficulty >= maxDiff && X.Characteristic >= minChar && X.FlaggedAsFavourite == true).ToArray();
+                    TracksWithDance = DatabaseUtility.Tracks.Where(X => X.Dance == dance && X.Difficulty >= minDiff && X.Difficulty <= maxDiff && X.Characteristic >= minChar && X.FlaggedAsFavourite == true).ToArray();
 
                 }
                 else
                 {
-                    TracksWithDance = DatabaseUtility.Tracks.Where(X => X.Dance == dance && X.Difficulty <= minDiff && X.Difficulty >= maxDiff && X.Characteristic >= minChar).ToArray();
+                    TracksWithDance = DatabaseUtility.Tracks.Where(X => X.Dance == dance && X.Difficulty >= minDiff && X.Difficulty <= maxDiff && X.Characteristic >= minChar).ToArray();
                 }
             }
 
@@ -98,7 +98,7 @@ namespace TournamentDJ.Model
             }
         }
 
-        public static List<Track> GetRandomTracks(Dance dance, int count, TrackList trackListToUse = null, int minDiff = 4, int maxDiff = 1, int minChar = 1, bool hasToBeFavorite = false)
+        public static List<Track> GetRandomTracks(Dance dance, int count, TrackList trackListToUse = null, int minDiff = 0, int maxDiff = 4, int minChar = 1, bool hasToBeFavorite = false)
         {
             List<Track> TracksWithDance;
 
@@ -110,12 +110,12 @@ namespace TournamentDJ.Model
             {
                 if (hasToBeFavorite)
                 {
-                    TracksWithDance = DatabaseUtility.Tracks.Where(X => X.Dance == dance && X.Difficulty <= minDiff && X.Difficulty >= maxDiff && X.Characteristic >= minChar && X.FlaggedAsFavourite == true).ToList();
+                    TracksWithDance = DatabaseUtility.Tracks.Where(X => X.Dance == dance && X.Difficulty >= minDiff && X.Difficulty <= maxDiff && X.Characteristic >= minChar && X.FlaggedAsFavourite == true).ToList();
 
                 }
                 else
                 {
-                    TracksWithDance = DatabaseUtility.Tracks.Where(X => X.Dance == dance && X.Difficulty <= minDiff && X.Difficulty >= maxDiff && X.Characteristic >= minChar).ToList();
+                    TracksWithDance = DatabaseUtility.Tracks.Where(X => X.Dance == dance && X.Difficulty >= minDiff && X.Difficulty <= maxDiff && X.Characteristic >= minChar).ToList();
                 }
             }
 

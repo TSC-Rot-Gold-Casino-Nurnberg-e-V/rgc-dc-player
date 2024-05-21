@@ -21,10 +21,10 @@
     </UserControl.DataContext>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="4*"/>
-            <ColumnDefinition Width="4*"/>
+            <ColumnDefinition Width="8*"/>
+            <ColumnDefinition Width="3*"/>
             <ColumnDefinition Width="80"/>
-            <ColumnDefinition Width="4*"/>
+            <ColumnDefinition Width="3*"/>
         </Grid.ColumnDefinitions>
         <StackPanel Grid.Column="0" Margin="5">
             <TextBlock Text="Dance Rounds"/>
@@ -36,8 +36,45 @@
                 Height="300"
               SelectedItem="{Binding SelectedDanceRound, TargetNullValue=New}"
               >
+                <DataGrid.Resources>
+                    <Style TargetType="ComboBox" x:Key="difficulties">
+                        <Setter Property="ItemsSource" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}, Path=DataContext.Difficulties}" />
+                        <Setter Property="SelectedValuePath" Value="Key"/>
+                    </Style>
+                    <Style TargetType="ComboBox" x:Key="characteristics">
+                        <Setter Property="ItemsSource" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}, Path=DataContext.Characteristics}" />
+                        <Setter Property="SelectedValuePath" Value="Key"/>
+                    </Style>
+                </DataGrid.Resources>
                 <DataGrid.Columns>
                     <DataGridTextColumn Binding="{Binding Name}" Header="Name" Width="*"/>
+                    <DataGridComboBoxColumn 
+                                            Header="MinDifficulty"
+                                            ElementStyle="{StaticResource difficulties}"
+                                            EditingElementStyle="{StaticResource difficulties}"
+                                            DisplayMemberPath="Value"
+                                            SelectedValuePath="Key"
+                                            SelectedValueBinding="{Binding MinDifficulty}"
+                                            Width="80"
+                                            />
+                    <DataGridComboBoxColumn 
+                        Header="MaxDifficulty"
+                        ElementStyle="{StaticResource difficulties}"
+                        EditingElementStyle="{StaticResource difficulties}"
+                        DisplayMemberPath="Value"
+                        SelectedValuePath="Key"
+                        SelectedValueBinding="{Binding MaxDifficulty}"
+                        Width="80"
+                        />
+                    <DataGridComboBoxColumn 
+                                            Header="MinCharacteristic"
+                                            ElementStyle="{StaticResource characteristics}"
+                                            EditingElementStyle="{StaticResource characteristics}"
+                                            DisplayMemberPath="Value"
+                                            SelectedValuePath="Key"
+                                            SelectedValueBinding="{Binding MinCharacteristics}"
+                                            Width="80"
+                                            />
                 </DataGrid.Columns>
             </DataGrid>
         </StackPanel>

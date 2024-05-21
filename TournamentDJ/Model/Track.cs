@@ -14,11 +14,11 @@ namespace TournamentDJ.Model
         public static Dictionary<int, string> Difficulties = new Dictionary<int, string>
         {
             {-1, "undefined" },
-            {0, "too hard"},
-            {1, "hard for pros" },
+            {4, "too hard"},
+            {3, "hard for pros" },
             {2, "for pros" },
-            {3, "for intermediates" },
-            {4, "for beginners" }
+            {1, "for intermediates" },
+            {0, "for beginners" }
         };
 
         public static Dictionary<int, string> Characteristics = new Dictionary<int, string>

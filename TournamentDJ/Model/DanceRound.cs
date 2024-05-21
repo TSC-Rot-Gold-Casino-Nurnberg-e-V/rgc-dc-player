@@ -25,15 +25,15 @@ namespace TournamentDJ.Model
         public DanceRound(string name)
         {
             Name = name;
-            MinDifficulty = 4;
-            MaxDifficulty = 1;
+            MinDifficulty = 0;
+            MaxDifficulty = 3;
             MinCharacteristics = 1;
         }
 
         public DanceRound()
         {
-            MinDifficulty = 4;
-            MaxDifficulty = 1;
+            MinDifficulty = 0;
+            MaxDifficulty = 3;
             MinCharacteristics = 1;
         }
     }
