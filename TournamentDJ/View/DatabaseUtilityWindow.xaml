@@ -14,6 +14,7 @@
     <Window.Resources>
         <CollectionViewSource x:Key="danceViewSource" Source="{Binding Dances}"/>
         <CollectionViewSource x:Key="danceTrackViewSource" Source="{Binding Tracks}"/>
+        <CollectionViewSource x:Key="difficulties" Source="{Binding Difficulties}"/>
         <ess:BindingProxy x:Key="BindingProxy" Data="{Binding}"/>
     </Window.Resources>
     <Viewbox Stretch="Uniform">
@@ -87,16 +88,44 @@
                                         <Style TargetType="ComboBox" x:Key="dances">
                                             <Setter Property="ItemsSource" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}, Path=DataContext.Dances}" />
                                         </Style>
+                                        <Style TargetType="ComboBox" x:Key="difficulties">
+                                            <Setter Property="ItemsSource" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}, Path=DataContext.Difficulties}" />
+                                            <Setter Property="SelectedValuePath" Value="Key"/>
+                                        </Style>
+                                        <Style TargetType="ComboBox" x:Key="characteristics">
+                                            <Setter Property="ItemsSource" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}, Path=DataContext.Characteristics}" />
+                                            <Setter Property="SelectedValuePath" Value="Key"/>
+                                        </Style>
                                     </DataGrid.Resources>
                                     <DataGrid.Columns>
-                                        <DataGridTextColumn Binding="{Binding Title}" Header="Title" Width="*"/>
-                                        <DataGridTextColumn Binding="{Binding Genre}" Header="Genre" Width="*" IsReadOnly="True"/>
+                                        <DataGridTextColumn Binding="{Binding Title}" Header="Title" Width="200"/>
+                                        <DataGridTextColumn Binding="{Binding Genre}" Header="Genre" Width="80" IsReadOnly="True"/>
                                         <DataGridComboBoxColumn
                                                 Header="Dance"
                                                 ElementStyle="{StaticResource dances}"
                                                 EditingElementStyle="{StaticResource dances}"
                                                 SelectedItemBinding="{Binding Dance}"
+                                                Width="80"
                                                 DisplayMemberPath="Name"/>
+                                        <DataGridComboBoxColumn 
+                                            Header="Difficulty"
+                                            ElementStyle="{StaticResource difficulties}"
+                                            EditingElementStyle="{StaticResource difficulties}"
+                                            DisplayMemberPath="Value"
+                                            SelectedValuePath="Key"
+                                            SelectedValueBinding="{Binding Difficulty}"
+                                            Width="80"
+                                            />
+                                        <DataGridComboBoxColumn 
+                                            Header="Characteristic"
+                                            ElementStyle="{StaticResource characteristics}"
+                                            EditingElementStyle="{StaticResource characteristics}"
+                                            DisplayMemberPath="Value"
+                                            SelectedValuePath="Key"
+                                            SelectedValueBinding="{Binding Characteristic}"
+                                            Width="80"
+                                            />
+
                                     </DataGrid.Columns>
                                 </DataGrid>
                             </StackPanel>

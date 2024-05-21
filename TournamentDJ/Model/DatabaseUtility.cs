@@ -18,7 +18,7 @@ namespace TournamentDJ.Model
         public DatabaseUtility()
         {
 
-            _context.Database.EnsureDeleted();
+            //_context.Database.EnsureDeleted();
             _context.Database.EnsureCreated();
 
             // load the entities into EF Core

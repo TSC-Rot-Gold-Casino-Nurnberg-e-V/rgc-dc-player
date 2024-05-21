@@ -72,6 +72,18 @@ namespace TournamentDJ.ViewModel
             }
         }
 
+        public Dictionary<int, string> Difficulties
+        {
+            get { return Track.Difficulties; }
+            private set { Track.Difficulties = value; }
+        }
+
+        public Dictionary<int, string> Characteristics
+        {
+            get { return Track.Characteristics; }
+            private set { Track.Characteristics = value; }
+        }
+
 
         public ICommand ChooseFolderCommand { get; private set; }
         public ICommand SaveDataCommand { get; private set; }

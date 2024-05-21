@@ -25,7 +25,6 @@ namespace TournamentDJ.Model
             {
                 trackList.Tracks.Add(track);
             }
-
             return trackList;
         }
 
@@ -46,7 +45,6 @@ namespace TournamentDJ.Model
                         tracks.Tracks.Add(trackToAdd);
                     }
                 }
-                
             } 
             else
             {
