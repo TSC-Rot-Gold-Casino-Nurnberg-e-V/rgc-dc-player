@@ -18,7 +18,7 @@ namespace TournamentDJ.Model
         public DatabaseUtility()
         {
 
-            //_context.Database.EnsureDeleted();
+            _context.Database.EnsureDeleted();
             _context.Database.EnsureCreated();
 
             // load the entities into EF Core
@@ -66,13 +66,12 @@ namespace TournamentDJ.Model
         private static void FillDances()
         {
             Dances = _context.Dances.Local.ToObservableCollection();
-            if(Dances.Count == 0)
+            foreach(var dance in DefaultValues.DefaultDances)
             {
-                Dances.Add(new Dance("Uncategorized"));
-                Dances.Add(new Dance("SlowWaltz"));
-                Dances.Add(new Dance("Tango"));
-                Dances.Add(new Dance("Quickstep"));
-
+                if(Dances.FirstOrDefault(X => X.Name == dance.Name) == null)
+                {
+                    Dances.Add(dance);
+                }
             }
             SaveChanges();
         }

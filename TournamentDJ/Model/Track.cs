@@ -50,7 +50,7 @@ namespace TournamentDJ.Model
             BeatsPerMinute = file.Tag.BeatsPerMinute;
             Year = (int) file.Tag.Year;
             Uri = uri;
-            Dance = null;
+            Dance = SearchDance(file);
             FlaggedAsFavourite = false;
             FlaggedForReview = false;
             Difficulty = -1;
@@ -121,6 +121,68 @@ namespace TournamentDJ.Model
         public Uri Uri
         {
             get; set;
+        }
+
+
+        private Dance SearchDance(TagLib.File file)
+        {
+            foreach(var dance in DatabaseUtility.Dances)
+            {
+                List<string> danceIdentifiers = new List<string>();
+
+                if (dance.DanceIdentifiers != null)
+                {
+                     danceIdentifiers = dance.DanceIdentifiers.ToList();
+                }
+
+                if(dance.Name != null)
+                {
+                    danceIdentifiers.Add(dance.Name);
+                }
+
+                //Normalize all identifier strings
+                for(int i = 0; i < danceIdentifiers.Count; i++)
+                {
+                    danceIdentifiers[i] = danceIdentifiers[i].Replace(" ", "").ToLowerInvariant();
+                }
+
+                string genre = string.Empty;
+                //Compare with genre first
+                if (file.Tag.FirstGenre != null)
+                {
+                    genre = file.Tag.FirstGenre.Replace(" ", "").ToLowerInvariant();
+                }
+
+                foreach(var ident in danceIdentifiers)
+                {
+                    if (genre.Equals(ident))
+                    {
+                        return dance;
+                    }
+                }
+
+                //search in Name second, as this is a lot slower
+                string name = string.Empty;
+                if(file.Tag.Title != null)
+                {
+                    name = file.Tag.Title.Replace(" ", "").ToLowerInvariant();
+                }
+                
+                foreach(var ident in danceIdentifiers)
+                {
+                    if (name.Contains(ident))
+                    {
+                        return dance;
+                    }
+                }
+            }
+
+
+
+
+
+
+            return null;
         }
 
     }
