@@ -12,9 +12,14 @@ namespace TournamentDJ.ViewModel
 {
     internal class WarmupPlayerViewModel : PlayerViewModel
     {
+        public new WarmupPlayer Player
+        {
+            get { return Get<WarmupPlayer>(); }
+            set { Set(value); }
+        }
         public WarmupPlayerViewModel() : base()
         {
-            base.Player = new WarmupPlayer();
+            Player = new WarmupPlayer();
             Runtimes =
             [
                 new TimeSpan(0, 0, 5),
@@ -25,6 +30,18 @@ namespace TournamentDJ.ViewModel
             Runtimes.Add(TimeSpan.Zero);
             CreateAdditionalCommands();
             
+        }
+
+        public bool OnlyUseUncategorized
+        {
+            get
+            {
+                return Player.OnlyUseUncategorized;
+            }
+            set
+            {
+                Player.OnlyUseUncategorized = value;
+            }
         }
 
 
@@ -39,6 +56,17 @@ namespace TournamentDJ.ViewModel
         public void ExecuteGetAllTracks()
         {
             TracksToPlay = TrackListBuilder.GetAllTracks();
+        }
+
+        public override void ExecuteReselect(Track track)
+        {
+            Player.Reselect(track, notFavourite: true, overrideParams: true, onlyUseUncategorized: OnlyUseUncategorized);
+        }
+
+        public override void ExecuteCreateDanceRound()
+        {
+            Player.TracksPlayed.Tracks.Clear();
+            TracksToPlay = TrackListBuilder.CreateDanceRound(SelectedDanceRound, cantBeFavourite: true, overrideParams: true, onlyUseUncategorized: OnlyUseUncategorized);
         }
     }
 }

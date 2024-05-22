@@ -29,6 +29,8 @@ namespace TournamentDJ.ViewModel
             {
                 NumberOfHeats.Add(i);
             }
+
+            SelectedNumberOfHeats = 1;
         }
 
         public bool IsSingleSelected
@@ -46,6 +48,7 @@ namespace TournamentDJ.ViewModel
             set
             {
                 Set(value);
+                ExecuteCreateDanceRound();
             }
         }
 

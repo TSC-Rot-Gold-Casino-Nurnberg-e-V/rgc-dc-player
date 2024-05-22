@@ -79,8 +79,10 @@ namespace TournamentDJ.ViewModel
 
         public DanceRound SelectedDanceRound
         {
-            get { return Get<DanceRound>(); }
-            set { Set(value); }
+            get { return Player.SelectedDanceRound; }
+            set { Player.SelectedDanceRound = value;
+                ExecuteCreateDanceRound();
+            }
         }
 
         public  Dictionary<int, string> Difficulties {
@@ -157,9 +159,9 @@ namespace TournamentDJ.ViewModel
             }
         }
 
-        public void ExecuteReselect(Track track)
+        public virtual void ExecuteReselect(Track track)
         {
-            Player.Reselect(track);
+            Player.Reselect(track, SelectedDanceRound);
         }
 
         public void ExecuteStartAutoplay()

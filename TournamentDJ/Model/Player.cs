@@ -88,7 +88,7 @@ namespace TournamentDJ.Model
         {
             get { return Get<TrackList>(); }
             set { Set(value);
-                if(TracksToPlay.Tracks.Count > 0)
+                if(TracksToPlay != null && TracksToPlay.Tracks.Count > 0)
                 {
                     GetNextTrack();
                 }
@@ -99,6 +99,12 @@ namespace TournamentDJ.Model
         public TrackList TracksPlayed
         {
             get { return Get<TrackList>(); }
+            set { Set(value); }
+        }
+
+        public DanceRound SelectedDanceRound
+        {
+            get { return Get<DanceRound>(); }
             set { Set(value); }
         }
 
@@ -140,7 +146,10 @@ namespace TournamentDJ.Model
             set 
             {
                 Set(value);
-                OpenFile(value.Uri);
+                if(value != null)
+                {
+                    OpenFile(value.Uri);
+                }
             }
         }
 
@@ -236,11 +245,19 @@ namespace TournamentDJ.Model
             isFading = false;
         }
 
-        public void Reselect(Track track)
+        public void Reselect(Track track, DanceRound round = null, bool notFavourite = false, bool overrideParams = false, bool onlyUseUncategorized = false)
         {
             if (TrackPlaying == track && MedPlayer.PlaybackSession.PlaybackState != MediaPlaybackState.Playing)
             {
-                TrackPlaying = TrackListBuilder.GetRandomTrack(TrackPlaying.Dance, SelectedTrackList);
+                if(round == null)
+                {
+                    TrackPlaying = TrackListBuilder.GetRandomTrack(TrackPlaying.Dance, SelectedTrackList, cantBeFavourite: notFavourite, overrideParams: overrideParams, onlyUseUncategorized: onlyUseUncategorized);
+                }
+                else
+                {
+                    TrackPlaying = TrackListBuilder.GetRandomTrack(TrackPlaying.Dance, SelectedTrackList, round.MinDifficulty, round.MaxDifficulty, round.MinCharacteristics, cantBeFavourite: notFavourite, overrideParams: overrideParams, onlyUseUncategorized: onlyUseUncategorized);
+                }
+                
             }
 
             int indexToReselect = TracksToPlay.Tracks.IndexOf(track);
@@ -251,14 +268,19 @@ namespace TournamentDJ.Model
                 return;
             }
 
+            else if (round == null)
+            {
+                TracksToPlay.Tracks[indexToReselect] = TrackListBuilder.GetRandomTrack(TracksToPlay.Tracks[indexToReselect].Dance, SelectedTrackList, cantBeFavourite: notFavourite);
+            }
+
             else
             {
-                TracksToPlay.Tracks[indexToReselect] = TrackListBuilder.GetRandomTrack(TracksToPlay.Tracks[indexToReselect].Dance, SelectedTrackList);
+                TracksToPlay.Tracks[indexToReselect] = TrackListBuilder.GetRandomTrack(TracksToPlay.Tracks[indexToReselect].Dance, SelectedTrackList, round.MinDifficulty, round.MaxDifficulty, round.MinCharacteristics, cantBeFavourite: notFavourite);
             }
         }
 
 
-        public void GetNextTrack()
+        public virtual void GetNextTrack()
         {
             MedPlayer.Pause();
 
