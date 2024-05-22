@@ -38,9 +38,9 @@
     
     <Grid Background="{StaticResource BackgroundBaseBrush}" Margin="8">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="4*" MinWidth="300"/>
+            <ColumnDefinition Width="8*" MinWidth="300"/>
             <ColumnDefinition Width="1*" MinWidth="90"/>
-            <ColumnDefinition Width="7*" MinWidth="300"/>
+            <ColumnDefinition Width="16*" MinWidth="300"/>
         </Grid.ColumnDefinitions>
         <DockPanel Grid.Column="0">
             <StackPanel MinHeight="200" MinWidth="200" MaxHeight="300">
@@ -107,9 +107,10 @@
                 <RowDefinition MinHeight="150" Height="*"/>
             </Grid.RowDefinitions>
             <DockPanel Height="100" Grid.Row="0">
-                <TextBlock Style="{StaticResource BasicTextBlock}" HorizontalAlignment="Left" Width="100" Height="50" Margin ="5" Text="{Binding Player.TrackPlaying.Title}" ToolTip="Track Title"/>
-                <StackPanel HorizontalAlignment="Left" Margin="2,0,2,4">
-                    <TextBlock Text="Difficutly" Style="{StaticResource BasicTextBlock}"/>
+                <TextBlock Style="{StaticResource BasicTextBlock}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="50" Margin ="5" Text="{Binding Player.TrackPlaying.Title}" ToolTip="Track Title"/>
+                <TextBlock Style="{StaticResource BasicTextBlock}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="50" Margin ="5" Text="{Binding Player.TrackPlaying.Dance.Name}" ToolTip="Dance"/>
+                <StackPanel HorizontalAlignment="Left" Margin="2,0,2,4" Width="120">
+                    <TextBlock Text="Difficulty" Style="{StaticResource BasicTextBlock}"/>
                     <ComboBox Style="{StaticResource BasicComboBox}"
                 ItemsSource="{Binding Difficulties}"
                 DisplayMemberPath="Value"
@@ -117,7 +118,7 @@
                 SelectedValue="{Binding Player.TrackPlaying.Difficulty}"
                 IsEditable="true"/>
                 </StackPanel>
-                <StackPanel HorizontalAlignment="Left" Margin="2,0,2,4">
+                <StackPanel HorizontalAlignment="Left" Margin="2,0,2,4" Width="120">
                     <TextBlock Text="Characteristic" Style="{StaticResource BasicTextBlock}"/>
                     <ComboBox Style="{StaticResource BasicComboBox}"
                     ItemsSource="{Binding Characteristics}"

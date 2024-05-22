@@ -35,9 +35,9 @@
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="14*"/>
-            <ColumnDefinition Width="10*"/>
-            <ColumnDefinition Width="10*"/>
+            <ColumnDefinition Width="8*" MinWidth="300"/>
+            <ColumnDefinition Width="1*" MinWidth="90"/>
+            <ColumnDefinition Width="16*" MinWidth="300"/>
         </Grid.ColumnDefinitions>
         <Grid Grid.Column="0">
             <Grid.RowDefinitions>
@@ -45,8 +45,6 @@
                 <RowDefinition Height="1*"/>
             </Grid.RowDefinitions>
             <DockPanel Grid.Row="0">
-                <TextBlock Style="{StaticResource BasicTextBlock}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="50" Margin ="5" Text="{Binding Player.TrackPlaying.Title}" ToolTip="Track Title"/>
-                <TextBlock Style="{StaticResource BasicTextBlock}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="50" Margin ="5" Text="{Binding Player.TrackPlaying.Dance.Name}" ToolTip="Dance"/>
                 <TextBlock VerticalAlignment="Top" Style="{StaticResource BasicTextBlock}" HorizontalAlignment="Left" Width="100" Height="50" Margin ="5" Text="{Binding Player.timeData}" ToolTip="Time played / Time remaining"/>
                 <StackPanel VerticalAlignment="Top" Width="150" Margin="2,0,2,4">
                     <TextBlock Style="{StaticResource BasicTextBlock}" Text="Output Device"/>
@@ -84,7 +82,8 @@
                 </StackPanel>
 
             </DockPanel>
-            <DockPanel Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center">
+
+            <DockPanel Grid.Row="1" HorizontalAlignment="Center">
                 <Button  Style="{StaticResource ImageButton}" Content="pack://application:,,,/Assets/previous.png" Width="50" Height="50" HorizontalAlignment="Left" Command="{Binding PreviousClickCommand}"/>
                 <Button  Style="{StaticResource ImageButton}" Content="pack://application:,,,/Assets/play.png" Width="50" Height="50" HorizontalAlignment="Left" Command="{Binding StartAutplayClickCommand}"/>
                 <Button  Style="{StaticResource ImageButton}" Content="pack://application:,,,/Assets/stop.png" Width="50" Height="50" HorizontalAlignment="Left" Command="{Binding StopClickCommand}"/>
@@ -94,7 +93,7 @@
                 <Button  Style="{StaticResource BasicButton}" Content="Reselect" Width="80" Height="50" Command="{Binding ReselectClickCommand}" CommandParameter="{Binding Player.TrackPlaying}"/>
             </DockPanel>
         </Grid>
-        <Slider Grid.Column="1"  Width="100" Height="30" HorizontalAlignment="Left" Value="{Binding Player.MedPlayer.Volume}" Minimum="0.0" Maximum="1.0">
+        <Slider Grid.Column="1"  Width="140" Height="30" HorizontalAlignment="Left" Value="{Binding Player.MedPlayer.Volume}" Minimum="0.0" Maximum="1.0">
             <Slider.LayoutTransform>
                 <RotateTransform CenterX="0" CenterY="0" Angle="-90"/>
             </Slider.LayoutTransform>
@@ -102,5 +101,41 @@
                 <ess:MouseWheelSliderBehavior Amount="0.03" />
             </i:Interaction.Behaviors>
         </Slider>
+        <DockPanel Grid.Column="2">
+            <TextBlock Style="{StaticResource BasicTextBlock}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="50" Margin ="5" Text="{Binding Player.TrackPlaying.Title}" ToolTip="Track Title"/>
+            <TextBlock Style="{StaticResource BasicTextBlock}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="50" Margin ="5" Text="{Binding Player.TrackPlaying.Dance.Name}" ToolTip="Dance"/>
+
+            <StackPanel HorizontalAlignment="Left" Margin="2,0,2,4" Width="120">
+                <TextBlock Text="Difficulty" Style="{StaticResource BasicTextBlock}"/>
+                <ComboBox Style="{StaticResource BasicComboBox}"
+ItemsSource="{Binding Difficulties}"
+DisplayMemberPath="Value"
+SelectedValuePath="Key"
+SelectedValue="{Binding Player.TrackPlaying.Difficulty}"
+IsEditable="true"/>
+            </StackPanel>
+            <StackPanel HorizontalAlignment="Left" Margin="2,0,2,4" Width="120">
+                <TextBlock Text="Characteristic" Style="{StaticResource BasicTextBlock}"/>
+                <ComboBox Style="{StaticResource BasicComboBox}"
+    ItemsSource="{Binding Characteristics}"
+    DisplayMemberPath="Value"
+    SelectedValuePath="Key"
+    SelectedValue="{Binding Player.TrackPlaying.Characteristic, Mode=TwoWay}"
+    IsEditable="true"
+     />
+            </StackPanel>
+            <StackPanel HorizontalAlignment="Left" Margin="2,0,2,4">
+                <TextBlock Text="Mark as Favorite" Style="{StaticResource BasicTextBlock}"/>
+                <CheckBox IsChecked="{Binding Player.TrackPlaying.FlaggedAsFavourite}" HorizontalAlignment="Center" Style="{StaticResource BasicCheckBox}" Margin="2,4,2,0"/>
+            </StackPanel>
+            <StackPanel HorizontalAlignment="Left" Margin="2,0,2,4">
+                <TextBlock Text="Mark for Review" Style="{StaticResource BasicTextBlock}"/>
+                <CheckBox IsChecked="{Binding Player.TrackPlaying.FlaggedForReview}" HorizontalAlignment="Center" Style="{StaticResource BasicCheckBox}" Margin="2,4,2,0"/>
+            </StackPanel>
+            <StackPanel HorizontalAlignment="Left" MinWidth="300" MinHeight="100" Margin="2,0,2,4">
+                <TextBlock Text="Comment" Style="{StaticResource BasicTextBlock}"/>
+                <TextBox Text="{Binding Player.TrackPlaying.Comment}" Width="400" Height="40" TextWrapping="Wrap" Style="{StaticResource BasicTextBox}" VerticalScrollBarVisibility="Auto"/>
+            </StackPanel>
+        </DockPanel>
     </Grid>
 </UserControl>

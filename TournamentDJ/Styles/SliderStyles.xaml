@@ -72,9 +72,9 @@
                                     EndPoint="0,1">
                                 <LinearGradientBrush.GradientStops>
                                     <GradientStopCollection>
-                                        <GradientStop Color="{DynamicResource Secondary500}"
+                                        <GradientStop Color="{DynamicResource Secondary900}"
                                             Offset="0.0" />
-                                        <GradientStop Color="{DynamicResource Secondary400}"
+                                        <GradientStop Color="{DynamicResource Secondary800}"
                                             Offset="1.0" />
                                     </GradientStopCollection>
                                 </LinearGradientBrush.GradientStops>
@@ -83,9 +83,9 @@
                         <Border.Background>
                             <LinearGradientBrush EndPoint="0.5,1"
                         StartPoint="0.5,0">
-                                <GradientStop Color="{DynamicResource Secondary400}"
+                                <GradientStop Color="{DynamicResource Secondary800}"
                             Offset="1" />
-                                <GradientStop Color="{DynamicResource Secondary500}" />
+                                <GradientStop Color="{DynamicResource Secondary900}" />
                             </LinearGradientBrush>
                         </Border.Background>
                         <VisualStateManager.VisualStateGroups>
