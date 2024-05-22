@@ -6,7 +6,7 @@
 
     <SolidColorBrush x:Key="BasicTextBlockBackgroundBrush" Color="{StaticResource Base900}"/>
     <SolidColorBrush x:Key="BasicTextBlockTextBrush" Color="{StaticResource Primary500}"/>
-    <LinearGradientBrush x:Key="GradientBrushTest" StartPoint="0,0" EndPoint="1,1">
+    <LinearGradientBrush x:Key="BasicTextBlockGradientBrush" StartPoint="0,0" EndPoint="1,1">
         <GradientStopCollection>
             <GradientStop Color="{StaticResource Primary300}" Offset="0"/>
             <GradientStop Color="{StaticResource Primary200}" Offset="0.5"/>
@@ -17,7 +17,7 @@
     <Style x:Key="BasicTextBlock" TargetType="TextBlock">
         <Setter Property="OverridesDefaultStyle" Value="True"/>
         <Setter Property="Background" Value="{StaticResource BasicTextBlockBackgroundBrush}"/>
-        <Setter Property="Foreground" Value="{StaticResource GradientBrushTest}"/>
+        <Setter Property="Foreground" Value="{StaticResource BasicTextBlockGradientBrush}"/>
         <Setter Property="TextWrapping" Value="WrapWithOverflow"/>
     </Style>
 

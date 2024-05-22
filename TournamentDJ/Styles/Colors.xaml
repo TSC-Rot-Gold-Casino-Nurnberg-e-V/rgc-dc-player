@@ -39,5 +39,37 @@
     <Color x:Key="Base900">#171717</Color>
     <Color x:Key="Base950">#0A0A0A</Color>
 
+    <SolidColorBrush x:Key="BasicBackgroundBrush" Color="{StaticResource Base900}"/>
+
+
+    <LinearGradientBrush x:Key="GradientBrush600" StartPoint="0,0" EndPoint="1,1">
+        <GradientStopCollection>
+            <GradientStop Color="{StaticResource Primary600}" Offset="0"/>
+            <GradientStop Color="{StaticResource Primary500}" Offset="0.5"/>
+            <GradientStop Color="{StaticResource Primary800}" Offset="1"/>
+        </GradientStopCollection>
+    </LinearGradientBrush>
+    <LinearGradientBrush x:Key="GradientBrush700" StartPoint="0,0" EndPoint="1,1">
+        <GradientStopCollection>
+            <GradientStop Color="{StaticResource Primary700}" Offset="0"/>
+            <GradientStop Color="{StaticResource Primary600}" Offset="0.5"/>
+            <GradientStop Color="{StaticResource Primary900}" Offset="1"/>
+        </GradientStopCollection>
+    </LinearGradientBrush>
+    <LinearGradientBrush x:Key="GradientBrush800" StartPoint="0,0" EndPoint="1,1">
+        <GradientStopCollection>
+            <GradientStop Color="{StaticResource Primary800}" Offset="0"/>
+            <GradientStop Color="{StaticResource Primary700}" Offset="0.5"/>
+            <GradientStop Color="{StaticResource Primary950}" Offset="1"/>
+        </GradientStopCollection>
+    </LinearGradientBrush>
+    <LinearGradientBrush x:Key="GradientBrush300" StartPoint="0,0" EndPoint="1,1">
+        <GradientStopCollection>
+            <GradientStop Color="{StaticResource Primary300}" Offset="0"/>
+            <GradientStop Color="{StaticResource Primary200}" Offset="0.5"/>
+            <GradientStop Color="{StaticResource Primary500}" Offset="1"/>
+        </GradientStopCollection>
+    </LinearGradientBrush>
+
 
 </ResourceDictionary>
