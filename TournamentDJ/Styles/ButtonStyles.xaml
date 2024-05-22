@@ -61,7 +61,7 @@
         </Setter>
     </Style>
 
-    <Style x:Key="BasicButton" TargetType="Button">
+    <Style x:Key="BasicButton" TargetType="{x:Type Button}">
         <Setter Property="OverridesDefaultStyle" Value="True"/>
         <Setter Property="Margin" Value="2,4,2,4"/>
         <Setter Property="Template">

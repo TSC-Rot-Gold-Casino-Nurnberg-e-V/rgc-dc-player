@@ -19,7 +19,6 @@ namespace TournamentDJ.ViewModel
         public PlayerViewModel() 
         {
             Player = new Player();
-            TrackPlaying = new Track(new Uri(@"C:\Media\Vivi\Very Ballroom 2 [Disc 1]\03 Dark Waltz [SW].mp3"));
             CreateCommands();
         }
 
@@ -96,6 +95,8 @@ namespace TournamentDJ.ViewModel
         public ICommand PlayClickCommand { get; private set; }
         public ICommand FadeoutClickCommand { get; private set; }
         public ICommand StopClickCommand { get; private set; }
+        public ICommand NextClickCommand { get; private set; }
+        public ICommand PreviousClickCommand { get; private set; }
         public ICommand OpenFileCommand { get; private set; }
         public ICommand ReselectClickCommand { get; private set; }
 
@@ -111,6 +112,8 @@ namespace TournamentDJ.ViewModel
             ReselectClickCommand = new RelayCommand<Track>(ExecuteReselect);  
             StartAutplayClickCommand = new RelayCommand(ExecuteStartAutoplay);
             CreateDanceRoundClickCommand = new RelayCommand(ExecuteCreateDanceRound);
+            NextClickCommand = new RelayCommand(ExecuteNext);
+            PreviousClickCommand = new RelayCommand(ExecutePrevious);
         }
 
 
@@ -127,6 +130,16 @@ namespace TournamentDJ.ViewModel
         public void ExecuteStop()
         {
             Player.Stop();
+        }
+
+        public void ExecuteNext()
+        {
+            Player.GetNextTrack();
+        }
+
+        public void ExecutePrevious()
+        {
+            Player.GetPreviousTrack();
         }
 
         public void ExecuteOpenFile()
@@ -156,10 +169,9 @@ namespace TournamentDJ.ViewModel
 
         public virtual void ExecuteCreateDanceRound()
         {
+            Player.TracksPlayed.Tracks.Clear();
             TracksToPlay = TrackListBuilder.CreateDanceRound(SelectedDanceRound);
         }
-
-
     }
 }
 

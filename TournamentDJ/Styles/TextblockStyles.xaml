@@ -14,7 +14,7 @@
         </GradientStopCollection>
     </LinearGradientBrush>
 
-    <Style x:Key="BasicTextBlock" TargetType="TextBlock">
+    <Style x:Key="BasicTextBlock" TargetType="{x:Type TextBlock}">
         <Setter Property="OverridesDefaultStyle" Value="True"/>
         <Setter Property="Background" Value="{StaticResource BasicTextBlockBackgroundBrush}"/>
         <Setter Property="Foreground" Value="{StaticResource BasicTextBlockGradientBrush}"/>

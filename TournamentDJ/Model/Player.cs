@@ -262,7 +262,7 @@ namespace TournamentDJ.Model
         {
             MedPlayer.Pause();
 
-            if(TrackPlaying != null)
+            if(TrackPlaying != null && TracksToPlay.Tracks.Count > 0)
             {
                 TracksPlayed.Tracks.Add(TrackPlaying);
             }
@@ -278,7 +278,7 @@ namespace TournamentDJ.Model
         {
             MedPlayer.Pause();
 
-            if (TrackPlaying != null)
+            if (TrackPlaying != null && TracksPlayed.Tracks.Count > 0)
             {
                 TracksToPlay.Tracks.Insert(0, TrackPlaying);
             }
