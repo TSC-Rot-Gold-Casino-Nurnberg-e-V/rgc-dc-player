@@ -22,6 +22,7 @@
                 <ResourceDictionary Source="pack://application:,,,/TournamentDJ;component/Styles/ComboBoxStyles.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/TournamentDJ;component/Styles/CheckBoxStyles.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/TournamentDJ;component/Styles/TextBoxStyles.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/TournamentDJ;component/Styles/ScrollBarStyles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             <conv:UriToStringConverter x:Key="UriToStringConverter" />
             <ess:BindingProxy x:Key="BindingProxy" Data="{Binding}"/>
@@ -104,7 +105,7 @@
                 </StackPanel>
                 <StackPanel Grid.Column="2" HorizontalAlignment="Left" MinWidth="300" MinHeight="100" Margin="2,0,2,4">
                     <TextBlock Text="Comment" Style="{StaticResource BasicTextBlock}"/>
-                    <TextBox Text="{Binding Player.TrackPlaying.Comment, Mode=TwoWay}" Width="400" Height="40" TextWrapping="Wrap" Style="{StaticResource BasicTextBox}"/>
+                    <TextBox Text="{Binding Player.TrackPlaying.Comment, Mode=TwoWay}" Width="400" Height="40" TextWrapping="Wrap" Style="{StaticResource BasicTextBox}" VerticalScrollBarVisibility="Auto"/>
                 </StackPanel>
             </DockPanel>
             <DockPanel Grid.Column="1" HorizontalAlignment="Left" MaxHeight="70">
@@ -141,7 +142,8 @@
             </Border>
         </StackPanel>
         <DockPanel Width="200" HorizontalAlignment="Right" Grid.Column="1">
-            <Slider Ticks="20" Width="200" Height="30" HorizontalAlignment="Right" Value="{Binding Player.MedPlayer.Volume}" Maximum="1.0" LargeChange="0.1">
+            <Slider 
+        Width="200" Height="30" HorizontalAlignment="Right" Value="{Binding Player.MedPlayer.Volume}" Maximum="1.0" LargeChange="0.1">
                 <Slider.LayoutTransform>
                     <RotateTransform CenterX="0" CenterY="0" Angle="-90"/>
                 </Slider.LayoutTransform>

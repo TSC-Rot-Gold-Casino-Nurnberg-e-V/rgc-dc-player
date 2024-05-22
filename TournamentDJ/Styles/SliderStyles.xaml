@@ -1,6 +1,8 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/TournamentDJ;component/Styles/Colors.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
 
     <!--Control colors.-->
     <Color x:Key="WindowColor">#FFE8EDF9</Color>
@@ -48,11 +50,11 @@
     <LinearGradientBrush x:Key="MenuPopupBrush"
                      EndPoint="0.5,1"
                      StartPoint="0.5,0">
-        <GradientStop Color="{DynamicResource ControlLightColor}"
+        <GradientStop Color="{DynamicResource Secondary300}"
                 Offset="0" />
-        <GradientStop Color="{DynamicResource ControlMediumColor}"
+        <GradientStop Color="{DynamicResource Secondary500}"
                 Offset="0.5" />
-        <GradientStop Color="{DynamicResource ControlLightColor}"
+        <GradientStop Color="{DynamicResource Secondary800}"
                 Offset="1" />
     </LinearGradientBrush>
 
@@ -101,71 +103,70 @@
         <Setter Property="OverridesDefaultStyle"
           Value="true" />
         <Setter Property="Height"
-          Value="30" />
+          Value="24" />
         <Setter Property="Width"
           Value="10" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Thumb}">
-                    <Rectangle x:Name="Rectangle"
-                 StrokeThickness="1">
-                        <Rectangle.Stroke>
+                    <Border x:Name="Border" BorderThickness="1" CornerRadius="2">
+                        <Border.BorderBrush>
                             <LinearGradientBrush StartPoint="0,0"
-                                 EndPoint="0,1">
+                                    EndPoint="0,1">
                                 <LinearGradientBrush.GradientStops>
                                     <GradientStopCollection>
-                                        <GradientStop Color="{DynamicResource BorderLightColor}"
-                                Offset="0.0" />
-                                        <GradientStop Color="{DynamicResource BorderDarkColor}"
-                                Offset="1.0" />
+                                        <GradientStop Color="{DynamicResource Secondary500}"
+                                            Offset="0.0" />
+                                        <GradientStop Color="{DynamicResource Secondary400}"
+                                            Offset="1.0" />
                                     </GradientStopCollection>
                                 </LinearGradientBrush.GradientStops>
                             </LinearGradientBrush>
-                        </Rectangle.Stroke>
-                        <Rectangle.Fill>
+                        </Border.BorderBrush>
+                        <Border.Background>
                             <LinearGradientBrush EndPoint="0.5,1"
-                                 StartPoint="0.5,0">
-                                <GradientStop Color="{DynamicResource ControlMediumColor}"
+                        StartPoint="0.5,0">
+                                <GradientStop Color="{DynamicResource Secondary400}"
                             Offset="1" />
-                                <GradientStop Color="{DynamicResource ControlLightColor}" />
+                                <GradientStop Color="{DynamicResource Secondary500}" />
                             </LinearGradientBrush>
-                        </Rectangle.Fill>
+                        </Border.Background>
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CommonStates">
                                 <VisualState x:Name="Normal" />
                                 <VisualState x:Name="MouseOver">
                                     <Storyboard>
-                                        <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Fill).
-                    (GradientBrush.GradientStops)[0].(GradientStop.Color)"
-                                                Storyboard.TargetName="Rectangle">
+                                        <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Panel.Background).
+                                                                            (GradientBrush.GradientStops)[0].(GradientStop.Color)"
+                                                                           Storyboard.TargetName="Border">
                                             <EasingColorKeyFrame KeyTime="0"
-                                         Value="{StaticResource ControlMouseOverColor}" />
+                                                                    Value="{StaticResource Secondary700}" />
                                         </ColorAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </VisualState>
                                 <VisualState x:Name="Pressed">
                                     <Storyboard>
-                                        <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Fill).
-                    (GradientBrush.GradientStops)[0].(GradientStop.Color)"
-                                                Storyboard.TargetName="Rectangle">
+                                        <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Panel.Background).
+                                    (GradientBrush.GradientStops)[0].(GradientStop.Color)"
+                                   Storyboard.TargetName="Border">
                                             <EasingColorKeyFrame KeyTime="0"
-                                         Value="{StaticResource ControlPressedColor}" />
+                                                        Value="{StaticResource Secondary900}" />
                                         </ColorAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </VisualState>
                                 <VisualState x:Name="Disabled">
                                     <Storyboard>
                                         <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Fill).
-                    (GradientBrush.GradientStops)[0].(GradientStop.Color)"
-                                                Storyboard.TargetName="Rectangle">
+                                                                    (GradientBrush.GradientStops)[0].(GradientStop.Color)"
+                                                                    Storyboard.TargetName="Rectangle">
                                             <EasingColorKeyFrame KeyTime="0"
-                                         Value="{StaticResource DisabledControlDarkColor}" />
+                                                    Value="{StaticResource Base400}" />
                                         </ColorAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </VisualState>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
-                    </Rectangle>
+                    </Border>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -187,23 +188,23 @@
              Height="4"
              Visibility="Collapsed">
                 <TickBar.Fill>
-                    <SolidColorBrush Color="{DynamicResource GlyphColor}" />
+                    <SolidColorBrush Color="{DynamicResource Primary600}" />
                 </TickBar.Fill>
             </TickBar>
             <Border x:Name="TrackBackground"
             Margin="0"
-            CornerRadius="2"
-            Height="20"
+            CornerRadius="0"
+            Height="6"
             Grid.Row="1"
-            BorderThickness="1">
+            BorderThickness="0">
                 <Border.BorderBrush>
                     <LinearGradientBrush StartPoint="0,0"
                              EndPoint="0,1">
                         <LinearGradientBrush.GradientStops>
                             <GradientStopCollection>
-                                <GradientStop Color="{DynamicResource BorderLightColor}"
+                                <GradientStop Color="Transparent"
                             Offset="0.0" />
-                                <GradientStop Color="{DynamicResource BorderDarkColor}"
+                                <GradientStop Color="Transparent"
                             Offset="1.0" />
                             </GradientStopCollection>
                         </LinearGradientBrush.GradientStops>
@@ -214,9 +215,9 @@
                              EndPoint="0,1">
                         <LinearGradientBrush.GradientStops>
                             <GradientStopCollection>
-                                <GradientStop Color="{DynamicResource ControlLightColor}"
+                                <GradientStop Color="{DynamicResource Base500}"
                             Offset="0.0" />
-                                <GradientStop Color="{DynamicResource ControlLightColor}"
+                                <GradientStop Color="{DynamicResource Base600}"
                             Offset="1.0" />
                             </GradientStopCollection>
                         </LinearGradientBrush.GradientStops>
@@ -286,37 +287,40 @@
              Width="4"
              Visibility="Collapsed">
                 <TickBar.Fill>
-                    <SolidColorBrush Color="{DynamicResource GlyphColor}" />
+                    <SolidColorBrush Color="{DynamicResource Primary600}" />
                 </TickBar.Fill>
             </TickBar>
 
             <Border x:Name="TrackBackground"
             Margin="0"
-            CornerRadius="2"
-            Width="4"
+            CornerRadius="0"
+            Width="6"
             Grid.Column="1"
-            BorderThickness="1">
+            BorderThickness="0">
                 <Border.BorderBrush>
                     <LinearGradientBrush StartPoint="0,0"
-                             EndPoint="1,0">
+                             EndPoint="0,1">
                         <LinearGradientBrush.GradientStops>
                             <GradientStopCollection>
-                                <GradientStop Color="{DynamicResource BorderLightColor}"
+                                <GradientStop Color="Transparent"
                             Offset="0.0" />
-                                <GradientStop Color="{DynamicResource BorderDarkColor}"
+                                <GradientStop Color="Transparent"
                             Offset="1.0" />
                             </GradientStopCollection>
                         </LinearGradientBrush.GradientStops>
                     </LinearGradientBrush>
-
                 </Border.BorderBrush>
                 <Border.Background>
-                    <LinearGradientBrush EndPoint="1,0"
-                             StartPoint="0.25,0">
-                        <GradientStop Color="{DynamicResource ControlLightColor}"
-                        Offset="0" />
-                        <GradientStop Color="{DynamicResource SliderTrackDarkColor}"
-                        Offset="1" />
+                    <LinearGradientBrush StartPoint="0,0"
+                             EndPoint="0,1">
+                        <LinearGradientBrush.GradientStops>
+                            <GradientStopCollection>
+                                <GradientStop Color="{DynamicResource Base500}"
+                            Offset="0.0" />
+                                <GradientStop Color="{DynamicResource Base600}"
+                            Offset="1.0" />
+                            </GradientStopCollection>
+                        </LinearGradientBrush.GradientStops>
                     </LinearGradientBrush>
                 </Border.Background>
             </Border>
@@ -327,7 +331,7 @@
                       Command="Slider.DecreaseLarge" />
                 </Track.DecreaseRepeatButton>
                 <Track.Thumb>
-                    <Thumb Style="{StaticResource SliderThumbStyle}" />
+                    <Thumb Style="{StaticResource SliderThumbStyle}"/>
                 </Track.Thumb>
                 <Track.IncreaseRepeatButton>
                     <RepeatButton Style="{StaticResource SliderButtonStyle}"

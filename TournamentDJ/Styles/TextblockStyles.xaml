@@ -19,6 +19,7 @@
         <Setter Property="Background" Value="{StaticResource BasicTextBlockBackgroundBrush}"/>
         <Setter Property="Foreground" Value="{StaticResource BasicTextBlockGradientBrush}"/>
         <Setter Property="TextWrapping" Value="WrapWithOverflow"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
     </Style>
 
 </ResourceDictionary>

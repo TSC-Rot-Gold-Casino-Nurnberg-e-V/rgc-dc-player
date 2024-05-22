@@ -30,6 +30,9 @@
     <Page Update="Styles\ComboBoxStyles.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Styles\ScrollBarStyles.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Styles\TextblockStyles.xaml">
       <SubType>Designer</SubType>
     </Page>
