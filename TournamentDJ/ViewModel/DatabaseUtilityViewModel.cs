@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,6 +23,8 @@ namespace TournamentDJ.ViewModel
             CreateCommands();
             FailedUris = new ObservableCollection<Uri>();
             TracksToAdd = new ObservableCollection<Track>();
+            FilteredTracks = new ObservableCollection<Track>();
+            TrackFilterString = string.Empty;
         }
 
         public ObservableCollection<Track> TracksToAdd
@@ -53,6 +56,53 @@ namespace TournamentDJ.ViewModel
             set {
                 DatabaseUtility.Tracks = value;
                     OnPropertyChanged();}
+        }
+
+        public ObservableCollection<Track> FilteredTracks
+        {
+            get { return Get<ObservableCollection<Track>>(); }
+            set
+            {
+               Set(value);
+            }
+        }
+
+        public string TrackFilterString
+        {
+            get { return Get<string>(); }
+            set
+            {
+                Set(value);
+                if(value != null || value != string.Empty)
+                {
+                    FilteredTracks.Clear();
+                    foreach(var track in Tracks)
+                    {
+                        value = value.ToLowerInvariant();
+                        if (track.Dance != null && !string.IsNullOrEmpty(track.Dance.Name) && track.Dance.Name.ToLowerInvariant().Contains(value))
+                        {
+                            FilteredTracks.Add(track);
+                            continue;
+                        }
+
+                        if (track.Title != null && !string.IsNullOrEmpty(track.Title) && track.Title.ToLowerInvariant().Contains(value))
+                        {
+                            FilteredTracks.Add(track);
+                            continue;
+                        }
+
+                        if (track.Genre != null && !string.IsNullOrEmpty(track.Genre) && track.Genre.ToLowerInvariant().Contains(value))
+                        {
+                            FilteredTracks.Add(track);
+                            continue;
+                        }
+                    }
+                }
+                else
+                {
+                    FilteredTracks = Tracks;
+                }
+            }
         }
 
         public Track TrackPlaying
@@ -92,6 +142,7 @@ namespace TournamentDJ.ViewModel
 
         public ICommand PlayPauseCommand { get; private set; }
         public ICommand TogglePlayOnClickCommand { get; private set; }
+        public ICommand ResetTrackFilterClickCommand { get; private set; }
 
         public void CreateCommands()
         {
@@ -100,6 +151,7 @@ namespace TournamentDJ.ViewModel
             AddToDatabaseCommand = new RelayCommand(ExecuteAddToDatabase);
             PlayPauseCommand = new RelayCommand(ExecutePlayPause);
             TogglePlayOnClickCommand = new RelayCommand(ExecuteTogglePlayOnClick);
+            ResetTrackFilterClickCommand = new RelayCommand(ExecuteResetTrackFilterClick);
         }
 
 
@@ -140,6 +192,16 @@ namespace TournamentDJ.ViewModel
         public void ExecuteAddToDatabase()
         {
             DatabaseUtility.AddToDatabase(TracksToAdd);
+        }
+
+        public void ExecuteResetTrackFilterClick()
+        {
+            TrackFilterString = string.Empty;
+        }
+
+        public void OnWindowClosing(object sender, CancelEventArgs e)
+        {
+            Player.Stop();
         }
     }
 }

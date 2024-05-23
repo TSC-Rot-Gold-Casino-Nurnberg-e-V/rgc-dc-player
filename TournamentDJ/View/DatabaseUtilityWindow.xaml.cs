@@ -10,7 +10,9 @@ namespace TournamentDJ
     {
         public DatabaseUtilityWindow()
         {
-            DataContext = new DatabaseUtilityViewModel();
+            DatabaseUtilityViewModel viewModel = new DatabaseUtilityViewModel();
+            DataContext = viewModel;
+            Closing += viewModel.OnWindowClosing;
             InitializeComponent();
         }
     }
