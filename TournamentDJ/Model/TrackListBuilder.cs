@@ -51,9 +51,13 @@ namespace TournamentDJ.Model
                 foreach (var dance in roundToCreate.Dances)
                 {
                     var list = GetRandomTracks(dance, heats, tracklist, roundToCreate.MinDifficulty, roundToCreate.MaxDifficulty, roundToCreate.MinCharacteristics, cantBeFavourite, overrideParams, onlyUseUncategorized);
-                    foreach (var track in list)
+
+                    if (list != null)
                     {
-                        tracks.Tracks.Add(track);
+                        foreach (var track in list)
+                        {
+                            tracks.Tracks.Add(track);
+                        }
                     }
                 }
             }

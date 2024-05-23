@@ -1,0 +1,74 @@
+﻿<UserControl x:Class="TournamentDJ.View.TrackListEditorView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TournamentDJ.View"
+        xmlns:ess="clr-namespace:TournamentDJ.Essentials"
+        xmlns:core="clr-namespace:System;assembly=mscorlib"
+        xmlns:vm="clr-namespace:TournamentDJ.ViewModel"
+        xmlns:conv="clr-namespace:TournamentDJ.Converter"
+        mc:Ignorable="d" 
+        d:DataContext="{d:DesignInstance Type=vm:TrackListEditorViewModel, IsDesignTimeCreatable=False}"
+        Height="450" Width="800">
+    <UserControl.Resources>
+        <ess:BindingProxy x:Key="BindingProxy" Data="{Binding}"/>
+    </UserControl.Resources>
+    <UserControl.DataContext>
+        <vm:TrackListEditorViewModel/>
+    </UserControl.DataContext>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="10*"/>
+            <ColumnDefinition Width="80"/>
+            <ColumnDefinition Width="3*"/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Column="0" Margin="5">
+            <TextBlock Text="Track Lists"/>
+            <DataGrid x:Name="trackListsGrid" AutoGenerateColumns="False"
+                EnableRowVirtualization="True" 
+                ItemsSource="{Binding TrackLists}" 
+                RowDetailsVisibilityMode="VisibleWhenSelected"
+                CanUserAddRows="True"
+                Height="300"
+              SelectedItem="{Binding SelectedTrackList, TargetNullValue=New}"
+              >
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding Name}" Header="Name" Width="*"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </StackPanel>
+        <StackPanel Grid.Column="1">
+            
+
+        <DockPanel>
+            <TextBox Text="{Binding TrackFilterString, UpdateSourceTrigger=PropertyChanged}" Width="200" Height="30"/>
+            <Button Width="100" HorizontalAlignment="Left" Margin="4,0,4,0" Content="Apply Filter"/>
+            <Button Width="100" HorizontalAlignment="Left" Margin="4,0,4,0" Content="Reset Filter" Command="{Binding ResetTrackFilterClickCommand}"/>
+        </DockPanel>
+        <DataGrid Grid.Column="1" x:Name="tracksDataGrid" AutoGenerateColumns="False" 
+                  EnableRowVirtualization="True" 
+                  ItemsSource="{Binding FilteredTracks}" 
+                  RowDetailsVisibilityMode="Visible" 
+                  SelectedItem="{Binding SelectedTrackInTracks}"
+                  Height="300"
+                  Margin="5">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding Title}" Header="Title" Width="200"/>
+                <DataGridTextColumn Binding="{Binding Dance.Name}" Header="Dance" Width="80" IsReadOnly="True"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        </StackPanel>
+        <StackPanel VerticalAlignment="Center" Grid.Column="2">
+            <Button Content="Add" Command="{Binding AddToTrackListCommand}"/>
+            <Button Content="Remove" Command="{Binding RemoveFromTrackListCommand}"/>
+        </StackPanel>
+        <StackPanel Grid.Column="3" Margin="5">
+            <TextBlock Text="{Binding SelectedTrackList.Name}"/>
+            <ListBox Height="300" ItemsSource="{Binding SelectedTrackList.Tracks}"
+                     DisplayMemberPath="Title"
+                     SelectedItem="{Binding SelectedTrackInList}"/>
+        </StackPanel>
+    </Grid>
+</UserControl>

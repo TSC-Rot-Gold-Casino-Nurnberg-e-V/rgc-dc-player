@@ -20,6 +20,7 @@ namespace TournamentDJ.ViewModel
         {
             Player = new Player();
             CreateCommands();
+            //UseTracklist = false;
         }
 
         public Player Player
@@ -74,6 +75,37 @@ namespace TournamentDJ.ViewModel
             {
                 DatabaseUtility.DanceRounds = value;
                 OnPropertyChanged();
+            }
+        }
+
+        public ObservableCollection<TrackList> TrackLists
+        {
+            get { return DatabaseUtility.TrackLists; }
+            set
+            {
+                DatabaseUtility.TrackLists = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public TrackList SelectedTrackList
+        {
+            get { return Player.SelectedTrackList; }
+            set { Player.SelectedTrackList = value;
+                ExecuteCreateDanceRound();
+                    }
+        }
+
+        public bool UseTracklist
+        {
+            get { return Get<bool>(); }
+            set
+            {
+                Set(value);
+                if (value == null || value == false)
+                {
+                    SelectedTrackList = null;
+                };
             }
         }
 
@@ -172,7 +204,7 @@ namespace TournamentDJ.ViewModel
         public virtual void ExecuteCreateDanceRound()
         {
             Player.TracksPlayed.Tracks.Clear();
-            TracksToPlay = TrackListBuilder.CreateDanceRound(SelectedDanceRound);
+            TracksToPlay = TrackListBuilder.CreateDanceRound(SelectedDanceRound, tracklist: SelectedTrackList);
         }
     }
 }

@@ -105,7 +105,6 @@
                                     <DataGrid.Columns>
                                         <DataGridTextColumn Binding="{Binding Title}" Header="Title" Width="200"/>
                                         <DataGridTextColumn Binding="{Binding Genre}" Header="Genre" Width="80" IsReadOnly="True"/>
-                                        <DataGridTextColumn Binding="{Binding Uri}" Header="Genre" Width="80" IsReadOnly="True"/>
                                         <DataGridComboBoxColumn
                                                 Header="Dance"
                                                 ElementStyle="{StaticResource dances}"
@@ -141,6 +140,11 @@
                 <TabItem Header="DanceRounds">
                     <Viewbox>
                         <local:DanceRoundEditorView/>
+                    </Viewbox>
+                </TabItem>
+                <TabItem Header="TrackLists">
+                    <Viewbox>
+                        <local:TrackListEditorView/>
                     </Viewbox>
                 </TabItem>
             </TabControl>

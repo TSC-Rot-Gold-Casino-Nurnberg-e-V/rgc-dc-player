@@ -32,6 +32,7 @@ namespace TournamentDJ.Model
             FillDanceRounds();
 
             _context.TrackLists.Load();
+            FillTrackLists();
         }
         
         ~DatabaseUtility() {
@@ -50,6 +51,11 @@ namespace TournamentDJ.Model
             get; set;
         }
 
+        public static ObservableCollection<TrackList> TrackLists
+        {
+            get; set;
+        }
+
         public static ObservableCollection<DanceRound> DanceRounds
         {
             get; set;
@@ -58,6 +64,11 @@ namespace TournamentDJ.Model
         private static void FillTracks()
         {
             Tracks = _context.Tracks.Local.ToObservableCollection();
+        }
+
+        private static void FillTrackLists()
+        {
+            TrackLists = _context.TrackLists.Local.ToObservableCollection();
         }
 
         private static void FillDanceRounds()

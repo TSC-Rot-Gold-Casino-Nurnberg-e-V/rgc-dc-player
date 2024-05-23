@@ -63,7 +63,7 @@ namespace TournamentDJ.ViewModel
 
         override public void ExecuteCreateDanceRound()
         {
-            TracksToPlay = TrackListBuilder.CreateDanceRound(SelectedDanceRound, SelectedNumberOfHeats, IsSingleSelected);
+            TracksToPlay = TrackListBuilder.CreateDanceRound(SelectedDanceRound, SelectedNumberOfHeats, IsSingleSelected, tracklist: SelectedTrackList);
         }
 
     }

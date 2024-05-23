@@ -39,6 +39,9 @@
     <Compile Update="View\AudioDeviceSelectWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="View\TrackListEditorView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="View\DualPlayerView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
