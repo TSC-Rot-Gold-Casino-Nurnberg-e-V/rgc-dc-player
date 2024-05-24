@@ -35,19 +35,20 @@
     <UserControl.Background>
         <SolidColorBrush Color="{StaticResource Base900}"/>
     </UserControl.Background>
-    
+
     <Grid Background="{StaticResource BackgroundBaseBrush}" Margin="8">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="8*" MinWidth="300"/>
-            <ColumnDefinition Width="1*" MinWidth="90"/>
-            <ColumnDefinition Width="16*" MinWidth="300"/>
+            <ColumnDefinition Width="13*" MinWidth="300"/>
         </Grid.ColumnDefinitions>
-        <DockPanel Grid.Column="0">
-            <StackPanel MinHeight="200" MinWidth="200" MaxHeight="300">
-                <DockPanel MaxHeight="70">
-                    <StackPanel VerticalAlignment="Top" Width="150" Margin="2,0,2,4">
-                        <TextBlock Style="{StaticResource BasicTextBlock}" Text="Output Device"/>
-                        <ComboBox
+        <DockPanel Grid.Column="0" Margin="0,0,0,0">
+            <Border Margin="2" BorderThickness="2" BorderBrush="{StaticResource BasicHighlightBorderBrush}" CornerRadius="2" >
+
+                <StackPanel Margin="3,0,0,0">
+                    <DockPanel>
+                        <StackPanel Margin="0,0,0,0">
+                            <TextBlock Style="{StaticResource BasicTextBlock}" Text="Output Device"/>
+                            <ComboBox
                                 Style="{StaticResource BasicComboBox}"
                             ItemsSource="{Binding Player.AudioDevices}"
                             SelectedItem="{Binding Player.SelectedAudioDevice}"
@@ -55,153 +56,158 @@
                             Text="Default"
                             IsEditable="true"
                             IsReadOnly="true"/>
-                    </StackPanel>
-                    <TextBlock Style="{StaticResource BasicTextBlock}" HorizontalAlignment="Left" Width="100" Height="50" Margin="8,16,2,4" Text="{Binding Player.timeData}" ToolTip="Time played / Time remaining"/>
-                    <StackPanel HorizontalAlignment="Left" Margin="2,0,2,4">
-                        <TextBlock Text="Laufzeit" Style="{StaticResource BasicTextBlock}"/>
-                        <ComboBox Name="comboBox1" Style="{StaticResource BasicComboBox}"
-                        ItemsSource="{Binding Runtimes}"
-                        SelectedItem="{Binding SelectedTimeSpan}"
-                        Text="auswählen..."
-                        IsEditable="true"
-                        IsReadOnly="true"/>
-                    </StackPanel>
-                    <StackPanel Grid.Column="2" HorizontalAlignment="Left" Margin="2,0,2,4">
-                        <TextBlock Text="Tanzrunde" Style="{StaticResource BasicTextBlock}"/>
-                        <ComboBox Name="comboBox2" Style="{StaticResource BasicComboBox}"
+                        </StackPanel>
+
+                        <StackPanel VerticalAlignment="Top" Margin="5,0,5,4">
+                            <TextBlock Text="Use TrackList" Style="{StaticResource BasicTextBlock}"/>
+                            <CheckBox IsChecked="{Binding UseTracklist}" HorizontalAlignment="Center" Style="{StaticResource BasicCheckBox}" Margin="2,4,2,0"/>
+                        </StackPanel>
+                        <StackPanel  Margin="5,0,5,4">
+                            <TextBlock Style="{StaticResource BasicTextBlock}" Text="TrackList"/>
+                            <ComboBox
+        Style="{StaticResource BasicComboBox}"
+        SelectedItem="{Binding SelectedTrackList, TargetNullValue='Default'}"
+        DisplayMemberPath="Name"
+        Text="Default"
+        ItemsSource="{Binding TrackLists}"
+        IsEditable="true"
+        IsReadOnly="true"/>
+                        </StackPanel>
+                    </DockPanel>
+                    <DockPanel Margin="0,30,20,20">
+                        <StackPanel HorizontalAlignment="Left" Margin="2,0,2,4">
+                            <TextBlock Text="Tanzrunde" Style="{StaticResource BasicTextBlock}"/>
+                            <ComboBox Name="comboBox2" Style="{StaticResource BasicComboBox}"
                         ItemsSource="{Binding DanceRounds}"
                         SelectedItem="{Binding SelectedDanceRound}"
                         DisplayMemberPath="Name"
                         Text="auswählen..."
                         IsEditable="true"
                         IsReadOnly="true"/>
-                    </StackPanel>
-                    <StackPanel Grid.Column="2" HorizontalAlignment="Left" Margin="2,0,2,4">
-                        <TextBlock Text="Anzahl Heats" Style="{StaticResource BasicTextBlock}"/>
-                        <ComboBox Name="comboBox3" Style="{StaticResource BasicComboBox}"
+                        </StackPanel>
+                        <StackPanel HorizontalAlignment="Left" Margin="2,0,2,4">
+                            <TextBlock Text="Anzahl Heats" Style="{StaticResource BasicTextBlock}"/>
+                            <ComboBox Name="comboBox3" Style="{StaticResource BasicComboBox}"
                         ItemsSource="{Binding NumberOfHeats}"
                         SelectedItem="{Binding SelectedNumberOfHeats}"
                         Text="auswählen..."
                         IsEditable="true"
                         IsReadOnly="true"/>
-                    </StackPanel>
-                    <StackPanel VerticalAlignment="Top" Width="150" Margin="2,0,2,4">
-                        <TextBlock Text="Use TrackList" Style="{StaticResource BasicTextBlock}"/>
-                        <CheckBox IsChecked="{Binding UseTracklist}" HorizontalAlignment="Center" Style="{StaticResource BasicCheckBox}" Margin="2,4,2,0"/>
-                        <TextBlock Style="{StaticResource BasicTextBlock}" Text="TrackList"/>
-                        <ComboBox
-                            Style="{StaticResource BasicComboBox}"
-                            SelectedItem="{Binding SelectedTrackList, TargetNullValue='Default'}"
-                            DisplayMemberPath="Name"
-                            Text="Default"
-                            ItemsSource="{Binding TrackLists}"
-                            IsEditable="true"
-                            IsReadOnly="true"/>
-                    </StackPanel>
-                    <StackPanel Grid.Column="2" HorizontalAlignment="Left" Margin="2,0,2,4">
-                        <TextBlock Text="Single" Style="{StaticResource BasicTextBlock}"/>
-                        <CheckBox IsChecked="{Binding IsSingleSelected}" HorizontalAlignment="Center" Style="{StaticResource BasicCheckBox}" Margin="2,4,2,0"/>
-                    </StackPanel>
+                        </StackPanel>
+                        <StackPanel HorizontalAlignment="Left" Margin="2,0,2,4">
+                            <TextBlock Text="Laufzeit" Style="{StaticResource BasicTextBlock}"/>
+                            <ComboBox Name="comboBox1" Style="{StaticResource BasicComboBox}"
+                        ItemsSource="{Binding Runtimes}"
+                        SelectedItem="{Binding SelectedTimeSpan}"
+                        Text="auswählen..."
+                        IsEditable="true"
+                        IsReadOnly="true"/>
+                        </StackPanel>
+                        <StackPanel HorizontalAlignment="Left" Margin="2,0,2,4">
+                            <TextBlock Text="Single" Style="{StaticResource BasicTextBlock}"/>
+                            <CheckBox IsChecked="{Binding IsSingleSelected}" HorizontalAlignment="Center" Style="{StaticResource BasicCheckBox}" Margin="2,4,2,0"/>
+                        </StackPanel>
 
-                </DockPanel>
-                <DockPanel Grid.Column="1" HorizontalAlignment="Center" MaxHeight="70">
-                    <Button  Style="{StaticResource ImageButton}" Content="pack://application:,,,/Assets/previous.png" Width="50" Height="50" HorizontalAlignment="Left" Command="{Binding PreviousClickCommand}"/>
-                    <Button  Style="{StaticResource ImageButton}" Content="pack://application:,,,/Assets/play.png" Width="50" Height="50" HorizontalAlignment="Left" Command="{Binding PlayClickCommand}"/>
-                    <Button  Style="{StaticResource ImageButton}" Content="pack://application:,,,/Assets/stop.png" Width="50" Height="50" HorizontalAlignment="Left" Command="{Binding StopClickCommand}"/>
-                    <Button  Style="{StaticResource ImageButton}" Content="pack://application:,,,/Assets/next.png" Width="50" Height="50" HorizontalAlignment="Left" Command="{Binding NextClickCommand}"/>
-                    <Button  Style="{StaticResource BasicButton}" Content="Fadeout" Width="80" Height="50" HorizontalAlignment="Left" Command="{Binding FadeoutClickCommand}"/>
-                    <Button  Style="{StaticResource BasicButton}" Content="Recreate" Width="80" Height="50" HorizontalAlignment="Left" Command="{Binding CreateDanceRoundClickCommand}"/>
-                </DockPanel>
-
-            </StackPanel>
-            <Slider 
+                    </DockPanel>
+                    <StackPanel Margin="0,0,0,3">
+                        <DockPanel Grid.Column="1" HorizontalAlignment="Center" Margin="0,20,0,0">
+                            <Button  Style="{StaticResource ImageButton}" Content="pack://application:,,,/Assets/previous.png" Width="40" Height="40" HorizontalAlignment="Left" Command="{Binding PreviousClickCommand}"/>
+                            <Button  Style="{StaticResource ImageButton}" Content="pack://application:,,,/Assets/play.png" Width="40" Height="40" HorizontalAlignment="Left" Command="{Binding PlayClickCommand}"/>
+                            <Button  Style="{StaticResource ImageButton}" Content="pack://application:,,,/Assets/stop.png" Width="40" Height="40" HorizontalAlignment="Left" Command="{Binding StopClickCommand}"/>
+                            <Button  Style="{StaticResource ImageButton}" Content="pack://application:,,,/Assets/next.png" Width="40" Height="40" HorizontalAlignment="Left" Command="{Binding NextClickCommand}"/>
+                            <Button  Style="{StaticResource BasicButton}" Content="Fadeout" Width="80" Height="40" HorizontalAlignment="Left" Command="{Binding FadeoutClickCommand}"/>
+                            <Button  Style="{StaticResource BasicButton}" Content="Recreate" Width="80" Height="40" HorizontalAlignment="Left" Command="{Binding CreateDanceRoundClickCommand}"/>
+                        </DockPanel>
+                        <Slider Margin="0,0,0,3"
         Width="200" Height="30" Value="{Binding Player.MedPlayer.Volume}" Maximum="1.0" LargeChange="0.1">
-                <Slider.LayoutTransform>
-                    <RotateTransform CenterX="0" CenterY="0" Angle="-90"/>
-                </Slider.LayoutTransform>
-                <i:Interaction.Behaviors>
-                    <ess:MouseWheelSliderBehavior Amount="0.03" />
-                </i:Interaction.Behaviors>
-            </Slider>
+                            <i:Interaction.Behaviors>
+                                <ess:MouseWheelSliderBehavior Amount="0.03" />
+                            </i:Interaction.Behaviors>
+                        </Slider>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
         </DockPanel>
-        <Grid Grid.Column="2" VerticalAlignment="Stretch">
+        <Grid Grid.Column="1" VerticalAlignment="Stretch">
             <Grid.RowDefinitions>
-                <RowDefinition Height="70"/>
+                <RowDefinition Height="100"/>
                 <RowDefinition MinHeight="150" Height="*"/>
             </Grid.RowDefinitions>
-            <DockPanel Height="100" Grid.Row="0">
-                <TextBlock Style="{StaticResource BasicTextBlock}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="50" Margin ="5" Text="{Binding Player.TrackPlaying.Title}" ToolTip="Track Title"/>
-                <TextBlock Style="{StaticResource BasicTextBlock}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="50" Margin ="5" Text="{Binding Player.TrackPlaying.Dance.Name}" ToolTip="Dance"/>
-                <StackPanel HorizontalAlignment="Left" Margin="2,0,2,4" Width="120">
-                    <TextBlock Text="Difficulty" Style="{StaticResource BasicTextBlock}"/>
-                    <ComboBox Style="{StaticResource BasicComboBox}"
+            <Border Margin="4,2,2,2" BorderThickness="2" BorderBrush="{StaticResource BasicHighlightBorderBrush}" CornerRadius="2">
+                <DockPanel Height="200"  >
+                    <StackPanel>
+                        <TextBlock Style="{StaticResource BasicTextBlock}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="30" Margin ="5" Text="{Binding Player.TrackPlaying.Title}" ToolTip="Track Title"/>
+                        <TextBlock Style="{StaticResource BasicTextBlock}" HorizontalAlignment="Left" Width="100" Height="40" Margin="8,16,2,4" Text="{Binding Player.timeData}" ToolTip="Time played / Time remaining"/>
+                    </StackPanel>
+                    <TextBlock Style="{StaticResource BasicTextBlock}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="40" Margin ="5" Text="{Binding Player.TrackPlaying.Dance.Name}" ToolTip="Dance"/>
+                    <StackPanel HorizontalAlignment="Left" Margin="5,0,5,4">
+                        <TextBlock Text="Mark as Favorite" Style="{StaticResource BasicTextBlock}"/>
+                        <CheckBox IsChecked="{Binding Player.TrackPlaying.FlaggedAsFavourite}" HorizontalAlignment="Center" Style="{StaticResource BasicCheckBox}" Margin="2,4,2,0"/>
+                    </StackPanel>
+                    <StackPanel HorizontalAlignment="Left" Margin="5,0,5,4">
+                        <TextBlock Text="Mark for Review" Style="{StaticResource BasicTextBlock}"/>
+                        <CheckBox IsChecked="{Binding Player.TrackPlaying.FlaggedForReview}" HorizontalAlignment="Center" Style="{StaticResource BasicCheckBox}" Margin="2,4,2,0"/>
+                    </StackPanel>
+
+                    <StackPanel HorizontalAlignment="Left" MinHeight="100" Margin="5,0,5,4">
+                        <TextBlock Text="Comment" Style="{StaticResource BasicTextBlock}"/>
+                        <TextBox Text="{Binding Player.TrackPlaying.Comment}" Width="100" Height="60" HorizontalAlignment="Left" TextWrapping="Wrap" Style="{StaticResource BasicTextBox}" VerticalScrollBarVisibility="Auto"/>
+                    </StackPanel>
+                    <StackPanel HorizontalAlignment="Left" Margin="5,0,5,4">
+                        <TextBlock Text="Difficulty" Style="{StaticResource BasicTextBlock}"/>
+                        <ComboBox Style="{StaticResource BasicComboBox}"
                 ItemsSource="{Binding Difficulties}"
                 DisplayMemberPath="Value"
                 SelectedValuePath="Key"
                 SelectedValue="{Binding Player.TrackPlaying.Difficulty}"
                 IsEditable="true"/>
-                </StackPanel>
-                <StackPanel HorizontalAlignment="Left" Margin="2,0,2,4" Width="120">
-                    <TextBlock Text="Characteristic" Style="{StaticResource BasicTextBlock}"/>
-                    <ComboBox Style="{StaticResource BasicComboBox}"
+                        <TextBlock Text="Characteristic" Style="{StaticResource BasicTextBlock}" Margin="0,10,0,0"/>
+                        <ComboBox Style="{StaticResource BasicComboBox}"
                     ItemsSource="{Binding Characteristics}"
                     DisplayMemberPath="Value"
                     SelectedValuePath="Key"
                     SelectedValue="{Binding Player.TrackPlaying.Characteristic, Mode=TwoWay}"
                     IsEditable="true"
                      />
-                </StackPanel>
-                <StackPanel HorizontalAlignment="Left" Margin="2,0,2,4">
-                    <TextBlock Text="Mark as Favorite" Style="{StaticResource BasicTextBlock}"/>
-                    <CheckBox IsChecked="{Binding Player.TrackPlaying.FlaggedAsFavourite}" HorizontalAlignment="Center" Style="{StaticResource BasicCheckBox}" Margin="2,4,2,0"/>
-                </StackPanel>
-                <StackPanel HorizontalAlignment="Left" Margin="2,0,2,4">
-                    <TextBlock Text="Mark for Review" Style="{StaticResource BasicTextBlock}"/>
-                    <CheckBox IsChecked="{Binding Player.TrackPlaying.FlaggedForReview}" HorizontalAlignment="Center" Style="{StaticResource BasicCheckBox}" Margin="2,4,2,0"/>
-                </StackPanel>
-                <StackPanel HorizontalAlignment="Left" MinWidth="300" MinHeight="100" Margin="2,0,2,4">
-                    <TextBlock Text="Comment" Style="{StaticResource BasicTextBlock}"/>
-                    <TextBox Text="{Binding Player.TrackPlaying.Comment}" Width="400" Height="40" TextWrapping="Wrap" Style="{StaticResource BasicTextBox}" VerticalScrollBarVisibility="Auto"/>
-                </StackPanel>
-                <Button VerticalAlignment="Top" HorizontalAlignment="Right" Style="{StaticResource BasicButton}" Content="Reselect" Width="80" Height="50" Command="{Binding ReselectClickCommand}" CommandParameter="{Binding Player.TrackPlaying}"/>
-            </DockPanel>
-            <Border Grid.Row="1" BorderBrush="{StaticResource BorderBaseBrush}" BorderThickness="0" CornerRadius="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="2,2,2,2">
-                <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="2,2,2,2">
-                    <ItemsControl ItemsSource="{Binding TracksToPlay.Tracks}">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Border BorderBrush="{StaticResource ButtonBackgroundGradientBrush}" BorderThickness="1" Margin="3">
-                                    <DockPanel Height="60">
-                                        <TextBlock Style="{StaticResource BasicTextBlock}" VerticalAlignment="Top" Width="100" Height="50" Margin ="5" Text="{Binding Title}" />
-                                        <TextBlock Style="{StaticResource BasicTextBlock}"  VerticalAlignment="Top" Width="100" Height="50" Margin ="5"  Text="{Binding Dance.Name}" />
-                                       
-                                        <StackPanel HorizontalAlignment="Left" Margin="2,0,2,4">
-                                            <TextBlock Text="Mark as Favorite" Style="{StaticResource BasicTextBlock}"/>
-                                            <CheckBox IsChecked="{Binding FlaggedAsFavourite}" HorizontalAlignment="Center" Style="{StaticResource BasicCheckBox}" Margin="2,4,2,0"/>
-                                        </StackPanel>
-                                        <StackPanel HorizontalAlignment="Left" Margin="2,0,2,4">
-                                            <TextBlock Text="Mark for Review" Style="{StaticResource BasicTextBlock}"/>
-                                            <CheckBox IsChecked="{Binding FlaggedForReview}" HorizontalAlignment="Center" Style="{StaticResource BasicCheckBox}" Margin="2,4,2,0"/>
-                                        </StackPanel>
-                                        <StackPanel HorizontalAlignment="Left" MinWidth="300" MinHeight="100" Margin="2,0,2,4">
-                                            <TextBlock Text="Comment" Style="{StaticResource BasicTextBlock}"/>
-                                            <TextBox Text="{Binding Comment}" Width="400" Height="40" TextWrapping="Wrap" Style="{StaticResource BasicTextBox}" VerticalScrollBarVisibility="Auto"/>
-                                        </StackPanel>
-                                        <Button Style="{StaticResource BasicButton}" Content="Reselect" Width="100" Height="50" HorizontalAlignment="Right" Command="{Binding Data.ReselectClickCommand, Source={StaticResource BindingProxy}}" CommandParameter="{Binding}"/>
-                                    </DockPanel>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <StackPanel/>
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                    </ItemsControl>
-                </ScrollViewer>
+                    </StackPanel>
+
+                    <Button VerticalAlignment="Top" Style="{StaticResource BasicButton}" Content="Reselect" Width="80" Height="40" Command="{Binding ReselectClickCommand}" CommandParameter="{Binding Player.TrackPlaying}"/>
+                </DockPanel>
             </Border>
+            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Visible" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="2,2,2,2">
+                <ItemsControl ItemsSource="{Binding TracksToPlay.Tracks}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border BorderBrush="{StaticResource ButtonBackgroundGradientBrush}" BorderThickness="1" Margin="3" CornerRadius="2">
+                                <DockPanel Height="60">
+                                    <TextBlock Style="{StaticResource BasicTextBlock}" VerticalAlignment="Top" Width="100" Height="50" Margin ="5" Text="{Binding Title}" />
+                                    <TextBlock Style="{StaticResource BasicTextBlock}"  VerticalAlignment="Top" Width="100" Height="50" Margin ="5"  Text="{Binding Dance.Name}" />
+
+                                    <StackPanel HorizontalAlignment="Left" Margin="5,0,5,4">
+                                        <TextBlock Text="Mark as Favorite" Style="{StaticResource BasicTextBlock}"/>
+                                        <CheckBox IsChecked="{Binding FlaggedAsFavourite}" HorizontalAlignment="Center" Style="{StaticResource BasicCheckBox}" Margin="2,4,2,0"/>
+                                    </StackPanel>
+                                    <StackPanel HorizontalAlignment="Left" Margin="5,0,5,4">
+                                        <TextBlock Text="Mark for Review" Style="{StaticResource BasicTextBlock}"/>
+                                        <CheckBox IsChecked="{Binding FlaggedForReview}" HorizontalAlignment="Center" Style="{StaticResource BasicCheckBox}" Margin="2,4,2,0"/>
+                                    </StackPanel>
+                                    <StackPanel HorizontalAlignment="Left" MinHeight="100" Margin="5,0,5,4">
+                                        <TextBlock Text="Comment" Style="{StaticResource BasicTextBlock}"/>
+                                        <TextBox Text="{Binding Comment}" Width="100" Height="40" TextWrapping="Wrap" Style="{StaticResource BasicTextBox}" VerticalScrollBarVisibility="Auto" Margin="0" HorizontalAlignment="Left"/>
+                                    </StackPanel>
+
+                                    <Button Style="{StaticResource BasicButton}" Content="Reselect" Width="80" Height="40" HorizontalAlignment="Right" Command="{Binding Data.ReselectClickCommand, Source={StaticResource BindingProxy}}" CommandParameter="{Binding}"/>
+                                </DockPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
+            </ScrollViewer>
         </Grid>
-        <DockPanel Width="200" HorizontalAlignment="Right" Grid.Column="1">
-        </DockPanel>
     </Grid>
 </UserControl>

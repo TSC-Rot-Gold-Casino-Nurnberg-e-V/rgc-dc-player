@@ -41,7 +41,7 @@
                         <Grid Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Width}" Height="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Height}">
                             <Border Margin="0" Name="border" CornerRadius="5" BorderThickness="0" Height="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Height}" Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Width}" Background="{StaticResource ButtonBackgroundGradientBrush}">
                             </Border>
-                        <Rectangle Width="40" Height="40" SnapsToDevicePixels="true">
+                        <Rectangle Width="30" Height="30" SnapsToDevicePixels="true">
                             <Rectangle.Fill>
                                 <ImageBrush x:Name="ButtonImage" ImageSource="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content}" Stretch="UniformToFill"/>
                             </Rectangle.Fill>
@@ -71,7 +71,7 @@
                         <Grid Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Width}" Height="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Height}">
                             <Border Margin="0" Name="border" CornerRadius="5" BorderThickness="0" Height="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Height}" Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Width}" Background="{StaticResource ButtonBackgroundGradientBrush}">
                                 <Label Name="text" VerticalAlignment="Center" VerticalContentAlignment="Center" 
-                                        HorizontalAlignment="Center" HorizontalContentAlignment="Center">
+                                        HorizontalAlignment="Center" HorizontalContentAlignment="Center" FontWeight="SemiBold">
                                     <Label.Content>
                                         <TextBlock
                                         TextWrapping="WrapWithOverflow"

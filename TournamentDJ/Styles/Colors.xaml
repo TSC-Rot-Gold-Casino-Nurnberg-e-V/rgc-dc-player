@@ -41,6 +41,8 @@
 
     <SolidColorBrush x:Key="BasicBackgroundBrush" Color="{StaticResource Base900}"/>
     <SolidColorBrush x:Key="BasicDividerBrush" Color="{StaticResource Base700}"/>
+    <SolidColorBrush x:Key="BasicHighlightBackgroundBrush" Color="{StaticResource Base950}"/>
+    <SolidColorBrush x:Key="BasicHighlightBorderBrush" Color="{StaticResource Base600}"/>
 
 
     <LinearGradientBrush x:Key="GradientBrush600" StartPoint="0,0" EndPoint="1,1">
