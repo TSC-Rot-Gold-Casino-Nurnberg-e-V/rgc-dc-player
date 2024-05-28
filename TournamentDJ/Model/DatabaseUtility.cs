@@ -18,18 +18,19 @@ namespace TournamentDJ.Model
         public DatabaseUtility()
         {
 
-            //_context.Database.EnsureDeleted();
+            _context.Database.EnsureDeleted();
             _context.Database.EnsureCreated();
 
             // load the entities into EF Core
+
             _context.Dances.Load();
             FillDances();
 
-            _context.Tracks.Load();
-            FillTracks();
-
             _context.DanceRounds.Load();
             FillDanceRounds();
+
+            _context.Tracks.Load();
+            FillTracks();
 
             _context.TrackLists.Load();
             FillTrackLists();
@@ -79,21 +80,20 @@ namespace TournamentDJ.Model
         private static void FillDances()
         {
             Dances = _context.Dances.Local.ToObservableCollection();
-            foreach(var dance in DefaultValues.DefaultDances)
+            foreach (var dance in DefaultValues.DefaultDances)
             {
-                if(Dances.FirstOrDefault(X => X.Name == dance.Name) == null)
+                if (Dances.FirstOrDefault(X => X.Name == dance.Name) == null)
                 {
                     Dances.Add(dance);
                 }
             }
-            SaveChanges();
         }
 
         public static void SaveChanges()
         {
             // all changes are automatically tracked, including
             // deletes!
-            _context.SaveChanges();
+            var saved = _context.SaveChanges();
         }
 
         public static void AddToDatabase(ObservableCollection<Track> tracksToAdd)

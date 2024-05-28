@@ -192,6 +192,7 @@ namespace TournamentDJ.ViewModel
         public void ExecuteAddToDatabase()
         {
             DatabaseUtility.AddToDatabase(TracksToAdd);
+            TrackFilterString = string.Empty;
         }
 
         public void ExecuteResetTrackFilterClick()

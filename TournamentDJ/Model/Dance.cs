@@ -25,10 +25,6 @@ namespace TournamentDJ.Model
         { get; private set; } =
             new ObservableCollection<Track>();
 
-        public virtual ICollection<DanceRound> DanceRounds
-        { get; private set; } =
-            new ObservableCollection<DanceRound>();
-
 
         public Dance(string name)
         {
