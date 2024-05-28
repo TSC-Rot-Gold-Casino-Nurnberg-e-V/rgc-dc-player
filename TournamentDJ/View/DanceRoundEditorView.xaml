@@ -93,9 +93,11 @@
         </StackPanel>
         <StackPanel Grid.Column="3" Margin="5">
             <TextBlock Text="{Binding SelectedDanceRound.Name}"/>
-            <ListBox Height="300" ItemsSource="{Binding SelectedDanceRound.Dances}"
+            <ListBox Height="300" ItemsSource="{Binding OrderedDancesInSelectedRound}"
                      DisplayMemberPath="Name"
-                     SelectedItem="{Binding SelectedDanceInRound}"/>
+                     SelectedItem="{Binding SelectedDanceInRound}"
+                     SelectedIndex="{Binding SelectedDanceInRoundIndex}"/>
+   
         </StackPanel>
     </Grid>
 </UserControl>

@@ -16,6 +16,8 @@ namespace TournamentDJ.Model
 
         public DbSet<TrackList> TrackLists { get; set; }
 
+        public DbSet<OrderElement<Dance>> OrderElementsDance { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlite(

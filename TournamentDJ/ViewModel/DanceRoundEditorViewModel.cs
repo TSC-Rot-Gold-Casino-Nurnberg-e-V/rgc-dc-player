@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -45,6 +46,7 @@ namespace TournamentDJ.ViewModel
             set
             {
                 Set(value);
+                OrderedDancesInSelectedRound = OrderedDancesInSelectedRound;
                 OnPropertyChanged();
             }
         }
@@ -65,6 +67,35 @@ namespace TournamentDJ.ViewModel
             set
             {
                 Set(value);
+                OnPropertyChanged();
+            }
+        }
+
+        public int SelectedDanceInRoundIndex
+        {
+            get { return Get<int>(); }
+            set
+            {
+                Set(value);
+                OnPropertyChanged();
+            }
+        }
+
+        public ObservableCollection<Dance> OrderedDancesInSelectedRound
+        {
+            get {
+                if (SelectedDanceRound != null)
+                {
+                    return SelectedDanceRound.GetDancesInOrder();
+                }
+                return null;
+            }              
+            set
+            {
+                if(SelectedDanceRound != null)
+                {
+                    SelectedDanceRound.SetDancesInOrder(value);
+                }
                 OnPropertyChanged();
             }
         }
@@ -97,42 +128,72 @@ namespace TournamentDJ.ViewModel
 
         public void ExecuteAddToDanceRound()
         {
-            if(SelectedDanceInDances != null)
+            if (SelectedDanceInDances != null)
             {
-                SelectedDanceRound.Dances.Add(SelectedDanceInDances);
+                ObservableCollection<Dance> dances = OrderedDancesInSelectedRound;
+                if(dances == null)
+                {
+                    dances = new ObservableCollection<Dance>();
+                }
+                dances.Add(SelectedDanceInDances);
+                OrderedDancesInSelectedRound = dances;
             }
         }
 
         public void ExecuteRemoveFromDanceRound()
         {
-            if (SelectedDanceInRound != null)
+            if (SelectedDanceInRound != null && OrderedDancesInSelectedRound != null)
             {
-                SelectedDanceRound.Dances.Remove(SelectedDanceInRound);
+                ObservableCollection<Dance> dances = OrderedDancesInSelectedRound;
+                if (dances == null)
+                {
+                    return;
+                }
+                dances.Remove(SelectedDanceInRound);
+                OrderedDancesInSelectedRound = dances;
             }
         }
 
         public void ExecuteMoveDanceUp()
         {
-            if (SelectedDanceInRound != null)
+            if (SelectedDanceInRound != null && OrderedDancesInSelectedRound != null)
             {
-                int index = SelectedDanceRound.Dances.IndexOf(SelectedDanceInRound);
+                ObservableCollection<Dance> dances = OrderedDancesInSelectedRound;
+                if (dances == null)
+                {
+                    return;
+                }
+
+                int index = SelectedDanceInRoundIndex;
 
                 if(index > 0)
                 {
-                    SelectedDanceRound.Dances.Move(index, index - 1);
+                    dances.Move(index, index - 1);
+                    OrderedDancesInSelectedRound = dances;
+                    SelectedDanceInRoundIndex = index - 1;
+                    SelectedDanceInRound = OrderedDancesInSelectedRound[index - 1];
                 }
             }
         }
 
         public void ExecuteMoveDanceDown()
         {
-            if (SelectedDanceInRound != null)
+            if (SelectedDanceInRound != null && OrderedDancesInSelectedRound != null)
             {
-                int index = SelectedDanceRound.Dances.IndexOf(SelectedDanceInRound);
-
-                if (index < SelectedDanceRound.Dances.Count - 1)
+                ObservableCollection<Dance> dances = OrderedDancesInSelectedRound;
+                if (dances == null)
                 {
-                    SelectedDanceRound.Dances.Move(index, index + 1);
+                    return;
+                }
+
+                int index = SelectedDanceInRoundIndex;
+
+                if (index < dances.Count - 1)
+                {
+                    dances.Move(index, index + 1);
+                    OrderedDancesInSelectedRound = dances;
+                    SelectedDanceInRoundIndex = index + 1;
+                    SelectedDanceInRound = OrderedDancesInSelectedRound[index + 1];
                 }
             }
         }

@@ -37,7 +37,7 @@ namespace TournamentDJ.Model
 
             if (single || heats == 1)
             {
-                foreach (var dance in roundToCreate.Dances)
+                foreach (var dance in roundToCreate.GetDancesInOrder())
                 {
                     Track trackToAdd = GetRandomTrack(dance, tracklist, roundToCreate.MinDifficulty, roundToCreate.MaxDifficulty, roundToCreate.MinCharacteristics, cantBeFavourite, overrideParams, onlyUseUncategorized);
                     for (int i = 0; i < heats; i++)
@@ -48,7 +48,7 @@ namespace TournamentDJ.Model
             } 
             else
             {
-                foreach (var dance in roundToCreate.Dances)
+                foreach (var dance in roundToCreate.GetDancesInOrder())
                 {
                     var list = GetRandomTracks(dance, heats, tracklist, roundToCreate.MinDifficulty, roundToCreate.MaxDifficulty, roundToCreate.MinCharacteristics, cantBeFavourite, overrideParams, onlyUseUncategorized);
 

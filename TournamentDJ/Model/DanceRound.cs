@@ -19,9 +19,9 @@ namespace TournamentDJ.Model
         public int MaxDifficulty { get; set; }
         public int MinCharacteristics { get; set; }
 
-        public virtual List<Dance> Dances
+        public virtual ObservableCollection<OrderElement<Dance>> OrderElements
         { get; private set; }
-            = new List<Dance>();
+            = new ObservableCollection<OrderElement<Dance>>();
 
         public DanceRound(string name)
         {
@@ -37,6 +37,28 @@ namespace TournamentDJ.Model
             MinDifficulty = 0;
             MaxDifficulty = 3;
             MinCharacteristics = 1;
+        }
+
+        public ObservableCollection<Dance> GetDancesInOrder()
+        {
+            ObservableCollection<Dance> dancesInOrder = new ObservableCollection<Dance>();
+            var orderedElements = OrderElements.OrderBy(X => X.OrderRank);
+            foreach(var orderElement in orderedElements) 
+            {
+                dancesInOrder.Add(orderElement.ObjectToOrder);
+            }
+            return dancesInOrder;
+        }
+
+        public void SetDancesInOrder(ObservableCollection<Dance> dances)
+        {
+            OrderElements.Clear();
+            for(int i = 0; i < dances.Count; i++)
+            {
+                OrderElement<Dance> newElement = new OrderElement<Dance>(dances[i]);
+                newElement.OrderRank = i;
+                OrderElements.Add(newElement);
+            }
         }
     }
 }

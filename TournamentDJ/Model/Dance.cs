@@ -21,6 +21,7 @@ namespace TournamentDJ.Model
 
         public string[]? DanceIdentifiers { get; set; }
 
+
         public virtual ICollection<Track> Tracks
         { get; private set; } =
             new ObservableCollection<Track>();
