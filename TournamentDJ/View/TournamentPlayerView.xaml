@@ -46,7 +46,7 @@
 
                 <StackPanel Margin="3,0,0,0">
                     <DockPanel>
-                        <StackPanel Margin="0,0,0,0">
+                        <StackPanel Margin="0,0,0,0" Width="160">
                             <TextBlock Style="{StaticResource BasicTextBlock}" Text="Output Device"/>
                             <ComboBox
                                 Style="{StaticResource BasicComboBox}"
@@ -131,7 +131,7 @@
         <Grid Grid.Column="1" VerticalAlignment="Stretch">
             <Grid.RowDefinitions>
                 <RowDefinition Height="100"/>
-                <RowDefinition MinHeight="150" Height="*"/>
+                <RowDefinition MinHeight="140" Height="*"/>
             </Grid.RowDefinitions>
             <Border Margin="4,2,2,2" BorderThickness="2" BorderBrush="{StaticResource BasicHighlightBorderBrush}" CornerRadius="2">
                 <DockPanel Height="200"  >

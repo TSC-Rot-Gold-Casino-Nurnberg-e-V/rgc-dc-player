@@ -88,7 +88,7 @@ namespace TournamentDJ.ViewModel
             }
         }
 
-        public TrackList SelectedTrackList
+        public virtual TrackList SelectedTrackList
         {
             get { return Player.SelectedTrackList; }
             set { Player.SelectedTrackList = value;
@@ -133,6 +133,7 @@ namespace TournamentDJ.ViewModel
         public ICommand PreviousClickCommand { get; private set; }
         public ICommand OpenFileCommand { get; private set; }
         public ICommand ReselectClickCommand { get; private set; }
+        public ICommand SetTrackPlaying {  get; private set; }
 
         public ICommand StartAutplayClickCommand { get; private set; }
         public ICommand CreateDanceRoundClickCommand { get; private set; }
@@ -148,6 +149,7 @@ namespace TournamentDJ.ViewModel
             CreateDanceRoundClickCommand = new RelayCommand(ExecuteCreateDanceRound);
             NextClickCommand = new RelayCommand(ExecuteNext);
             PreviousClickCommand = new RelayCommand(ExecutePrevious);
+            SetTrackPlaying = new RelayCommand<Track>(ExecuteSetTrackPlaying);
         }
 
 
@@ -199,6 +201,11 @@ namespace TournamentDJ.ViewModel
         public void ExecuteStartAutoplay()
         {
             Player.StartAutoPlay();
+        }
+
+        public void ExecuteSetTrackPlaying(Track track)
+        {
+            TrackPlaying = track;
         }
 
         public virtual void ExecuteCreateDanceRound()

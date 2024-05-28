@@ -207,7 +207,10 @@ namespace TournamentDJ.Model
                 await Task.Delay(100);
             }
             MedPlayer.Play();
-            TrackPlaying.LastPlayedTime = DateTime.Now;
+            if(TrackPlaying != null)
+            {
+                TrackPlaying.LastPlayedTime = DateTime.Now;
+            }
         }
 
         public void Stop()
@@ -285,12 +288,12 @@ namespace TournamentDJ.Model
         {
             MedPlayer.Pause();
 
-            if(TrackPlaying != null && TracksToPlay.Tracks.Count > 0)
+            if(TrackPlaying != null && TracksToPlay != null  && TracksToPlay.Tracks != null && TracksToPlay.Tracks.Count > 0)
             {
                 TracksPlayed.Tracks.Add(TrackPlaying);
             }
 
-            if(TracksToPlay.Tracks.Count > 0)
+            if (TracksToPlay != null && TracksToPlay.Tracks != null &&  TracksToPlay.Tracks.Count > 0)
             {
                 TrackPlaying = TracksToPlay.Tracks[0];
                 TracksToPlay.Tracks.RemoveAt(0);

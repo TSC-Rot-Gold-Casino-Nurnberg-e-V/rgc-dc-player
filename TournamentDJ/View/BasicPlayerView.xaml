@@ -30,29 +30,59 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <Grid HorizontalAlignment="Stretch">
+    <Grid HorizontalAlignment="Stretch" Background="{StaticResource BasicBackgroundBrush}">
         <Grid.RowDefinitions>
-            <RowDefinition Height="1*"/>
-            <RowDefinition Height="1*"/>
+            <RowDefinition Height="80"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <DockPanel Grid.Row="0" Background="CornflowerBlue" MinHeight="100" MinWidth="200">
-            <TextBlock Width="200" Height="50" Margin ="5" Background="Azure" Text="{Binding Player.TrackPlaying.Uri, Converter={StaticResource UriToStringConverter}}" TextWrapping="Wrap" />
-            <TextBlock Width="200" Height="50" Margin ="5" Background="Azure" Text="{Binding Player.timeData}" />
-            <StackPanel>
-                <TextBlock Text="Output Device"/>
-                <ComboBox
+        <Border Grid.Row="0" Margin="8" BorderThickness="2" BorderBrush="{StaticResource BasicHighlightBorderBrush}" CornerRadius="2">
+            <DockPanel Grid.Row="0" Background="{StaticResource BasicBackgroundBrush}">
+                <TextBlock Style="{StaticResource BasicTextBlock}" VerticalAlignment="Top" Width="140" Height="50" Margin ="5" Text="{Binding TrackPlaying.Title}" />
+                <TextBlock Style="{StaticResource BasicTextBlock}" VerticalAlignment="Top" Width="100" Height="50" Margin ="5" Text="{Binding Player.timeData}" />
+                <StackPanel Margin="4,2,2,2" Width="160">
+                    <TextBlock Style="{StaticResource BasicTextBlock}" Text="Output Device"/>
+                    <ComboBox
+                        Style="{StaticResource BasicComboBox}"
                     ItemsSource="{Binding Player.AudioDevices}"
                     SelectedItem="{Binding Player.SelectedAudioDevice}"
                     DisplayMemberPath="Name"
                     Text="Default"
                     IsEditable="true"
                     IsReadOnly="true"/>
-            </StackPanel>
-        </DockPanel>
+                </StackPanel>
+                <StackPanel  Margin="5,0,5,4">
+                    <TextBlock Style="{StaticResource BasicTextBlock}" Text="TrackList"/>
+                    <ComboBox
+        Style="{StaticResource BasicComboBox}"
+        SelectedItem="{Binding SelectedTrackList, TargetNullValue='Default'}"
+        DisplayMemberPath="Name"
+        Text="Default"
+        ItemsSource="{Binding TrackLists}"
+        IsEditable="true"
+        IsReadOnly="true"/>
+                </StackPanel>
+            </DockPanel>
+        </Border>
+        <DockPanel Grid.Row="1">
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Visible" HorizontalAlignment="Left" Width="300" VerticalAlignment="Stretch" Margin="2,2,2,2">
+            <ItemsControl ItemsSource="{Binding SelectedTrackList.Tracks}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Button Style="{StaticResource TrackSelectButton}" Content="{Binding Title}" Height="60" Width="130" Command="{Binding Data.SetTrackPlaying, Source={StaticResource BindingProxy}}" CommandParameter="{Binding}"/>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <UniformGrid Columns="2"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+        </ScrollViewer>
         <DockPanel Grid.Row="1" HorizontalAlignment="Center">
-            <Button x:Name="Play" Content="Play" Width="50" Height="50"  Command="{Binding PlayClickCommand}"/>
-            <Button x:Name="Stop" Content="Stop" Width="50" Height="50"  Command="{Binding StopClickCommand}"/>
-            <Button x:Name="OpenFile" Content="OpenFile" Width="50" Height="50"  Command="{Binding OpenFileCommand}"/>
+            <Button  Style="{StaticResource ImageButton}" Content="pack://application:,,,/Assets/play.png" Width="40" Height="40" HorizontalAlignment="Left" Command="{Binding PlayClickCommand}"/>
+            <Button  Style="{StaticResource ImageButton}" Content="pack://application:,,,/Assets/stop.png" Width="40" Height="40" HorizontalAlignment="Left" Command="{Binding StopClickCommand}"/>
+            <Button Style="{StaticResource BasicButton}" Content="OpenFile" Width="80" Height="40"  Command="{Binding OpenFileCommand}"/>
+        </DockPanel>
         </DockPanel>
     </Grid>
 </UserControl>

@@ -34,13 +34,13 @@
     
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="1*" MinHeight="40" x:Name="TopBar" />
+            <RowDefinition Height="40" MinHeight="40" x:Name="TopBar" />
             <RowDefinition Height="2" x:Name="Split1" />
-            <RowDefinition Height="10*" MinHeight="250" x:Name="CompPlayer"/>
+            <RowDefinition Height="250" MinHeight="250" x:Name="CompPlayer"/>
             <RowDefinition Height="2" x:Name="Split2" />
-            <RowDefinition Height="10*" x:Name="WarmupPlayer"  MinHeight="180"/>
+            <RowDefinition Height="180" x:Name="WarmupPlayer"  MinHeight="180"/>
             <RowDefinition Height="2" x:Name="Split3" />
-            <RowDefinition Height="10*" x:Name="DualPlayer"/>
+            <RowDefinition Height="*" MinHeight="250" x:Name="DualPlayer"/>
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
             <DockPanel Background="{StaticResource BasicBackgroundBrush}">
