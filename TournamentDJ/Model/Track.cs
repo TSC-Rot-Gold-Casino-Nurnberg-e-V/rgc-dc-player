@@ -73,6 +73,8 @@ namespace TournamentDJ.Model
             get; set;
         }
 
+        public DateTime LastPlayedTime { get; set; } = DateTime.MinValue;
+
         public bool FlaggedAsFavourite { get; set; }
 
         public bool FlaggedForReview { get; set; }

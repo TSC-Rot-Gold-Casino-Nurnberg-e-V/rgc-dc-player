@@ -207,6 +207,7 @@ namespace TournamentDJ.Model
                 await Task.Delay(100);
             }
             MedPlayer.Play();
+            TrackPlaying.LastPlayedTime = DateTime.Now;
         }
 
         public void Stop()
