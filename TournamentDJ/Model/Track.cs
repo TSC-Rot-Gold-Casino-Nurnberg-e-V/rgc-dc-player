@@ -46,10 +46,10 @@ namespace TournamentDJ.Model
 
             Title = (file.Tag.Title != null) ? file.Tag.Title : file.Name;
             Album = (file.Tag.Album != null) ? file.Tag.Album : string.Empty;
-            Genre = (file.Tag.FirstGenre != null)  ? file.Tag.FirstGenre : string.Empty;
+            Genre = (file.Tag.FirstGenre != null) ? file.Tag.FirstGenre : string.Empty;
             //Duration = (file.Tag.Length != null) ? TimeSpan.TryParse();
             BeatsPerMinute = file.Tag.BeatsPerMinute;
-            Year = (int) file.Tag.Year;
+            Year = (int)file.Tag.Year;
             Uri = uri;
             Dance = SearchDance(file);
             FlaggedAsFavourite = false;
@@ -61,13 +61,14 @@ namespace TournamentDJ.Model
             Characteristic = ParsedValues[1];
             Difficulty = Math.Abs(ParsedValues[2] - 4); //Adapt Values to correct range, CP uses an inverted Range
 
-            if(Difficulty > 4) //Value was undefined or out of Range
+            if (Difficulty > 4) //Value was undefined or out of Range
             {
                 Difficulty = -1;
             }
         }
 
-        public virtual Dance? Dance {
+        public virtual Dance? Dance
+        {
             get; set;
         }
 
@@ -118,7 +119,7 @@ namespace TournamentDJ.Model
         }
 
         public uint? BeatsPerMinute
-        { 
+        {
             get { return Get<uint>(); }
             set
             {
@@ -147,7 +148,7 @@ namespace TournamentDJ.Model
             //Comment should look like "CPINFL:2/C:2/B:2/N:0T", we only care about the 4 integers
             string pattern = @"-?\d\/-?\d\/-?\d\/-?\d";
             string comment = file.Tag.Comment;
-            if(comment == null)
+            if (comment == null)
             {
                 return properties;
             }
@@ -181,22 +182,22 @@ namespace TournamentDJ.Model
 
         private Dance SearchDance(TagLib.File file)
         {
-            foreach(var dance in DatabaseUtility.Dances)
+            foreach (var dance in DatabaseUtility.Dances)
             {
                 List<string> danceIdentifiers = new List<string>();
 
                 if (dance.DanceIdentifiers != null)
                 {
-                     danceIdentifiers = dance.DanceIdentifiers.ToList();
+                    danceIdentifiers = dance.DanceIdentifiers.ToList();
                 }
 
-                if(dance.Name != null)
+                if (dance.Name != null)
                 {
                     danceIdentifiers.Add(dance.Name);
                 }
 
                 //Normalize all identifier strings
-                for(int i = 0; i < danceIdentifiers.Count; i++)
+                for (int i = 0; i < danceIdentifiers.Count; i++)
                 {
                     danceIdentifiers[i] = danceIdentifiers[i].Replace(" ", "").ToLowerInvariant();
                 }
@@ -208,7 +209,7 @@ namespace TournamentDJ.Model
                     genre = file.Tag.FirstGenre.Replace(" ", "").ToLowerInvariant();
                 }
 
-                foreach(var ident in danceIdentifiers)
+                foreach (var ident in danceIdentifiers)
                 {
                     if (genre.Equals(ident))
                     {
@@ -218,12 +219,12 @@ namespace TournamentDJ.Model
 
                 //search in Name second, as this is a lot slower
                 string name = string.Empty;
-                if(file.Tag.Title != null)
+                if (file.Tag.Title != null)
                 {
                     name = file.Tag.Title.Replace(" ", "").ToLowerInvariant();
                 }
-                
-                foreach(var ident in danceIdentifiers)
+
+                foreach (var ident in danceIdentifiers)
                 {
                     if (name.Contains(ident))
                     {
