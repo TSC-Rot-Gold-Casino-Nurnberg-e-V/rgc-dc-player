@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using TournamentDJ.Essentials;
 
@@ -53,10 +54,17 @@ namespace TournamentDJ.Model
             Dance = SearchDance(file);
             FlaggedAsFavourite = false;
             FlaggedForReview = false;
-            Difficulty = -1;
-            Characteristic = -1;
             Comment = string.Empty;
 
+
+            int[] ParsedValues = RetrieveSpoerlData(file);
+            Characteristic = ParsedValues[1];
+            Difficulty = Math.Abs(ParsedValues[2] - 4); //Adapt Values to correct range, CP uses an inverted Range
+
+            if(Difficulty > 4) //Value was undefined or out of Range
+            {
+                Difficulty = -1;
+            }
         }
 
         public virtual Dance? Dance {
@@ -126,6 +134,51 @@ namespace TournamentDJ.Model
         }
 
 
+        //returns an int array with lenght 4, containing L, C, B and N, as used in Competition Player by Sebastian Spörl
+        private int[] RetrieveSpoerlData(TagLib.File file)
+        {
+            int[] properties = new int[4];
+            for (int i = 0; i < properties.Length; i++)
+            {
+                properties[i] = -1;
+            }
+
+
+            //Comment should look like "CPINFL:2/C:2/B:2/N:0T", we only care about the 4 integers
+            string pattern = @"-?\d\/-?\d\/-?\d\/-?\d";
+            string comment = file.Tag.Comment;
+            if(comment == null)
+            {
+                return properties;
+            }
+            comment = comment.Replace("L:", "");
+            comment = comment.Replace("N:", "");
+            comment = comment.Replace("B:", "");
+            comment = comment.Replace("C:", "");
+            Match match = Regex.Match(comment, pattern);
+            if (!match.Success)
+            {
+                return properties;
+            }
+            comment = match.Value;
+            MatchCollection matches = Regex.Matches(comment, @"(-?\d)");
+            if (matches.Count != 4)
+            {
+                return properties;
+            }
+
+            for (int i = 0; i < 4; i++)
+            {
+                if (!int.TryParse(matches[i].Value, out properties[i]))
+                {
+                    return properties;
+                }
+            }
+
+            return properties;
+        }
+
+
         private Dance SearchDance(TagLib.File file)
         {
             foreach(var dance in DatabaseUtility.Dances)
@@ -178,12 +231,6 @@ namespace TournamentDJ.Model
                     }
                 }
             }
-
-
-
-
-
-
             return null;
         }
 
