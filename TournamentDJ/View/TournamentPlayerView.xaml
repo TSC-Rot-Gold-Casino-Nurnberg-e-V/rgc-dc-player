@@ -133,7 +133,7 @@
                 <RowDefinition Height="100"/>
                 <RowDefinition MinHeight="140" Height="*"/>
             </Grid.RowDefinitions>
-            <Border Margin="4,2,2,2" BorderThickness="2" BorderBrush="{StaticResource BasicHighlightBorderBrush}" CornerRadius="2">
+            <Border Margin="4,2,2,2" BorderThickness="2" BorderBrush="{StaticResource MenuPopupBrush}" CornerRadius="2">
                 <DockPanel Height="200"  >
                     <StackPanel>
                         <TextBlock Style="{StaticResource BasicTextBlock}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="30" Margin ="5" Text="{Binding Player.TrackPlaying.Title}" ToolTip="Track Title"/>

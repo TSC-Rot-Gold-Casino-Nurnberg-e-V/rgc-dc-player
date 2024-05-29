@@ -10,6 +10,7 @@ using TournamentDJ.Essentials;
 using TournamentDJ.Model;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel;
+using System.Collections.ObjectModel;
 
 
 namespace TournamentDJ.ViewModel
@@ -34,10 +35,16 @@ namespace TournamentDJ.ViewModel
             set { Set(value); }
         }
 
+        public ObservableCollection<string> AvailableLanguages
+        {
+            get { return Get<ObservableCollection<string>>(); }
+            set { Set(value); }
+        } 
+
         public DatabaseUtility dbUtil = new DatabaseUtility();
 
 
-        public MainWindowViewModel() 
+        public MainWindowViewModel()
         {
             TournamentPlayerViewModel = new TournamentPlayerViewModel();
             WarmupPlayerViewModel = new WarmupPlayerViewModel();
@@ -45,11 +52,13 @@ namespace TournamentDJ.ViewModel
             CreateCommands();
         }
 
+
+
         public ICommand OpenDatabaseUtilityCommand { get; private set; }
 
         public void CreateCommands()
         {
-            OpenDatabaseUtilityCommand = new RelayCommand(ExecuteOpenDatabaseUtility); ;
+            OpenDatabaseUtilityCommand = new RelayCommand(ExecuteOpenDatabaseUtility);
         }
 
         public void ExecuteOpenDatabaseUtility()
@@ -68,8 +77,6 @@ namespace TournamentDJ.ViewModel
             var ChooseAudioDeviceWindow = new AudioDeviceSelectWindow(TournamentPlayerViewModel.Player);
             ChooseAudioDeviceWindow.ShowDialog();
         }
-
-
     }
 
 }
