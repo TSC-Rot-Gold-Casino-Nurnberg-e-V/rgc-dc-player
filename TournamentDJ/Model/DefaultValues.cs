@@ -11,9 +11,9 @@ namespace TournamentDJ.Model
         public static List<Dance> DefaultDances = new List<Dance>
         {
             new Dance("Uncategorized"),
-            new Dance("SlowWaltz", ["[SW]", "[LW]", "(SW)", "(LW)", "[EW]", "(EW)", "Langsamer Walzer"]),
+            new Dance("SlowWaltz", ["[SW]", "[LW]", "(SW)", "(LW)", "[EW]", "(EW)", "Langsamer Walzer", "(Waltz)"]),
             new Dance("Tango", ["[TA]", "(TA)"]),
-            new Dance("ViennesseWaltz", ["[WW]", "[VW]", "(WW)", "(VW)", "Wiener Walzer"]),
+            new Dance("ViennesseWaltz", ["[WW]", "[VW]", "(WW)", "(VW)", "Wiener Walzer", "Viennese Waltz"]),
             new Dance("Slowfox", ["[SF]", "(SF)", "Slowfoxtrott"]),
             new Dance("Quickstep", ["[QS]", "(QS)", "[Q]", "(Q)", "Quickstep"]),
             new Dance("Samba", ["[SB]", "(SB)"]),
