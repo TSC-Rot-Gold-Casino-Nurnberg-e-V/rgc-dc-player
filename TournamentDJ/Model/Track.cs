@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
@@ -133,6 +134,10 @@ namespace TournamentDJ.Model
         {
             get; set;
         }
+
+        public virtual ObservableCollection<TrackList> TrackLists
+        { get; private set; } =
+        new ObservableCollection<TrackList>();
 
 
         //returns an int array with lenght 4, containing L, C, B and N, as used in Competition Player by Sebastian Spörl

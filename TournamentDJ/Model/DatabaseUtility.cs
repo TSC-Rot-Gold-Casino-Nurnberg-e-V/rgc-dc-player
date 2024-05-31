@@ -18,16 +18,13 @@ namespace TournamentDJ.Model
         public DatabaseUtility()
         {
 
-            //_context.Database.EnsureDeleted();
+            _context.Database.EnsureDeleted();
             _context.Database.EnsureCreated();
 
             // load the entities into EF Core
 
             _context.Dances.Load();
             FillDances();
-
-            //_context.OrderElementsDance.Load();
-            //FillOrderElements();
 
             _context.DanceRounds.Load();
             FillDanceRounds();
