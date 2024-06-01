@@ -39,6 +39,7 @@ namespace TournamentDJ.ViewModel
             set
             {
                 Set(value);
+                ExecuteCreateDanceRound();
             }
         }
 
