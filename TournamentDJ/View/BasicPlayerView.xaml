@@ -64,25 +64,28 @@
             </DockPanel>
         </Border>
         <DockPanel Grid.Row="1">
-        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Visible" HorizontalAlignment="Left" Width="300" VerticalAlignment="Stretch" Margin="2,2,2,2">
-            <ItemsControl ItemsSource="{Binding SelectedTrackList.Tracks}">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <Button Style="{StaticResource TrackSelectButton}" Content="{Binding Title}" Height="60" Width="130" Command="{Binding Data.SetTrackPlaying, Source={StaticResource BindingProxy}}" CommandParameter="{Binding}"/>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <UniformGrid Columns="2"/>
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-            </ItemsControl>
-        </ScrollViewer>
-        <DockPanel Grid.Row="1" HorizontalAlignment="Center">
-            <Button  Style="{StaticResource ImageButton}" Content="pack://application:,,,/Assets/play.png" Width="40" Height="40" HorizontalAlignment="Left" Command="{Binding PlayClickCommand}"/>
-            <Button  Style="{StaticResource ImageButton}" Content="pack://application:,,,/Assets/stop.png" Width="40" Height="40" HorizontalAlignment="Left" Command="{Binding StopClickCommand}"/>
-            <Button Style="{StaticResource BasicButton}" Content="OpenFile" Width="80" Height="40"  Command="{Binding OpenFileCommand}"/>
-        </DockPanel>
+            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Visible" HorizontalAlignment="Left" Width="300" VerticalAlignment="Stretch" Margin="2,2,2,2">
+                <ItemsControl ItemsSource="{Binding SelectedTrackList.Tracks}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Button Style="{StaticResource TrackSelectButton}" Content="{Binding Title}" Height="60" Width="130" Command="{Binding Data.SetTrackPlaying, Source={StaticResource BindingProxy}}" CommandParameter="{Binding}"/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Columns="2"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
+            </ScrollViewer>
+            <StackPanel Grid.Row="1" HorizontalAlignment="Center">
+                <DockPanel>
+                <Button  Style="{StaticResource ImageButton}" Content="pack://application:,,,/Assets/play.png" Width="40" Height="40" HorizontalAlignment="Left" Command="{Binding PlayClickCommand}"/>
+                <Button  Style="{StaticResource ImageButton}" Content="pack://application:,,,/Assets/stop.png" Width="40" Height="40" HorizontalAlignment="Left" Command="{Binding StopClickCommand}"/>
+                </DockPanel>
+                <Button  Style="{StaticResource BasicButton}" Content="Fadeout" Width="80" Height="40" Command="{Binding FadeoutClickCommand}"/>
+                <Button  Style="{StaticResource BasicButton}" Content="OpenFile" Width="80" Height="40"  Command="{Binding OpenFileCommand}"/>
+            </StackPanel>
         </DockPanel>
     </Grid>
 </UserControl>
