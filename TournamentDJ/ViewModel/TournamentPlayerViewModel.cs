@@ -35,10 +35,10 @@ namespace TournamentDJ.ViewModel
 
         public bool IsSingleSelected
         {
-            get { return Get<bool>(); }
+            get { return Player.IsSingleSelected; }
             set
             {
-                Set(value);
+                Player.IsSingleSelected = value;
                 ExecuteCreateDanceRound();
             }
         }
