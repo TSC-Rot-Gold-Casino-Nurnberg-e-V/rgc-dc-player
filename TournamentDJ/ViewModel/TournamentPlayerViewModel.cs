@@ -16,12 +16,14 @@ namespace TournamentDJ.ViewModel
             [
                 new TimeSpan(0, 0, 5),
                 new TimeSpan(0, 0, 15),
-                new TimeSpan(0, 0, 30),
+                new TimeSpan(0, 0, 60),
+                new TimeSpan(0, 0, 75),
                 new TimeSpan(0, 0, 90),
+                new TimeSpan(0, 0, 95),
+                new TimeSpan(0, 0, 100),
                 new TimeSpan(0, 0, 105),
+                new TimeSpan(0, 0, 110),
             ];
-
-            Runtimes.Add(TimeSpan.Zero);
 
             NumberOfHeats = new ObservableCollection<int>();
 

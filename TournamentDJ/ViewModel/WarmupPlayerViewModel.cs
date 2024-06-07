@@ -26,8 +26,8 @@ namespace TournamentDJ.ViewModel
                 new TimeSpan(0, 0, 15),
                 new TimeSpan(0, 0, 60),
                 new TimeSpan(0, 0, 90),
+                TimeSpan.Zero,
             ];
-            Runtimes.Add(TimeSpan.Zero);
             CreateAdditionalCommands();
             
         }

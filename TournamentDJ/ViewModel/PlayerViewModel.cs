@@ -102,7 +102,7 @@ namespace TournamentDJ.ViewModel
             set
             {
                 Set(value);
-                if (value == null || value == false)
+                if (value == false)
                 {
                     SelectedTrackList = null;
                 };
