@@ -23,10 +23,12 @@ namespace TournamentDJ.ViewModel
 
 
         public ICommand ConfirmAudioDeviceCommand { get; private set; }
+        public ICommand SkipAudioDeviceCommand { get; private set; }
 
         public void CreateCommands()
         {
             ConfirmAudioDeviceCommand = new RelayCommand(ExecuteConfirmAudioDevice);
+            SkipAudioDeviceCommand = new RelayCommand(ExecuteSkipAudioDevice);
         }
 
         public void ExecuteConfirmAudioDevice()
@@ -35,6 +37,11 @@ namespace TournamentDJ.ViewModel
             {
                 CloseAction();
             }
+        }
+
+        public void ExecuteSkipAudioDevice()
+        {
+            CloseAction();
         }
     }
 }
