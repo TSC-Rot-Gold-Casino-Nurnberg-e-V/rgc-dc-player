@@ -19,12 +19,14 @@ namespace TournamentDJ.ViewModel
         public bool playOnClick = false;
         public DatabaseUtilityViewModel() 
         {
+            trackListEditorViewModel = new TrackListEditorViewModel(this);
             Player = new Player();
             CreateCommands();
             FailedUris = new ObservableCollection<Uri>();
             TracksToAdd = new ObservableCollection<Track>();
             FilteredTracks = new ObservableCollection<Track>();
             TrackFilterString = string.Empty;
+
         }
 
         public ObservableCollection<Track> TracksToAdd
@@ -36,6 +38,7 @@ namespace TournamentDJ.ViewModel
         }
 
         public Player Player { get; private set; }
+        public TrackListEditorViewModel trackListEditorViewModel { get; private set; }
 
         public ObservableCollection<Uri> FailedUris
         {

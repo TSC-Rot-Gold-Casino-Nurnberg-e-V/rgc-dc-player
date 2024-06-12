@@ -19,6 +19,16 @@ namespace TournamentDJ.ViewModel
             TrackFilterString = string.Empty;
         }
 
+        public TrackListEditorViewModel(DatabaseUtilityViewModel databaseUtilityViewModel)
+        {
+            CreateCommands();
+            FilteredTracks = new ObservableCollection<Track>();
+            TrackFilterString = string.Empty;
+            DatabaseUtilityViewModel = databaseUtilityViewModel;
+        }
+
+        public DatabaseUtilityViewModel DatabaseUtilityViewModel { get; set; }
+
         public ObservableCollection<Track> Tracks
         {
             get { return DatabaseUtility.Tracks; }
@@ -56,6 +66,7 @@ namespace TournamentDJ.ViewModel
             {
                 Set(value);
                 OnPropertyChanged();
+                DatabaseUtilityViewModel.TrackPlaying = value;
             }
         }
 
@@ -131,7 +142,7 @@ namespace TournamentDJ.ViewModel
 
         public void ExecuteAddToTrackList()
         {
-            if (SelectedTrackInTracks != null && !SelectedTrackList.Tracks.Contains(SelectedTrackInTracks))
+            if (SelectedTrackList != null && SelectedTrackInTracks != null && !SelectedTrackList.Tracks.Contains(SelectedTrackInTracks))
             {
                 SelectedTrackList.Tracks.Add(SelectedTrackInTracks);
             }
