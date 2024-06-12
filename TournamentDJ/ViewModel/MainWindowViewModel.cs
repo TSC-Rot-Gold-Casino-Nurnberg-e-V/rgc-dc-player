@@ -11,6 +11,7 @@ using TournamentDJ.Model;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
+using Microsoft.Extensions.Logging;
 
 
 namespace TournamentDJ.ViewModel
@@ -39,7 +40,9 @@ namespace TournamentDJ.ViewModel
         {
             get { return Get<ObservableCollection<string>>(); }
             set { Set(value); }
-        } 
+        }
+
+        public Logger logger { get { return Logger.LoggerInstance; } }
 
         public DatabaseUtility dbUtil = new DatabaseUtility();
 

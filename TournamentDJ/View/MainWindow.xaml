@@ -42,9 +42,17 @@
             <RowDefinition Height="2" x:Name="Split3" />
             <RowDefinition Height="*" MinHeight="250" x:Name="DualPlayer"/>
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0">
-            <DockPanel Background="{StaticResource BasicBackgroundBrush}">
-                <Button Style="{StaticResource BasicButton}" Content="Open Database Utility" Width="200" HorizontalAlignment="Right" Command="{Binding OpenDatabaseUtilityCommand}"/>
+        <Grid Grid.Row="0" Background="{StaticResource BasicBackgroundBrush}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" MinWidth="160"/>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="*" MinWidth="160"/>
+            </Grid.ColumnDefinitions>
+            <ScrollViewer Grid.Column="1" ess:AutoScrollBehavior.AutoScroll="True" HorizontalAlignment="Center" VerticalScrollBarVisibility="Auto">
+                <TextBlock Text="{Binding logger.LogText}" Style="{StaticResource BasicTextBlock}" Width="400" Margin="4,0,4,0" FontSize="10" HorizontalAlignment="Center" Foreground="{StaticResource MenuPopupBrush}"/>
+            </ScrollViewer>
+            <DockPanel Background="{StaticResource BasicBackgroundBrush}" Grid.Column="2">
+                <Button Style="{StaticResource BasicButton}" Content="Open Database Utility" Width="140" HorizontalAlignment="Right" Command="{Binding OpenDatabaseUtilityCommand}"/>
             </DockPanel>
         </Grid>
         <GridSplitter Grid.Row="1" Height="3" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="{StaticResource BasicDividerBrush}"/>
@@ -60,5 +68,4 @@
             <view:DualPlayerView DataContext="{Binding DualPlayerViewModel}"/>
         </Grid>
     </Grid>
-    
 </Window>

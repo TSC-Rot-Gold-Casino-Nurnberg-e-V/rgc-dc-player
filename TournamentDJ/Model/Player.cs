@@ -13,6 +13,7 @@ using TagLib;
 using Windows.Media.Core;
 using Windows.Devices.Enumeration;
 using System.Collections.ObjectModel;
+using TournamentDJ.ViewModel;
 
 namespace TournamentDJ.Model
 {
@@ -40,7 +41,10 @@ namespace TournamentDJ.Model
 
         public virtual void MediaEnded(MediaPlayer sender, object args)
         {
-            Stop();
+            App.Current.Dispatcher.Invoke((Action)delegate
+            {
+                Stop();
+            });
         }
 
         public async Task FindAudioDevices()
@@ -64,7 +68,9 @@ namespace TournamentDJ.Model
 
         private void MedPlayer_MediaFailed(MediaPlayer sender, object args)
         {
-            throw new NotImplementedException();
+            Logger.LoggerInstance.LogWrite("Media Failed");
+            MedPlayer.Source = null;
+            //throw new NotImplementedException();
         }
 
         public String timeData

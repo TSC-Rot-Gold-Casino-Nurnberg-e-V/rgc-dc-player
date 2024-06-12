@@ -32,6 +32,12 @@ namespace TournamentDJ.Model
             {3, "good" },
             {4, "very good" }
         };
+
+        public Track()
+        {
+
+        }
+
         public Track(Uri uri)
         {
             TagLib.File file;
@@ -42,13 +48,14 @@ namespace TournamentDJ.Model
             }
             catch (Exception ex)
             {
+                Logger.LoggerInstance.LogWrite("URI of Track coould not be found");
                 throw;
             }
+
 
             Title = (file.Tag.Title != null) ? file.Tag.Title : file.Name;
             Album = (file.Tag.Album != null) ? file.Tag.Album : string.Empty;
             Genre = (file.Tag.FirstGenre != null) ? file.Tag.FirstGenre : string.Empty;
-            //Duration = (file.Tag.Length != null) ? TimeSpan.TryParse();
             BeatsPerMinute = file.Tag.BeatsPerMinute;
             Year = (int)file.Tag.Year;
             Uri = uri;
