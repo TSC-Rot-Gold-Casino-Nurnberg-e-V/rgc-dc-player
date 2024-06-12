@@ -58,6 +58,7 @@ namespace TournamentDJ.Model
             Genre = (file.Tag.FirstGenre != null) ? file.Tag.FirstGenre : string.Empty;
             BeatsPerMinute = file.Tag.BeatsPerMinute;
             Year = (int)file.Tag.Year;
+            Duration = file.Properties.Duration;
             Uri = uri;
             Dance = SearchDance(file);
             FlaggedAsFavourite = false;
