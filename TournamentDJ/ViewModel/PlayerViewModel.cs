@@ -29,6 +29,8 @@ namespace TournamentDJ.ViewModel
             set { Set(value); }
         }
 
+        SelectSpecificTrackWindow SelectSpecificTrackWindow { get; set; }
+
         public ObservableCollection<TimeSpan> Runtimes
         {
             get { return Get<ObservableCollection<TimeSpan>>(); }
@@ -54,6 +56,18 @@ namespace TournamentDJ.ViewModel
                 Player.TrackPlaying = value;
                 OnPropertyChanged();
             }
+        }
+
+        public Track SelectedSpecificTrack
+        {
+            get { return Player.SelectedSpecificTrack; }
+            set { Player.SelectedSpecificTrack = value; }
+        }
+        
+        public ObservableCollection<Track> TracksToSelectFrom
+        {
+            get { return Player.TracksToSelectFrom; }
+            set { Player.TracksToSelectFrom = value; }
         }
 
 
@@ -139,6 +153,7 @@ namespace TournamentDJ.ViewModel
         public ICommand CreateDanceRoundClickCommand { get; private set; }
 
         public ICommand SelectSpecificTrackCommand { get; private set; }
+        public ICommand OpenSelectSpecificTrackWindowCommand { get; private set; }
 
         public void CreateCommands()
         {
@@ -153,6 +168,7 @@ namespace TournamentDJ.ViewModel
             PreviousClickCommand = new RelayCommand(ExecutePrevious);
             SetTrackPlaying = new RelayCommand<Track>(ExecuteSetTrackPlaying);
             SelectSpecificTrackCommand = new RelayCommand(ExecuteSelectSpecificTrack);
+            OpenSelectSpecificTrackWindowCommand = new RelayCommand<Track>(ExecuteOpenSelectSpecificTrackWindow);
         }
 
 
@@ -217,10 +233,23 @@ namespace TournamentDJ.ViewModel
             TracksToPlay = TrackListBuilder.CreateDanceRound(SelectedDanceRound, tracklist: SelectedTrackList);
         }
 
+
+
+
+
+        public void ExecuteOpenSelectSpecificTrackWindow(Track track)
+        {
+
+            Player.CreateTracksToSelectFrom(track);
+            SelectSpecificTrackWindow = new SelectSpecificTrackWindow();
+            SelectSpecificTrackWindow.DataContext = this;
+            SelectSpecificTrackWindow.ShowDialog();
+        }
+
         public void ExecuteSelectSpecificTrack()
         {
-            var selectTrackWindow = new SelectSpecificTrackWindow();
-            selectTrackWindow.ShowDialog();
+            Player.SelectSpecificTrack();
+            SelectSpecificTrackWindow.Close();
         }
     }
 }

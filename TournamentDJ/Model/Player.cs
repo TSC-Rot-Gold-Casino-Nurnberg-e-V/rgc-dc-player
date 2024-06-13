@@ -111,6 +111,17 @@ namespace TournamentDJ.Model
             get { return Get<TrackList>(); }
             set { Set(value); }
         }
+        public Track SelectedSpecificTrack
+        {
+            get { return Get<Track>(); }
+            set { Set(value); }
+        }
+
+        public ObservableCollection<Track> TracksToSelectFrom
+        {
+            get { return Get<ObservableCollection<Track>>(); }
+            set { Set(value); }
+        }
 
         public DanceRound SelectedDanceRound
         {
@@ -371,5 +382,28 @@ namespace TournamentDJ.Model
             Play();
         }
 
+
+
+        private Track TrackToSelectSpecific { get; set; }
+        public void CreateTracksToSelectFrom(Track track)
+        {
+            TrackToSelectSpecific = track;
+            TracksToSelectFrom = new ObservableCollection<Track>(DatabaseUtility.Tracks.Where(X => X.Dance == track.Dance && !X.FlaggedForReview));
+        }
+
+        public void SelectSpecificTrack()
+        {
+            var track = TrackToSelectSpecific;
+            if (SelectedSpecificTrack != null && TrackPlaying == track && MedPlayer.PlaybackSession.PlaybackState != MediaPlaybackState.Playing)
+            {
+                TrackPlaying = SelectedSpecificTrack;
+            }
+
+            if(SelectedSpecificTrack != null && TracksToPlay != null && track != null)
+            {
+                int indexToReselect = TracksToPlay.Tracks.IndexOf(track);
+                TracksToPlay.Tracks[indexToReselect] = SelectedSpecificTrack;
+            }
+        }
     }
 }

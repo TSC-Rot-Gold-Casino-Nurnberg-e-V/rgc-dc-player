@@ -67,6 +67,7 @@ namespace TournamentDJ.Model
 
 
             int[] ParsedValues = RetrieveSpoerlData(file);
+            Rating = ParsedValues[0];
             Characteristic = ParsedValues[1];
             Difficulty = Math.Abs(ParsedValues[2] - 4); //Adapt Values to correct range, CP uses an inverted Range
 
@@ -101,6 +102,7 @@ namespace TournamentDJ.Model
 
         public int Difficulty { get; set; }
         public int Characteristic { get; set; }
+        public int Rating { get; set; }
 
         public string? Genre
         {

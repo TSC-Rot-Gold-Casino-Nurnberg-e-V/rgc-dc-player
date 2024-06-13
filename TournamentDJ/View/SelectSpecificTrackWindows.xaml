@@ -9,7 +9,7 @@
         xmlns:vm="clr-namespace:TournamentDJ.ViewModel"
         xmlns:conv="clr-namespace:TournamentDJ.Converter"
         mc:Ignorable="d" 
-        d:DataContext="{d:DesignInstance Type=vm:SelectSpecificTrackViewModel, IsDesignTimeCreatable=False}"
+        d:DataContext="{d:DesignInstance Type=vm:PlayerViewModel, IsDesignTimeCreatable=False}"
         Title="DatabaseUtility" Height="450" Width="800">
     <Window.Resources>
         <CollectionViewSource x:Key="danceViewSource" Source="{Binding Dances}"/>
@@ -17,7 +17,50 @@
         <CollectionViewSource x:Key="difficulties" Source="{Binding Difficulties}"/>
         <ess:BindingProxy x:Key="BindingProxy" Data="{Binding}"/>
     </Window.Resources>
-    <Grid Background="Magenta">
-
+    <Grid>
+        <StackPanel>
+            <DataGrid ItemsSource="{Binding TracksToSelectFrom}"
+                  SelectedItem="{Binding SelectedSpecificTrack}"
+                  Height="300"
+                  AutoGenerateColumns="False">
+                <DataGrid.Resources>
+                    <Style TargetType="ComboBox" x:Key="difficulties">
+                        <Setter Property="ItemsSource" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}, Path=DataContext.Difficulties}" />
+                        <Setter Property="SelectedValuePath" Value="Key"/>
+                    </Style>
+                    <Style TargetType="ComboBox" x:Key="characteristics">
+                        <Setter Property="ItemsSource" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}, Path=DataContext.Characteristics}" />
+                        <Setter Property="SelectedValuePath" Value="Key"/>
+                    </Style>
+                </DataGrid.Resources>
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding Title}" Header="Title" Width="200" IsReadOnly="True"/>
+                    <DataGridTextColumn Binding="{Binding Dance.Name}" Header="Dance" Width="80" IsReadOnly="True"/>
+                    <DataGridTextColumn Binding="{Binding Album}" Header="Album" Width="160" IsReadOnly="True"/>
+                    <DataGridComboBoxColumn 
+            Header="Difficulty"
+            ElementStyle="{StaticResource difficulties}"
+            EditingElementStyle="{StaticResource difficulties}"
+            DisplayMemberPath="Value"
+            SelectedValuePath="Key"
+            SelectedValueBinding="{Binding Difficulty}"
+            Width="80"
+                        IsReadOnly="True"
+            />
+                    <DataGridComboBoxColumn 
+            Header="Characteristic"
+            ElementStyle="{StaticResource characteristics}"
+            EditingElementStyle="{StaticResource characteristics}"
+            DisplayMemberPath="Value"
+            SelectedValuePath="Key"
+            SelectedValueBinding="{Binding Characteristic}"
+            Width="80"
+   IsReadOnly="True"
+            />
+                    <DataGridTextColumn Binding="{Binding Comment}" Header="Comment" Width="*"/>
+                </DataGrid.Columns>
+            </DataGrid>
+            <Button Content="OK" Height="50" Width="50" Command="{Binding SelectSpecificTrackCommand}"/>
+        </StackPanel>
     </Grid>
 </Window>

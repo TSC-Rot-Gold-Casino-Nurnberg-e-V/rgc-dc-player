@@ -10,9 +10,6 @@ namespace TournamentDJ
     {
         public SelectSpecificTrackWindow()
         {
-            SelectSpecificTrackViewModel viewModel = new SelectSpecificTrackViewModel();
-            DataContext = viewModel;
-            Closing += viewModel.OnWindowClosing;
             InitializeComponent();
         }
     }
