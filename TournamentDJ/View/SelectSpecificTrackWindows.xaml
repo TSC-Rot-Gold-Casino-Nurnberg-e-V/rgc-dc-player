@@ -12,17 +12,33 @@
         d:DataContext="{d:DesignInstance Type=vm:PlayerViewModel, IsDesignTimeCreatable=False}"
         Title="DatabaseUtility" Height="450" Width="800">
     <Window.Resources>
-        <CollectionViewSource x:Key="danceViewSource" Source="{Binding Dances}"/>
-        <CollectionViewSource x:Key="danceTrackViewSource" Source="{Binding Tracks}"/>
-        <CollectionViewSource x:Key="difficulties" Source="{Binding Difficulties}"/>
-        <ess:BindingProxy x:Key="BindingProxy" Data="{Binding}"/>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/TournamentDJ;component/Styles/SliderStyles.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/TournamentDJ;component/Styles/ButtonStyles.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/TournamentDJ;component/Styles/Colors.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/TournamentDJ;component/Styles/TextBlockStyles.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/TournamentDJ;component/Styles/ComboBoxStyles.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/TournamentDJ;component/Styles/CheckBoxStyles.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/TournamentDJ;component/Styles/TextBoxStyles.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/TournamentDJ;component/Styles/ScrollBarStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <conv:UriToStringConverter x:Key="UriToStringConverter" />
+            <ess:BindingProxy x:Key="BindingProxy" Data="{Binding}"/>
+            <SolidColorBrush x:Key="BackgroundBaseBrush" Color="{StaticResource Base900}"/>
+            <SolidColorBrush x:Key="BorderBaseBrush" Color="{StaticResource Base600}"/>
+            <CollectionViewSource x:Key="danceViewSource" Source="{Binding Dances}"/>
+            <CollectionViewSource x:Key="danceTrackViewSource" Source="{Binding Tracks}"/>
+            <CollectionViewSource x:Key="difficulties" Source="{Binding Difficulties}"/>
+        </ResourceDictionary>
     </Window.Resources>
     <Grid>
         <StackPanel>
             <DataGrid ItemsSource="{Binding TracksToSelectFrom}"
                   SelectedItem="{Binding SelectedSpecificTrack}"
                   Height="300"
-                  AutoGenerateColumns="False">
+                  AutoGenerateColumns="False"
+                      >
                 <DataGrid.Resources>
                     <Style TargetType="ComboBox" x:Key="difficulties">
                         <Setter Property="ItemsSource" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}, Path=DataContext.Difficulties}" />
