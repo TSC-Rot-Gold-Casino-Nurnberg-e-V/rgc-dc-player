@@ -19,7 +19,7 @@ namespace TournamentDJ.Model
         {
 
             //_context.Database.EnsureDeleted();
-            _context.Database.EnsureCreated();
+            _context.Database.Migrate();
 
             // load the entities into EF Core
 
