@@ -42,6 +42,9 @@
     <Page Update="View\AudioDeviceSelectWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="View\SelectSpecificTrackWindows.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="View\TrackListEditorView.xaml">
       <SubType>Designer</SubType>
     </Page>

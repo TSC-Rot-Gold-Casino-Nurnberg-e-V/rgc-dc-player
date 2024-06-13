@@ -138,6 +138,8 @@ namespace TournamentDJ.ViewModel
         public ICommand StartAutplayClickCommand { get; private set; }
         public ICommand CreateDanceRoundClickCommand { get; private set; }
 
+        public ICommand SelectSpecificTrackCommand { get; private set; }
+
         public void CreateCommands()
         {
             PlayClickCommand = new RelayCommand(ExecutePlay);
@@ -150,6 +152,7 @@ namespace TournamentDJ.ViewModel
             NextClickCommand = new RelayCommand(ExecuteNext);
             PreviousClickCommand = new RelayCommand(ExecutePrevious);
             SetTrackPlaying = new RelayCommand<Track>(ExecuteSetTrackPlaying);
+            SelectSpecificTrackCommand = new RelayCommand(ExecuteSelectSpecificTrack);
         }
 
 
@@ -212,6 +215,12 @@ namespace TournamentDJ.ViewModel
         {
             Player.TracksPlayed.Tracks.Clear();
             TracksToPlay = TrackListBuilder.CreateDanceRound(SelectedDanceRound, tracklist: SelectedTrackList);
+        }
+
+        public void ExecuteSelectSpecificTrack()
+        {
+            var selectTrackWindow = new SelectSpecificTrackWindow();
+            selectTrackWindow.ShowDialog();
         }
     }
 }

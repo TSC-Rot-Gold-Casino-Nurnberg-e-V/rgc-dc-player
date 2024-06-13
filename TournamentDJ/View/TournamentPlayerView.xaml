@@ -195,7 +195,7 @@
                                         <TextBlock Text="Comment" Style="{StaticResource BasicTextBlock}"/>
                                         <TextBox Text="{Binding Comment}" Width="100" Height="40" TextWrapping="Wrap" Style="{StaticResource BasicTextBox}" VerticalScrollBarVisibility="Auto" Margin="0" HorizontalAlignment="Left"/>
                                     </StackPanel>
-
+                                    <Button Style="{StaticResource BasicButton}" Content="Choose" Width="80" Height="40" HorizontalAlignment="Right" Command="{Binding Data.SelectSpecificTrackCommand, Source={StaticResource BindingProxy}}" CommandParameter="{Binding}"/>
                                     <Button Style="{StaticResource BasicButton}" Content="Reselect" Width="80" Height="40" HorizontalAlignment="Right" Command="{Binding Data.ReselectClickCommand, Source={StaticResource BindingProxy}}" CommandParameter="{Binding}"/>
                                 </DockPanel>
                             </Border>
