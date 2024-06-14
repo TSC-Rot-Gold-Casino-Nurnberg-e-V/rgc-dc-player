@@ -1,19 +1,9 @@
-﻿using Microsoft.Win32;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Controls;
-using Windows.Media.Playback;
+﻿using System.Collections.ObjectModel;
 using System.Windows.Threading;
 using TournamentDJ.Essentials;
-using Windows.ApplicationModel.Appointments.DataProvider;
-using TagLib;
-using Windows.Media.Core;
 using Windows.Devices.Enumeration;
-using System.Collections.ObjectModel;
-using TournamentDJ.ViewModel;
+using Windows.Media.Core;
+using Windows.Media.Playback;
 
 namespace TournamentDJ.Model
 {
@@ -41,7 +31,7 @@ namespace TournamentDJ.Model
 
         public virtual void MediaEnded(MediaPlayer sender, object args)
         {
-            App.Current.Dispatcher.Invoke((Action)delegate
+            App.Current.Dispatcher.Invoke(delegate
             {
                 Stop();
             });
@@ -146,7 +136,7 @@ namespace TournamentDJ.Model
                     MedPlayer.AudioDevice = value;
                 }
                 //If device could not be loaded, reload available audio devices
-                catch (Exception ex)
+                catch (Exception)
                 {
                     foreach (DeviceInformation device in AudioDevices)
                     {
@@ -281,7 +271,7 @@ namespace TournamentDJ.Model
 
         public void Reselect(Track track, DanceRound round = null, bool notFavourite = false, bool overrideParams = false, bool onlyUseUncategorized = false)
         {
-            if(track == null) return;
+            if (track == null) return;
 
             if (TrackPlaying == track && MedPlayer.PlaybackSession.PlaybackState != MediaPlaybackState.Playing && !IsSingleSelected)
             {
@@ -399,7 +389,7 @@ namespace TournamentDJ.Model
                 TrackPlaying = SelectedSpecificTrack;
             }
 
-            if(SelectedSpecificTrack != null && TracksToPlay != null && track != null)
+            if (SelectedSpecificTrack != null && TracksToPlay != null && track != null)
             {
                 int indexToReselect = TracksToPlay.Tracks.IndexOf(track);
                 TracksToPlay.Tracks[indexToReselect] = SelectedSpecificTrack;

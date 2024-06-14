@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using TournamentDJ.Essentials;
 using TournamentDJ.Model;
 
@@ -15,7 +10,7 @@ namespace TournamentDJ.ViewModel
 
         public Player Player { get; set; }
 
-        public AudioDeviceSelectViewModel(Player player) 
+        public AudioDeviceSelectViewModel(Player player)
         {
             CreateCommands();
             Player = player;

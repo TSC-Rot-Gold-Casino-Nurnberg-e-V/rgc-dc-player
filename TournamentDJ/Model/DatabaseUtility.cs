@@ -1,15 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Microsoft.EntityFrameworkCore;
 using System.Collections.ObjectModel;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Data;
 using TournamentDJ.Essentials;
-using Microsoft.EntityFrameworkCore;
-using System.Windows;
-using TagLib.Mpeg4;
 
 namespace TournamentDJ.Model
 {
@@ -35,8 +27,9 @@ namespace TournamentDJ.Model
             _context.TrackLists.Load();
             FillTrackLists();
         }
-        
-        ~DatabaseUtility() {
+
+        ~DatabaseUtility()
+        {
             _context.Dispose();
         }
 
@@ -125,17 +118,17 @@ namespace TournamentDJ.Model
                 Track track = null;
                 if (uri != null)
                 {
-                    try 
-                    { 
+                    try
+                    {
                         track = new Track(uri);
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
                         track = null;
                         outFailedUris.Add(uri);
                     }
 
-                    if(track != null)
+                    if (track != null)
                     {
                         outTracks.Add(track);
                     }

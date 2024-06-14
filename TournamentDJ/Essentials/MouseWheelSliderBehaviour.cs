@@ -1,12 +1,7 @@
 ﻿using Microsoft.Xaml.Behaviors;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows;
 
 namespace TournamentDJ.Essentials
 {
@@ -32,7 +27,7 @@ namespace TournamentDJ.Essentials
             if (e.Delta > 0)
             {
                 double newValue = slider.Value + Amount;
-                if(newValue > slider.Maximum)
+                if (newValue > slider.Maximum)
                 {
                     newValue = slider.Maximum;
                 }

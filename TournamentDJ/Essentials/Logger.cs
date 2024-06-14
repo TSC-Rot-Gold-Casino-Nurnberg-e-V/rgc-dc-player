@@ -1,14 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using System.IO;
+﻿using System.IO;
 using System.Reflection;
-using System.ComponentModel;
-using Windows.ApplicationModel.Store.Preview.InstallControl;
-using System.Collections.ObjectModel;
+using System.Text;
 
 namespace TournamentDJ.Essentials
 {
@@ -16,14 +8,14 @@ namespace TournamentDJ.Essentials
     public class Logger : NotifyObject
     {
         private static readonly Logger _logger = new Logger();
-        static Logger() 
-        { 
+        static Logger()
+        {
         }
 
-        private Logger() 
-        { 
+        private Logger()
+        {
         }
-        
+
         public static Logger LoggerInstance { get { return _logger; } }
 
         private string m_exePath = string.Empty;
@@ -48,7 +40,7 @@ namespace TournamentDJ.Essentials
                     Log(logMessage, w);
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
             }
         }
@@ -71,7 +63,7 @@ namespace TournamentDJ.Essentials
                 LogText = sb.ToString();
             }
 
-            catch (Exception ex)
+            catch (Exception)
             {
             }
         }

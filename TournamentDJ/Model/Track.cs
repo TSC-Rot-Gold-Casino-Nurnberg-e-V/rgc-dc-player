@@ -1,12 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using TournamentDJ.Essentials;
 
 namespace TournamentDJ.Model
@@ -46,7 +40,7 @@ namespace TournamentDJ.Model
             {
                 file = TagLib.File.Create(filePath);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Logger.LoggerInstance.LogWrite("URI of Track coould not be found");
                 throw;

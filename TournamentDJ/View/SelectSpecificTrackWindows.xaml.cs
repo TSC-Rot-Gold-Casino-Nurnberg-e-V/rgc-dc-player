@@ -1,5 +1,4 @@
 ﻿using System.Windows;
-using TournamentDJ.ViewModel;
 
 namespace TournamentDJ
 {

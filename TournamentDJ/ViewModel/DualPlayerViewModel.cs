@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using TournamentDJ.Essentials;
 
 namespace TournamentDJ.ViewModel
@@ -11,8 +6,8 @@ namespace TournamentDJ.ViewModel
     class DualPlayerViewModel : NotifyObject
     {
 
-        public DualPlayerViewModel() 
-        { 
+        public DualPlayerViewModel()
+        {
             LeftPlayerViewModel = new BasicPlayerViewModel();
             RightPlayerViewModel = new BasicPlayerViewModel();
             Crossfade = 0.5;
@@ -34,9 +29,9 @@ namespace TournamentDJ.ViewModel
 
         public double Crossfade
         {
-            get { return Get<double>(); } 
-            set 
-            { 
+            get { return Get<double>(); }
+            set
+            {
                 Set(value);
                 double leftActualVolume = (LeftPlayerVolume * (1.0 - value)) * 2;
                 double rightActualVolume = (RightPlayerVolume * value) * 2;

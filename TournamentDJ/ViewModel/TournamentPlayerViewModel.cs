@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.ObjectModel;
 using TournamentDJ.Model;
 
 namespace TournamentDJ.ViewModel
@@ -27,7 +22,7 @@ namespace TournamentDJ.ViewModel
 
             NumberOfHeats = new ObservableCollection<int>();
 
-            for(int i = 1; i < 100; i++)
+            for (int i = 1; i < 100; i++)
             {
                 NumberOfHeats.Add(i);
             }

@@ -1,6 +1,6 @@
 ﻿using System.Windows;
-using TournamentDJ.ViewModel;
 using TournamentDJ.Model;
+using TournamentDJ.ViewModel;
 
 namespace TournamentDJ
 {

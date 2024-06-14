@@ -1,11 +1,6 @@
 ﻿using Microsoft.Win32;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using TournamentDJ.Essentials;
 using TournamentDJ.Model;
@@ -17,7 +12,7 @@ namespace TournamentDJ.ViewModel
     {
         public bool isPlaying = false;
         public bool playOnClick = false;
-        public DatabaseUtilityViewModel() 
+        public DatabaseUtilityViewModel()
         {
             trackListEditorViewModel = new TrackListEditorViewModel(this);
             Player = new Player();
@@ -32,9 +27,11 @@ namespace TournamentDJ.ViewModel
         public ObservableCollection<Track> TracksToAdd
         {
             get { return Get<ObservableCollection<Track>>(); }
-            set {
+            set
+            {
                 Set(value);
-                  OnPropertyChanged(); }
+                OnPropertyChanged();
+            }
         }
 
         public Player Player { get; private set; }
@@ -48,17 +45,21 @@ namespace TournamentDJ.ViewModel
         public ObservableCollection<Dance> Dances
         {
             get { return DatabaseUtility.Dances; }
-            set { DatabaseUtility.Dances = value;
-                OnPropertyChanged(); 
+            set
+            {
+                DatabaseUtility.Dances = value;
+                OnPropertyChanged();
             }
         }
 
         public ObservableCollection<Track> Tracks
         {
             get { return DatabaseUtility.Tracks; }
-            set {
+            set
+            {
                 DatabaseUtility.Tracks = value;
-                    OnPropertyChanged();}
+                OnPropertyChanged();
+            }
         }
 
         public ObservableCollection<Track> FilteredTracks
@@ -66,7 +67,7 @@ namespace TournamentDJ.ViewModel
             get { return Get<ObservableCollection<Track>>(); }
             set
             {
-               Set(value);
+                Set(value);
             }
         }
 
@@ -76,10 +77,10 @@ namespace TournamentDJ.ViewModel
             set
             {
                 Set(value);
-                if(value != null || value != string.Empty)
+                if (value != null || value != string.Empty)
                 {
                     FilteredTracks.Clear();
-                    foreach(var track in Tracks)
+                    foreach (var track in Tracks)
                     {
                         value = value.ToLowerInvariant();
                         if (track.Dance != null && !string.IsNullOrEmpty(track.Dance.Name) && track.Dance.Name.ToLowerInvariant().Contains(value))
@@ -178,7 +179,7 @@ namespace TournamentDJ.ViewModel
             else
             {
                 Player.Play();
-                isPlaying= true;
+                isPlaying = true;
             }
         }
 
