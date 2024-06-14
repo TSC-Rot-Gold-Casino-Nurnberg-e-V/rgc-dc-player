@@ -10,7 +10,7 @@
         xmlns:conv="clr-namespace:TournamentDJ.Converter"
         mc:Ignorable="d" 
         d:DataContext="{d:DesignInstance Type=vm:PlayerViewModel, IsDesignTimeCreatable=False}"
-        Title="DatabaseUtility" Height="450" Width="800">
+        Title="Choose Specific Track to Play" Height="450" Width="800">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -22,8 +22,8 @@
                 <ResourceDictionary Source="pack://application:,,,/TournamentDJ;component/Styles/CheckBoxStyles.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/TournamentDJ;component/Styles/TextBoxStyles.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/TournamentDJ;component/Styles/ScrollBarStyles.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/TournamentDJ;component/Styles/DataGridStyles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
-            <conv:UriToStringConverter x:Key="UriToStringConverter" />
             <ess:BindingProxy x:Key="BindingProxy" Data="{Binding}"/>
             <SolidColorBrush x:Key="BackgroundBaseBrush" Color="{StaticResource Base900}"/>
             <SolidColorBrush x:Key="BorderBaseBrush" Color="{StaticResource Base600}"/>
@@ -32,13 +32,17 @@
             <CollectionViewSource x:Key="difficulties" Source="{Binding Difficulties}"/>
         </ResourceDictionary>
     </Window.Resources>
-    <Grid>
+    <Grid Background="{StaticResource BackgroundBaseBrush}">
         <StackPanel>
             <DataGrid ItemsSource="{Binding TracksToSelectFrom}"
                   SelectedItem="{Binding SelectedSpecificTrack}"
                   Height="300"
                   AutoGenerateColumns="False"
-                      >
+                     Foreground="{StaticResource BasicTextBlockGradientBrush}"
+HorizontalGridLinesBrush="{StaticResource BasicHighlightBorderBrush}"
+VerticalGridLinesBrush="{StaticResource BasicHighlightBorderBrush}"
+Background="Transparent" 
+                      BorderBrush="{StaticResource BorderBaseBrush}">
                 <DataGrid.Resources>
                     <Style TargetType="ComboBox" x:Key="difficulties">
                         <Setter Property="ItemsSource" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}, Path=DataContext.Difficulties}" />
@@ -76,7 +80,7 @@
                     <DataGridTextColumn Binding="{Binding Comment}" Header="Comment" Width="*"/>
                 </DataGrid.Columns>
             </DataGrid>
-            <Button Content="OK" Height="50" Width="50" Command="{Binding SelectSpecificTrackCommand}"/>
+            <Button Content="OK" Height="50" Width="50" Command="{Binding SelectSpecificTrackCommand}" Style="{StaticResource BasicButton}"/>
         </StackPanel>
     </Grid>
 </Window>

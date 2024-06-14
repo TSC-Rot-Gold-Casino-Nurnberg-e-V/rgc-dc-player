@@ -12,9 +12,26 @@
         d:DataContext="{d:DesignInstance Type=vm:DanceRoundEditorViewModel, IsDesignTimeCreatable=False}"
         Height="450" Width="800">
     <UserControl.Resources>
-        <CollectionViewSource x:Key="danceViewSource" Source="{Binding Dances}"/>
-        <CollectionViewSource x:Key="danceRoundViewSource" Source="{Binding DanceRounds}"/>
-        <ess:BindingProxy x:Key="BindingProxy" Data="{Binding}"/>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/TournamentDJ;component/Styles/SliderStyles.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/TournamentDJ;component/Styles/ButtonStyles.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/TournamentDJ;component/Styles/Colors.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/TournamentDJ;component/Styles/TextBlockStyles.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/TournamentDJ;component/Styles/ComboBoxStyles.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/TournamentDJ;component/Styles/CheckBoxStyles.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/TournamentDJ;component/Styles/TextBoxStyles.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/TournamentDJ;component/Styles/ScrollBarStyles.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/TournamentDJ;component/Styles/DataGridStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <ess:BindingProxy x:Key="BindingProxy" Data="{Binding}"/>
+            <SolidColorBrush x:Key="BackgroundBaseBrush" Color="{StaticResource Base900}"/>
+            <SolidColorBrush x:Key="BorderBaseBrush" Color="{StaticResource Base600}"/>
+            <CollectionViewSource x:Key="danceViewSource" Source="{Binding Dances}"/>
+            <CollectionViewSource x:Key="danceTrackViewSource" Source="{Binding Tracks}"/>
+            <CollectionViewSource x:Key="difficulties" Source="{Binding Difficulties}"/>
+            <CollectionViewSource x:Key="danceRoundViewSource" Source="{Binding DanceRounds}"/>
+        </ResourceDictionary>
     </UserControl.Resources>
     <UserControl.DataContext>
         <vm:DanceRoundEditorViewModel/>
@@ -35,7 +52,11 @@
                 CanUserAddRows="True"
                 Height="300"
               SelectedItem="{Binding SelectedDanceRound, TargetNullValue=New}"
-              >
+                                               Foreground="{StaticResource BasicTextBlockGradientBrush}"
+HorizontalGridLinesBrush="{StaticResource BasicHighlightBorderBrush}"
+VerticalGridLinesBrush="{StaticResource BasicHighlightBorderBrush}"
+Background="Transparent" 
+                      BorderBrush="{StaticResource BorderBaseBrush}">
                 <DataGrid.Resources>
                     <Style TargetType="ComboBox" x:Key="difficulties">
                         <Setter Property="ItemsSource" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}, Path=DataContext.Difficulties}" />
@@ -86,10 +107,10 @@
              />
         </StackPanel>
         <StackPanel VerticalAlignment="Center" Grid.Column="2">
-            <Button Content="Add" Command="{Binding AddToDanceRoundCommand}"/>
-            <Button Content="Remove" Command="{Binding RemoveFromDanceRoundCommand}"/>
-            <Button Content="Up" Command="{Binding MoveDanceUpCommand}"/>
-            <Button Content="Down" Command="{Binding MoveDanceDownCommand}"/>
+            <Button Content="Add" Command="{Binding AddToDanceRoundCommand}" Style="{StaticResource BasicButton}" Height="30" Width="70"/>
+            <Button Content="Remove" Command="{Binding RemoveFromDanceRoundCommand}" Style="{StaticResource BasicButton}" Height="30" Width="70"/>
+            <Button Content="Up" Command="{Binding MoveDanceUpCommand}" Style="{StaticResource BasicButton}" Height="30" Width="70"/>
+            <Button Content="Down" Command="{Binding MoveDanceDownCommand}" Style="{StaticResource BasicButton}" Height="30" Width="70"/>
         </StackPanel>
         <StackPanel Grid.Column="3" Margin="5">
             <TextBlock Text="{Binding SelectedDanceRound.Name}"/>
