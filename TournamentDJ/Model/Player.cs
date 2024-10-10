@@ -16,7 +16,7 @@ namespace TournamentDJ.Model
             AudioDevices = new ObservableCollection<DeviceInformation>();
             FindAudioDevices();
             MedPlayer = new MediaPlayer();
-            //MedPlayer.Changed += MedPlayerHasChanged;
+            MedPlayer.CurrentStateChanged += MedPlayerHasChanged;
             Timer = new DispatcherTimer();
             TracksToPlay = new TrackList();
             TracksPlayed = new TrackList();
