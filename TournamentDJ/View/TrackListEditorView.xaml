@@ -10,22 +10,40 @@
         xmlns:conv="clr-namespace:TournamentDJ.Converter"
         mc:Ignorable="d" 
         d:DataContext="{d:DesignInstance Type=vm:TrackListEditorViewModel, IsDesignTimeCreatable=False}"
-        Height="450" Width="800">
+        >
     <UserControl.Resources>
-        <ess:BindingProxy x:Key="BindingProxy" Data="{Binding}"/>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/TournamentDJ;component/Styles/SliderStyles.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/TournamentDJ;component/Styles/ButtonStyles.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/TournamentDJ;component/Styles/Colors.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/TournamentDJ;component/Styles/TextBlockStyles.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/TournamentDJ;component/Styles/ComboBoxStyles.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/TournamentDJ;component/Styles/CheckBoxStyles.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/TournamentDJ;component/Styles/TextBoxStyles.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/TournamentDJ;component/Styles/ScrollBarStyles.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/TournamentDJ;component/Styles/DataGridStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <ess:BindingProxy x:Key="BindingProxy" Data="{Binding}"/>
+            <SolidColorBrush x:Key="BackgroundBaseBrush" Color="{StaticResource Base900}"/>
+            <SolidColorBrush x:Key="BorderBaseBrush" Color="{StaticResource Base600}"/>
+            <CollectionViewSource x:Key="danceViewSource" Source="{Binding Dances}"/>
+            <CollectionViewSource x:Key="danceTrackViewSource" Source="{Binding Tracks}"/>
+            <CollectionViewSource x:Key="difficulties" Source="{Binding Difficulties}"/>
+            <CollectionViewSource x:Key="danceRoundViewSource" Source="{Binding DanceRounds}"/>
+        </ResourceDictionary>
     </UserControl.Resources>
     <UserControl.DataContext>
         <vm:TrackListEditorViewModel/>
     </UserControl.DataContext>
-    <Grid>
+    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="3*"/>
             <ColumnDefinition Width="10*"/>
-            <ColumnDefinition Width="80"/>
-            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="10*"/>
         </Grid.ColumnDefinitions>
         <StackPanel Grid.Column="0" Margin="5">
-            <TextBlock Text="Track Lists"/>
+            <TextBlock Text="Track Lists" Style="{StaticResource BasicTextBlock}"/>
             <DataGrid x:Name="trackListsGrid" AutoGenerateColumns="False"
                 EnableRowVirtualization="True" 
                 ItemsSource="{Binding TrackLists}" 
@@ -33,42 +51,71 @@
                 CanUserAddRows="True"
                 Height="300"
               SelectedItem="{Binding SelectedTrackList, TargetNullValue=New}"
-              >
+                                                Foreground="{StaticResource BasicTextBlockGradientBrush}"
+HorizontalGridLinesBrush="{StaticResource BasicHighlightBorderBrush}"
+VerticalGridLinesBrush="{StaticResource BasicHighlightBorderBrush}"
+Background="Transparent"
+                      BorderBrush="{StaticResource BorderBaseBrush}">
                 <DataGrid.Columns>
                     <DataGridTextColumn Binding="{Binding Name}" Header="Name" Width="*"/>
                 </DataGrid.Columns>
             </DataGrid>
         </StackPanel>
-        <StackPanel Grid.Column="1">
+        <StackPanel Grid.Column="1" VerticalAlignment="Stretch">
+            <StackPanel.InputBindings>
+                <KeyBinding Key="Insert" Command="{Binding AddToTrackListCommand}"/>
+            </StackPanel.InputBindings>
+            <DockPanel>
+                <TextBox Text="{Binding TrackFilterString, UpdateSourceTrigger=PropertyChanged}" Width="200" Height="30" Style="{StaticResource BasicTextBox}"/>
+                <Button Width="100" HorizontalAlignment="Left" Margin="4,0,4,0" Content="Apply Filter" Style="{StaticResource BasicButton}"/>
+                <Button Width="100" HorizontalAlignment="Left" Margin="4,0,4,0" Content="Reset Filter" Command="{Binding ResetTrackFilterClickCommand}" Style="{StaticResource BasicButton}"/>
+            </DockPanel>
             
 
-        <DockPanel>
-            <TextBox Text="{Binding TrackFilterString, UpdateSourceTrigger=PropertyChanged}" Width="200" Height="30"/>
-            <Button Width="100" HorizontalAlignment="Left" Margin="4,0,4,0" Content="Apply Filter"/>
-            <Button Width="100" HorizontalAlignment="Left" Margin="4,0,4,0" Content="Reset Filter" Command="{Binding ResetTrackFilterClickCommand}"/>
-        </DockPanel>
-        <DataGrid Grid.Column="1" x:Name="tracksDataGrid" AutoGenerateColumns="False" 
+                <DataGrid Grid.Column="1" x:Name="tracksDataGrid" AutoGenerateColumns="False" 
                   EnableRowVirtualization="True" 
                   ItemsSource="{Binding FilteredTracks}" 
                   RowDetailsVisibilityMode="Visible" 
                   SelectedItem="{Binding SelectedTrackInTracks}"
-                  Height="300"
-                  Margin="5">
-            <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding Title}" Header="Title" Width="200"/>
-                <DataGridTextColumn Binding="{Binding Dance.Name}" Header="Dance" Width="80" IsReadOnly="True"/>
-            </DataGrid.Columns>
-        </DataGrid>
-        </StackPanel>
-        <StackPanel VerticalAlignment="Center" Grid.Column="2">
-            <Button Content="Add" Command="{Binding AddToTrackListCommand}"/>
-            <Button Content="Remove" Command="{Binding RemoveFromTrackListCommand}"/>
+                      Height="500"
+                  Margin="5"                                  
+                          Foreground="{StaticResource BasicTextBlockGradientBrush}"
+HorizontalGridLinesBrush="{StaticResource BasicHighlightBorderBrush}"
+VerticalGridLinesBrush="{StaticResource BasicHighlightBorderBrush}"
+Background="Transparent"
+                          BorderBrush="{StaticResource BorderBaseBrush}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding Title}" Header="Title" Width="200"/>
+                    <DataGridTextColumn Binding="{Binding Dance.Name}" Header="Dance" Width="80" IsReadOnly="True"/>
+                    <DataGridTextColumn Binding="{Binding Album}" Header="Album" Width="160" IsReadOnly="True"/>
+                    <DataGridTextColumn Binding="{Binding Duration}" Header="Album" Width="160" IsReadOnly="True"/>
+                    <DataGridTextColumn Binding="{Binding Comment}" Header="Comment"/>
+                </DataGrid.Columns>
+            </DataGrid>
+            <DockPanel VerticalAlignment="Center" Grid.Column="2">
+                <Button Content="Add" Command="{Binding AddToTrackListCommand}" Width="120" HorizontalAlignment="Left" Margin="4" Style="{StaticResource BasicButton}"/>
+                <Button Content="Remove" Command="{Binding RemoveFromTrackListCommand}" Width="120" HorizontalAlignment="Left" Margin="4" Style="{StaticResource BasicButton}"/>
+            </DockPanel>
         </StackPanel>
         <StackPanel Grid.Column="3" Margin="5">
-            <TextBlock Text="{Binding SelectedTrackList.Name}"/>
-            <ListBox Height="300" ItemsSource="{Binding SelectedTrackList.Tracks}"
+            <TextBlock Text="{Binding SelectedTrackList.Name}" Style="{StaticResource BasicTextBlock}"/>
+            <!--<ListBox Height="300" ItemsSource="{Binding SelectedTrackList.Tracks}"
                      DisplayMemberPath="Title"
-                     SelectedItem="{Binding SelectedTrackInList}"/>
+                     SelectedItem="{Binding SelectedTrackInList}"/>-->
+            <DataGrid Height="500" ItemsSource="{Binding SelectedTrackList.Tracks}"
+                      AutoGenerateColumns="False"
+                      SelectedItem="{Binding SelectedTrackInList}"
+                                                        Foreground="{StaticResource BasicTextBlockGradientBrush}"
+HorizontalGridLinesBrush="{StaticResource BasicHighlightBorderBrush}"
+VerticalGridLinesBrush="{StaticResource BasicHighlightBorderBrush}"
+Background="Transparent"
+                      BorderBrush="{StaticResource BorderBaseBrush}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding Title}" Header="Title" Width="200"/>
+                    <DataGridTextColumn Binding="{Binding Dance.Name}" Header="Dance" Width="80" IsReadOnly="True"/>
+                    <DataGridTextColumn Binding="{Binding Album}" Header="Album" Width="160" IsReadOnly="True"/>
+                </DataGrid.Columns>
+            </DataGrid>
         </StackPanel>
     </Grid>
 </UserControl>

@@ -1,18 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Windows.ApplicationModel.UserDataTasks.DataProvider;
-using Windows.Globalization;
-
-namespace TournamentDJ.Model
+﻿namespace TournamentDJ.Model
 {
     class TrackListBuilder
     {
-       public TrackListBuilder()
-        { 
+        public TrackListBuilder()
+        {
 
         }
 
@@ -20,7 +11,7 @@ namespace TournamentDJ.Model
         //TODO: Remove this method, its only for testing purposes and WILL LEAD TO PROBLEMS when used with large databases
         public static TrackList GetAllTracks()
         {
-            TrackList trackList = new TrackList(); 
+            TrackList trackList = new TrackList();
             foreach (Track track in DatabaseUtility.Tracks)
             {
                 trackList.Tracks.Add(track);
@@ -45,7 +36,7 @@ namespace TournamentDJ.Model
                         tracks.Tracks.Add(trackToAdd);
                     }
                 }
-            } 
+            }
             else
             {
                 foreach (var dance in roundToCreate.GetDancesInOrder())
@@ -66,7 +57,7 @@ namespace TournamentDJ.Model
 
         public static Track GetRandomTrack(Dance dance, TrackList trackListToUse = null, int minDiff = 0, int maxDiff = 4, int minChar = 0, bool cantBeFavourite = false, bool overrideParams = false, bool onlyUseUncategorized = false)
         {
-            if(overrideParams)
+            if (overrideParams)
             {
                 minDiff = -1;
                 maxDiff = 4;
@@ -75,19 +66,19 @@ namespace TournamentDJ.Model
 
             Track[] TracksWithDance;
 
-            if(trackListToUse != null)
+            if (trackListToUse != null)
             {
                 TracksWithDance = trackListToUse.Tracks.Where(X => X.Dance == dance).ToArray();
-            } 
+            }
 
-            else if(onlyUseUncategorized)
+            else if (onlyUseUncategorized)
             {
                 TracksWithDance = DatabaseUtility.Tracks.Where(X => X.Dance == dance && (X.Difficulty == -1 || X.Characteristic == -1) && !X.FlaggedForReview).ToArray();
             }
 
             else
             {
-                if(cantBeFavourite)
+                if (cantBeFavourite)
                 {
                     TracksWithDance = DatabaseUtility.Tracks.Where(X => X.Dance == dance && X.Difficulty >= minDiff && X.Difficulty <= maxDiff && X.Characteristic >= minChar && X.FlaggedAsFavourite == false && !X.FlaggedForReview).ToArray();
                 }
@@ -97,9 +88,9 @@ namespace TournamentDJ.Model
                 }
             }
 
-            
+
             Random random = new Random(Guid.NewGuid().GetHashCode());
-            if ( TracksWithDance.Length > 0 )
+            if (TracksWithDance.Length > 0)
             {
                 int randInt = random.Next(0, TracksWithDance.Length);
                 return TracksWithDance[randInt];
@@ -146,16 +137,16 @@ namespace TournamentDJ.Model
             Random random = new Random(Guid.NewGuid().GetHashCode());
             List<Track> list = new List<Track>();
 
-            if(TracksWithDance.Count == 0)
+            if (TracksWithDance.Count == 0)
             {
                 return null;
             }
-           
-            if(TracksWithDance.Count < count)
+
+            if (TracksWithDance.Count < count)
             {
 
                 //If list is still too short, just double the list
-                while(TracksWithDance.Count < count)
+                while (TracksWithDance.Count < count)
                 {
                     TracksWithDance = TracksWithDance.Concat(TracksWithDance).ToList();
                 }
@@ -163,7 +154,7 @@ namespace TournamentDJ.Model
 
             if (TracksWithDance.Count > 0)
             {
-                for(int i = 0; i < count; i++)
+                for (int i = 0; i < count; i++)
                 {
                     int randInt = random.Next(0, TracksWithDance.Count);
                     Track trackToAdd = TracksWithDance[randInt];

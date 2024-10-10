@@ -1,11 +1,4 @@
-﻿using Microsoft.Win32;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Data.Common;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
 using TournamentDJ.Essentials;
 using TournamentDJ.Model;
@@ -83,16 +76,17 @@ namespace TournamentDJ.ViewModel
 
         public ObservableCollection<Dance> OrderedDancesInSelectedRound
         {
-            get {
+            get
+            {
                 if (SelectedDanceRound != null)
                 {
                     return SelectedDanceRound.GetDancesInOrder();
                 }
                 return null;
-            }              
+            }
             set
             {
-                if(SelectedDanceRound != null)
+                if (SelectedDanceRound != null)
                 {
                     SelectedDanceRound.SetDancesInOrder(value);
                 }
@@ -113,8 +107,8 @@ namespace TournamentDJ.ViewModel
         }
 
         public ICommand AddToDanceRoundCommand { get; private set; }
-        public ICommand RemoveFromDanceRoundCommand {  get; private set; }
-        public ICommand MoveDanceUpCommand {  get; private set; }
+        public ICommand RemoveFromDanceRoundCommand { get; private set; }
+        public ICommand MoveDanceUpCommand { get; private set; }
         public ICommand MoveDanceDownCommand { get; private set; }
 
         public void CreateCommands()
@@ -131,7 +125,7 @@ namespace TournamentDJ.ViewModel
             if (SelectedDanceInDances != null)
             {
                 ObservableCollection<Dance> dances = OrderedDancesInSelectedRound;
-                if(dances == null)
+                if (dances == null)
                 {
                     dances = new ObservableCollection<Dance>();
                 }
@@ -166,7 +160,7 @@ namespace TournamentDJ.ViewModel
 
                 int index = SelectedDanceInRoundIndex;
 
-                if(index > 0)
+                if (index > 0)
                 {
                     dances.Move(index, index - 1);
                     OrderedDancesInSelectedRound = dances;

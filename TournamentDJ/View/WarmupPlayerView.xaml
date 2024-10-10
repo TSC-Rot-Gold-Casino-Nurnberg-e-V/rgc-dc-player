@@ -89,12 +89,13 @@
                     <Button  Style="{StaticResource BasicButton}" Content="Fadeout" Width="80" Height="40" HorizontalAlignment="Left" Command="{Binding FadeoutClickCommand}"/>
                     <Button  Style="{StaticResource BasicButton}" Content="Recreate" Width="80" Height="40" HorizontalAlignment="Left" Command="{Binding CreateDanceRoundClickCommand}"/>
                 </DockPanel>
-                <Slider Width="140" Height="30" HorizontalAlignment="Center" Value="{Binding Player.MedPlayer.Volume}" Minimum="0.0" Maximum="1.0">
-                    <i:Interaction.Behaviors>
-                        <ess:MouseWheelSliderBehavior Amount="0.03" />
-                    </i:Interaction.Behaviors>
-                </Slider>
-            </StackPanel>
+                    <Slider Margin="0,0,0,3"
+        Width="200" Height="30" Value="{Binding Player.MedPlayer.Volume}" Maximum="1.0" LargeChange="0.1">
+                        <i:Interaction.Behaviors>
+                            <ess:MouseWheelSliderBehavior Amount="0.03" />
+                        </i:Interaction.Behaviors>
+                    </Slider>
+                </StackPanel>
             </StackPanel>
         </Border>
         <Border Margin="4,2,2,2" BorderThickness="2" BorderBrush="{StaticResource BasicHighlightBorderBrush}" CornerRadius="2" Grid.Column="1" Grid.RowSpan="2">

@@ -1,15 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Microsoft.EntityFrameworkCore;
 using System.Collections.ObjectModel;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Data;
 using TournamentDJ.Essentials;
-using Microsoft.EntityFrameworkCore;
-using System.Windows;
-using TagLib.Mpeg4;
 
 namespace TournamentDJ.Model
 {
@@ -26,9 +18,6 @@ namespace TournamentDJ.Model
             _context.Dances.Load();
             FillDances();
 
-            //_context.OrderElementsDance.Load();
-            //FillOrderElements();
-
             _context.DanceRounds.Load();
             FillDanceRounds();
 
@@ -38,8 +27,9 @@ namespace TournamentDJ.Model
             _context.TrackLists.Load();
             FillTrackLists();
         }
-        
-        ~DatabaseUtility() {
+
+        ~DatabaseUtility()
+        {
             _context.Dispose();
         }
 
@@ -101,7 +91,14 @@ namespace TournamentDJ.Model
         {
             // all changes are automatically tracked, including
             // deletes!
-            var saved = _context.SaveChanges();
+            try
+            {
+                var saved = _context.SaveChanges();
+            }
+            catch(Exception)
+            {
+                Logger.LoggerInstance.LogWrite("Data could not be saved, try again");
+            }
         }
 
         public static void AddToDatabase(ObservableCollection<Track> tracksToAdd)
@@ -121,24 +118,25 @@ namespace TournamentDJ.Model
         {
 
             Directory.SetCurrentDirectory(selectedPath);
-            string[] filepaths = Directory.GetFiles(selectedPath, "*.mp3", SearchOption.AllDirectories);
+            //string[] filepaths = Directory.GetFiles(selectedPath, "*.mp3", SearchOption.AllDirectories);
+            var filepaths = Directory.EnumerateFiles(selectedPath, "*", SearchOption.AllDirectories).Where(file => file.ToLower().EndsWith("mp3") || file.ToLower().EndsWith("m4a")).ToList();
             foreach (string filepath in filepaths)
             {
                 Uri uri = new Uri(filepath);
                 Track track = null;
                 if (uri != null)
                 {
-                    try 
-                    { 
+                    try
+                    {
                         track = new Track(uri);
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
                         track = null;
                         outFailedUris.Add(uri);
                     }
 
-                    if(track != null)
+                    if (track != null)
                     {
                         outTracks.Add(track);
                     }

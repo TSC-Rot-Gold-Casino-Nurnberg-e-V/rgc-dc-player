@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TournamentDJ.Model
+﻿namespace TournamentDJ.Model
 {
     class ExampeLists
     {
@@ -14,8 +8,8 @@ namespace TournamentDJ.Model
         public List<Uri> Slowfox;
         public List<Uri> Quickstep;
 
-        public ExampeLists() 
-        { 
+        public ExampeLists()
+        {
             SlowWaltz = new List<Uri>();
             Tango = new List<Uri>();
             VienesseWaltz = new List<Uri>();
@@ -27,7 +21,7 @@ namespace TournamentDJ.Model
             SlowWaltz.Add(new Uri(@"C:\Media\Vivi\Very Ballroom 2 [Disc 1]\03 Dark Waltz [SW].mp3"));
             SlowWaltz.Add(new Uri(@"C:\Media\Vivi\Very Ballroom 2 [Disc 1]\04 Bridal Veil Falls [SW].mp3"));
             SlowWaltz.Add(new Uri(@"C:\Media\Vivi\Very Ballroom 2 [Disc 1]\10 Stonefire [SW].mp3"));
-    
+
         }
     }
 }

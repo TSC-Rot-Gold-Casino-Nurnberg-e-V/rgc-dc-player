@@ -1,16 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
-using System.Windows.Media;
+﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Windows;
+using System.Windows.Input;
 using TournamentDJ.Essentials;
 using TournamentDJ.Model;
-using Microsoft.EntityFrameworkCore;
-using System.ComponentModel;
-using System.Collections.ObjectModel;
 
 
 namespace TournamentDJ.ViewModel
@@ -39,7 +32,9 @@ namespace TournamentDJ.ViewModel
         {
             get { return Get<ObservableCollection<string>>(); }
             set { Set(value); }
-        } 
+        }
+
+        public Logger logger { get { return Logger.LoggerInstance; } }
 
         public DatabaseUtility dbUtil = new DatabaseUtility();
 

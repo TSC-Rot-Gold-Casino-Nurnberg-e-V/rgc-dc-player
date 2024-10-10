@@ -1,14 +1,6 @@
 ﻿using Microsoft.Win32;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics.Metrics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
-using System.Windows.Media;
-using TagLib.Mpeg;
 using TournamentDJ.Essentials;
 using TournamentDJ.Model;
 
@@ -16,7 +8,7 @@ namespace TournamentDJ.ViewModel
 {
     internal class PlayerViewModel : NotifyObject
     {
-        public PlayerViewModel() 
+        public PlayerViewModel()
         {
             Player = new Player();
             CreateCommands();
@@ -28,6 +20,8 @@ namespace TournamentDJ.ViewModel
             get { return Get<Player>(); }
             set { Set(value); }
         }
+
+        SelectSpecificTrackWindow SelectSpecificTrackWindow { get; set; }
 
         public ObservableCollection<TimeSpan> Runtimes
         {
@@ -48,12 +42,24 @@ namespace TournamentDJ.ViewModel
         public Track TrackPlaying
         {
             get { return Player.TrackPlaying; }
-            set 
+            set
             {
                 if (value.Equals(Player.TrackPlaying)) return;
                 Player.TrackPlaying = value;
                 OnPropertyChanged();
             }
+        }
+
+        public Track SelectedSpecificTrack
+        {
+            get { return Player.SelectedSpecificTrack; }
+            set { Player.SelectedSpecificTrack = value; }
+        }
+
+        public ObservableCollection<Track> TracksToSelectFrom
+        {
+            get { return Player.TracksToSelectFrom; }
+            set { Player.TracksToSelectFrom = value; }
         }
 
 
@@ -91,9 +97,11 @@ namespace TournamentDJ.ViewModel
         public virtual TrackList SelectedTrackList
         {
             get { return Player.SelectedTrackList; }
-            set { Player.SelectedTrackList = value;
+            set
+            {
+                Player.SelectedTrackList = value;
                 ExecuteCreateDanceRound();
-                    }
+            }
         }
 
         public bool UseTracklist
@@ -102,7 +110,7 @@ namespace TournamentDJ.ViewModel
             set
             {
                 Set(value);
-                if (value == null || value == false)
+                if (value == false)
                 {
                     SelectedTrackList = null;
                 };
@@ -112,13 +120,18 @@ namespace TournamentDJ.ViewModel
         public DanceRound SelectedDanceRound
         {
             get { return Player.SelectedDanceRound; }
-            set { Player.SelectedDanceRound = value;
+            set
+            {
+                Player.SelectedDanceRound = value;
                 ExecuteCreateDanceRound();
             }
         }
 
-        public  Dictionary<int, string> Difficulties {
-            get { return Track.Difficulties; } private set { Track.Difficulties = value; } }
+        public Dictionary<int, string> Difficulties
+        {
+            get { return Track.Difficulties; }
+            private set { Track.Difficulties = value; }
+        }
 
         public Dictionary<int, string> Characteristics
         {
@@ -133,10 +146,13 @@ namespace TournamentDJ.ViewModel
         public ICommand PreviousClickCommand { get; private set; }
         public ICommand OpenFileCommand { get; private set; }
         public ICommand ReselectClickCommand { get; private set; }
-        public ICommand SetTrackPlaying {  get; private set; }
+        public ICommand SetTrackPlaying { get; private set; }
 
         public ICommand StartAutplayClickCommand { get; private set; }
         public ICommand CreateDanceRoundClickCommand { get; private set; }
+
+        public ICommand SelectSpecificTrackCommand { get; private set; }
+        public ICommand OpenSelectSpecificTrackWindowCommand { get; private set; }
 
         public void CreateCommands()
         {
@@ -144,12 +160,14 @@ namespace TournamentDJ.ViewModel
             FadeoutClickCommand = new RelayCommand(ExecuteFadeout);
             StopClickCommand = new RelayCommand(ExecuteStop);
             OpenFileCommand = new RelayCommand(ExecuteOpenFile);
-            ReselectClickCommand = new RelayCommand<Track>(ExecuteReselect);  
+            ReselectClickCommand = new RelayCommand<Track>(ExecuteReselect);
             StartAutplayClickCommand = new RelayCommand(ExecuteStartAutoplay);
             CreateDanceRoundClickCommand = new RelayCommand(ExecuteCreateDanceRound);
             NextClickCommand = new RelayCommand(ExecuteNext);
             PreviousClickCommand = new RelayCommand(ExecutePrevious);
             SetTrackPlaying = new RelayCommand<Track>(ExecuteSetTrackPlaying);
+            SelectSpecificTrackCommand = new RelayCommand(ExecuteSelectSpecificTrack);
+            OpenSelectSpecificTrackWindowCommand = new RelayCommand<Track>(ExecuteOpenSelectSpecificTrackWindow);
         }
 
 
@@ -212,6 +230,25 @@ namespace TournamentDJ.ViewModel
         {
             Player.TracksPlayed.Tracks.Clear();
             TracksToPlay = TrackListBuilder.CreateDanceRound(SelectedDanceRound, tracklist: SelectedTrackList);
+        }
+
+
+
+
+
+        public void ExecuteOpenSelectSpecificTrackWindow(Track track)
+        {
+
+            Player.CreateTracksToSelectFrom(track);
+            SelectSpecificTrackWindow = new SelectSpecificTrackWindow();
+            SelectSpecificTrackWindow.DataContext = this;
+            SelectSpecificTrackWindow.ShowDialog();
+        }
+
+        public void ExecuteSelectSpecificTrack()
+        {
+            Player.SelectSpecificTrack();
+            SelectSpecificTrackWindow.Close();
         }
     }
 }

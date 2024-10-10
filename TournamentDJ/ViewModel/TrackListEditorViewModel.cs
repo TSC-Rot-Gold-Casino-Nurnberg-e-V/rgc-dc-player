@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
 using TournamentDJ.Essentials;
 using TournamentDJ.Model;
@@ -18,6 +13,16 @@ namespace TournamentDJ.ViewModel
             FilteredTracks = new ObservableCollection<Track>();
             TrackFilterString = string.Empty;
         }
+
+        public TrackListEditorViewModel(DatabaseUtilityViewModel databaseUtilityViewModel)
+        {
+            CreateCommands();
+            FilteredTracks = new ObservableCollection<Track>();
+            TrackFilterString = string.Empty;
+            DatabaseUtilityViewModel = databaseUtilityViewModel;
+        }
+
+        public DatabaseUtilityViewModel DatabaseUtilityViewModel { get; set; }
 
         public ObservableCollection<Track> Tracks
         {
@@ -56,6 +61,7 @@ namespace TournamentDJ.ViewModel
             {
                 Set(value);
                 OnPropertyChanged();
+                DatabaseUtilityViewModel.TrackPlaying = value;
             }
         }
 
@@ -131,7 +137,7 @@ namespace TournamentDJ.ViewModel
 
         public void ExecuteAddToTrackList()
         {
-            if (SelectedTrackInTracks != null && !SelectedTrackList.Tracks.Contains(SelectedTrackInTracks))
+            if (SelectedTrackList != null && SelectedTrackInTracks != null && !SelectedTrackList.Tracks.Contains(SelectedTrackInTracks))
             {
                 SelectedTrackList.Tracks.Add(SelectedTrackInTracks);
             }
@@ -151,4 +157,4 @@ namespace TournamentDJ.ViewModel
         }
     }
 }
-    
+

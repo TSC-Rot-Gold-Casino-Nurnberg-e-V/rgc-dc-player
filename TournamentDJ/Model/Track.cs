@@ -1,11 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using TournamentDJ.Essentials;
 
 namespace TournamentDJ.Model
@@ -31,6 +26,12 @@ namespace TournamentDJ.Model
             {3, "good" },
             {4, "very good" }
         };
+
+        public Track()
+        {
+
+        }
+
         public Track(Uri uri)
         {
             TagLib.File file;
@@ -39,17 +40,19 @@ namespace TournamentDJ.Model
             {
                 file = TagLib.File.Create(filePath);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
+                Logger.LoggerInstance.LogWrite("URI of Track coould not be found");
                 throw;
             }
+
 
             Title = (file.Tag.Title != null) ? file.Tag.Title : file.Name;
             Album = (file.Tag.Album != null) ? file.Tag.Album : string.Empty;
             Genre = (file.Tag.FirstGenre != null) ? file.Tag.FirstGenre : string.Empty;
-            //Duration = (file.Tag.Length != null) ? TimeSpan.TryParse();
             BeatsPerMinute = file.Tag.BeatsPerMinute;
             Year = (int)file.Tag.Year;
+            Duration = file.Properties.Duration;
             Uri = uri;
             Dance = SearchDance(file);
             FlaggedAsFavourite = false;
@@ -58,6 +61,7 @@ namespace TournamentDJ.Model
 
 
             int[] ParsedValues = RetrieveSpoerlData(file);
+            Rating = ParsedValues[0];
             Characteristic = ParsedValues[1];
             Difficulty = Math.Abs(ParsedValues[2] - 4); //Adapt Values to correct range, CP uses an inverted Range
 
@@ -92,6 +96,7 @@ namespace TournamentDJ.Model
 
         public int Difficulty { get; set; }
         public int Characteristic { get; set; }
+        public int Rating { get; set; }
 
         public string? Genre
         {
@@ -133,6 +138,10 @@ namespace TournamentDJ.Model
         {
             get; set;
         }
+
+        public virtual ObservableCollection<TrackList> TrackLists
+        { get; private set; } =
+        new ObservableCollection<TrackList>();
 
 
         //returns an int array with lenght 4, containing L, C, B and N, as used in Competition Player by Sebastian Spörl

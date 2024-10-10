@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using TournamentDJ.Essentials;
 using TournamentDJ.Model;
 
@@ -26,10 +20,10 @@ namespace TournamentDJ.ViewModel
                 new TimeSpan(0, 0, 15),
                 new TimeSpan(0, 0, 60),
                 new TimeSpan(0, 0, 90),
+                TimeSpan.Zero,
             ];
-            Runtimes.Add(TimeSpan.Zero);
             CreateAdditionalCommands();
-            
+
         }
 
         public bool OnlyUseUncategorized

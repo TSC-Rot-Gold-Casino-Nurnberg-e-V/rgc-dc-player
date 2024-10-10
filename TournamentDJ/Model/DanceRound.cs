@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TournamentDJ.Model
 {
@@ -43,7 +37,7 @@ namespace TournamentDJ.Model
         {
             ObservableCollection<Dance> dancesInOrder = new ObservableCollection<Dance>();
             var orderedElements = OrderElements.OrderBy(X => X.OrderRank);
-            foreach(var orderElement in orderedElements) 
+            foreach (var orderElement in orderedElements)
             {
                 dancesInOrder.Add(orderElement.ObjectToOrder);
             }
@@ -53,7 +47,7 @@ namespace TournamentDJ.Model
         public void SetDancesInOrder(ObservableCollection<Dance> dances)
         {
             OrderElements.Clear();
-            for(int i = 0; i < dances.Count; i++)
+            for (int i = 0; i < dances.Count; i++)
             {
                 OrderElement<Dance> newElement = new OrderElement<Dance>(dances[i]);
                 newElement.OrderRank = i;

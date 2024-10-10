@@ -1,18 +1,9 @@
-﻿using Microsoft.Win32;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Controls;
-using Windows.Media.Playback;
+﻿using System.Collections.ObjectModel;
 using System.Windows.Threading;
 using TournamentDJ.Essentials;
-using Windows.ApplicationModel.Appointments.DataProvider;
-using TagLib;
-using Windows.Media.Core;
 using Windows.Devices.Enumeration;
-using System.Collections.ObjectModel;
+using Windows.Media.Core;
+using Windows.Media.Playback;
 
 namespace TournamentDJ.Model
 {
@@ -41,7 +32,10 @@ namespace TournamentDJ.Model
 
         public virtual void MediaEnded(MediaPlayer sender, object args)
         {
-            Stop();
+            App.Current.Dispatcher.Invoke(delegate
+            {
+                Stop();
+            });
         }
 
         public virtual void MedPlayerHasChanged(MediaPlayer sender, object args)
@@ -61,7 +55,7 @@ namespace TournamentDJ.Model
             foreach (var device in devices)
             {
                 AudioDevices.Add(device);
-                if(SelectedAudioDevice == null && device.IsDefault)
+                if (SelectedAudioDevice == null && device.IsDefault)
                 {
                     SelectedAudioDevice = device;
                 }
@@ -70,13 +64,17 @@ namespace TournamentDJ.Model
 
         private void MedPlayer_MediaFailed(MediaPlayer sender, object args)
         {
-            throw new NotImplementedException();
+            Logger.LoggerInstance.LogWrite("Media Failed");
+            MedPlayer.Source = null;
+            //throw new NotImplementedException();
         }
 
         public String timeData
         {
             get { return Get<String>(); }
-            set { Set(value);
+            set
+            {
+                Set(value);
             }
         }
 
@@ -93,8 +91,10 @@ namespace TournamentDJ.Model
         public TrackList TracksToPlay
         {
             get { return Get<TrackList>(); }
-            set { Set(value);
-                if(TracksToPlay != null && TracksToPlay.Tracks.Count > 0)
+            set
+            {
+                Set(value);
+                if (TracksToPlay != null && TracksToPlay.Tracks.Count > 0)
                 {
                     GetNextTrack();
                 }
@@ -105,6 +105,17 @@ namespace TournamentDJ.Model
         public TrackList TracksPlayed
         {
             get { return Get<TrackList>(); }
+            set { Set(value); }
+        }
+        public Track SelectedSpecificTrack
+        {
+            get { return Get<Track>(); }
+            set { Set(value); }
+        }
+
+        public ObservableCollection<Track> TracksToSelectFrom
+        {
+            get { return Get<ObservableCollection<Track>>(); }
             set { Set(value); }
         }
 
@@ -133,14 +144,14 @@ namespace TournamentDJ.Model
             set
             {
                 Set(value);
-                try 
-                { 
+                try
+                {
                     MedPlayer.AudioDevice = value;
                 }
                 //If device could not be loaded, reload available audio devices
-                catch (Exception ex)
+                catch (Exception)
                 {
-                    foreach(DeviceInformation device in AudioDevices)
+                    foreach (DeviceInformation device in AudioDevices)
                     {
                         if (device.IsDefault)
                         {
@@ -156,10 +167,10 @@ namespace TournamentDJ.Model
         public Track TrackPlaying
         {
             get { return Get<Track>(); }
-            set 
+            set
             {
                 Set(value);
-                if(value != null)
+                if (value != null)
                 {
                     OpenFile(value.Uri);
                 }
@@ -171,6 +182,15 @@ namespace TournamentDJ.Model
         {
             get { return Get<TimeSpan>(); }
             set { Set(value); }
+        }
+
+        public bool IsSingleSelected
+        {
+            get { return Get<bool>(); }
+            set
+            {
+                Set(value);
+            }
         }
 
         void timer_Tick(object sender, EventArgs e)
@@ -191,7 +211,7 @@ namespace TournamentDJ.Model
             {
                 timeData = "No file selected...";
             }
-                
+
         }
 
         public MediaPlayer MedPlayer
@@ -209,7 +229,7 @@ namespace TournamentDJ.Model
 
         public void OpenFile(Uri newUri)
         {
-            
+
             MedPlayer.Source = MediaSource.CreateFromUri(newUri);
         }
 
@@ -220,7 +240,7 @@ namespace TournamentDJ.Model
                 await Task.Delay(100);
             }
             MedPlayer.Play();
-            if(TrackPlaying != null)
+            if (TrackPlaying != null)
             {
                 TrackPlaying.LastPlayedTime = DateTime.Now;
             }
@@ -252,7 +272,7 @@ namespace TournamentDJ.Model
                     newVolume = 0.0;
                 }
                 MedPlayer.Volume = newVolume;
-                await Task.Delay(1000/tickrate);
+                await Task.Delay(1000 / tickrate);
             }
 
             MedPlayer.Pause();
@@ -264,9 +284,12 @@ namespace TournamentDJ.Model
 
         public void Reselect(Track track, DanceRound round = null, bool notFavourite = false, bool overrideParams = false, bool onlyUseUncategorized = false)
         {
-            if (TrackPlaying == track && MedPlayer.PlaybackSession.PlaybackState != MediaPlaybackState.Playing)
+            if (track == null) return;
+
+            if (TrackPlaying == track && MedPlayer.PlaybackSession.PlaybackState != MediaPlaybackState.Playing && !IsSingleSelected)
             {
-                if(round == null)
+
+                if (round == null)
                 {
                     TrackPlaying = TrackListBuilder.GetRandomTrack(TrackPlaying.Dance, SelectedTrackList, cantBeFavourite: notFavourite, overrideParams: overrideParams, onlyUseUncategorized: onlyUseUncategorized);
                 }
@@ -274,7 +297,34 @@ namespace TournamentDJ.Model
                 {
                     TrackPlaying = TrackListBuilder.GetRandomTrack(TrackPlaying.Dance, SelectedTrackList, round.MinDifficulty, round.MaxDifficulty, round.MinCharacteristics, cantBeFavourite: notFavourite, overrideParams: overrideParams, onlyUseUncategorized: onlyUseUncategorized);
                 }
-                
+                return;
+            }
+
+
+            if (IsSingleSelected)
+            {
+                Track newTrack;
+                if (round == null)
+                {
+                    newTrack = TrackListBuilder.GetRandomTrack(track.Dance, SelectedTrackList, cantBeFavourite: notFavourite, overrideParams: overrideParams, onlyUseUncategorized: onlyUseUncategorized);
+                }
+                else
+                {
+                    newTrack = TrackListBuilder.GetRandomTrack(track.Dance, SelectedTrackList, round.MinDifficulty, round.MaxDifficulty, round.MinCharacteristics, cantBeFavourite: notFavourite, overrideParams: overrideParams, onlyUseUncategorized: onlyUseUncategorized);
+                }
+
+                for (int i = 0; i < TracksToPlay.Tracks.Count; i++)
+                {
+                    if (TracksToPlay.Tracks[i] == track)
+                    {
+                        TracksToPlay.Tracks[i] = newTrack;
+                    }
+                }
+                if (TrackPlaying == track && MedPlayer.PlaybackSession.PlaybackState != MediaPlaybackState.Playing)
+                {
+                    TrackPlaying = newTrack;
+                }
+                return;
             }
 
             int indexToReselect = TracksToPlay.Tracks.IndexOf(track);
@@ -301,12 +351,12 @@ namespace TournamentDJ.Model
         {
             MedPlayer.Pause();
 
-            if(TrackPlaying != null && TracksToPlay != null  && TracksToPlay.Tracks != null && TracksToPlay.Tracks.Count > 0)
+            if (TrackPlaying != null && TracksToPlay != null && TracksToPlay.Tracks != null && TracksToPlay.Tracks.Count > 0)
             {
                 TracksPlayed.Tracks.Add(TrackPlaying);
             }
 
-            if (TracksToPlay != null && TracksToPlay.Tracks != null &&  TracksToPlay.Tracks.Count > 0)
+            if (TracksToPlay != null && TracksToPlay.Tracks != null && TracksToPlay.Tracks.Count > 0)
             {
                 TrackPlaying = TracksToPlay.Tracks[0];
                 TracksToPlay.Tracks.RemoveAt(0);
@@ -334,6 +384,29 @@ namespace TournamentDJ.Model
             MedPlayer.AutoPlay = true;
             Play();
         }
-        
+
+
+
+        private Track TrackToSelectSpecific { get; set; }
+        public void CreateTracksToSelectFrom(Track track)
+        {
+            TrackToSelectSpecific = track;
+            TracksToSelectFrom = new ObservableCollection<Track>(DatabaseUtility.Tracks.Where(X => X.Dance == track.Dance && !X.FlaggedForReview));
+        }
+
+        public void SelectSpecificTrack()
+        {
+            var track = TrackToSelectSpecific;
+            if (SelectedSpecificTrack != null && TrackPlaying == track && MedPlayer.PlaybackSession.PlaybackState != MediaPlaybackState.Playing)
+            {
+                TrackPlaying = SelectedSpecificTrack;
+            }
+
+            if (SelectedSpecificTrack != null && TracksToPlay != null && track != null)
+            {
+                int indexToReselect = TracksToPlay.Tracks.IndexOf(track);
+                TracksToPlay.Tracks[indexToReselect] = SelectedSpecificTrack;
+            }
+        }
     }
 }

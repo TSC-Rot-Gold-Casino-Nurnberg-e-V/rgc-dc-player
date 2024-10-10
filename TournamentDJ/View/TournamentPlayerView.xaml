@@ -175,7 +175,8 @@
                 </DockPanel>
             </Border>
             <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Visible" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="2,2,2,2">
-                <ItemsControl ItemsSource="{Binding TracksToPlay.Tracks}">
+                <ItemsControl ItemsSource="{Binding TracksToPlay.Tracks}"
+                              >
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <Border BorderBrush="{StaticResource ButtonBackgroundGradientBrush}" BorderThickness="1" Margin="3" CornerRadius="2">
@@ -195,7 +196,7 @@
                                         <TextBlock Text="Comment" Style="{StaticResource BasicTextBlock}"/>
                                         <TextBox Text="{Binding Comment}" Width="100" Height="40" TextWrapping="Wrap" Style="{StaticResource BasicTextBox}" VerticalScrollBarVisibility="Auto" Margin="0" HorizontalAlignment="Left"/>
                                     </StackPanel>
-
+                                    <Button Style="{StaticResource BasicButton}" Content="Choose" Width="80" Height="40" HorizontalAlignment="Right" Command="{Binding Data.OpenSelectSpecificTrackWindowCommand, Source={StaticResource BindingProxy}}" CommandParameter="{Binding}"/>
                                     <Button Style="{StaticResource BasicButton}" Content="Reselect" Width="80" Height="40" HorizontalAlignment="Right" Command="{Binding Data.ReselectClickCommand, Source={StaticResource BindingProxy}}" CommandParameter="{Binding}"/>
                                 </DockPanel>
                             </Border>
