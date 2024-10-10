@@ -31,6 +31,13 @@
             <GradientStop Color="{StaticResource Primary950}" Offset="1"/>
         </GradientStopCollection>
     </LinearGradientBrush>
+  <LinearGradientBrush x:Key="ButtonIsActiveGradientBrush" StartPoint="0,0" EndPoint="1,1">
+    <GradientStopCollection>
+      <GradientStop Color="{StaticResource Secondary800}" Offset="0"/>
+      <GradientStop Color="{StaticResource Secondary700}" Offset="0.5"/>
+      <GradientStop Color="{StaticResource Secondary950}" Offset="1"/>
+    </GradientStopCollection>
+  </LinearGradientBrush>
     <LinearGradientBrush x:Key="TrackButtonMouseOverGradientBrush" StartPoint="0,0" EndPoint="1,1">
         <GradientStopCollection>
             <GradientStop Color="{StaticResource Base600}" Offset="0"/>
@@ -82,6 +89,68 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+
+  <Style x:Key="ImageButtonActive" TargetType="Button">
+    <Setter Property="Margin" Value="2,4,2,4"/>
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="Button">
+          <Viewbox>
+            <Grid Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Width}" Height="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Height}">
+              <Border Margin="0" Name="border" CornerRadius="5" BorderThickness="0" Height="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Height}" Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Width}" Background="{StaticResource ButtonBackgroundGradientBrush}">
+              </Border>
+              <Rectangle x:Name="Image" Width="30" Height="30" SnapsToDevicePixels="true">
+                <Rectangle.Fill>
+                  <ImageBrush x:Name="ButtonImage" ImageSource="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content}" Stretch="UniformToFill"/>
+                </Rectangle.Fill>
+              </Rectangle>
+            </Grid>
+          </Viewbox>
+          <ControlTemplate.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+              <Setter TargetName="border" Property="Background" Value="{StaticResource ButtonMouseOverGradientBrush}" />
+            </Trigger>
+            <Trigger Property="IsPressed" Value="True">
+              <Setter TargetName="border" Property="Background" Value="{StaticResource ButtonIsPressedGradientBrush}" />
+            </Trigger>
+            <DataTrigger
+                    Binding="{Binding Player.IsPlaying}"
+                    Value="True">
+              <Setter TargetName="border" Property="Background" Value="{StaticResource ButtonIsActiveGradientBrush}" />
+              <DataTrigger.EnterActions>
+                <BeginStoryboard>
+                  <Storyboard>
+                    <DoubleAnimationUsingKeyFrames
+                Storyboard.TargetName="Image"
+                Storyboard.TargetProperty="Width"
+                Duration="0:0:2"
+                RepeatBehavior="Forever">
+                      <LinearDoubleKeyFrame Value="37" KeyTime="0:0:1" />
+                      <LinearDoubleKeyFrame Value="26" KeyTime="0:0:2" />
+                    </DoubleAnimationUsingKeyFrames>
+                  </Storyboard>
+                </BeginStoryboard>
+              </DataTrigger.EnterActions>
+              <DataTrigger.ExitActions>
+                <BeginStoryboard>
+                  <Storyboard>
+                    <DoubleAnimationUsingKeyFrames
+                Storyboard.TargetName="Image"
+                Storyboard.TargetProperty="Width"
+                Duration="0:0:1">
+                      <LinearDoubleKeyFrame Value="30" KeyTime="0:0:1" />
+                    </DoubleAnimationUsingKeyFrames>
+                  </Storyboard>
+                </BeginStoryboard>
+              </DataTrigger.ExitActions>
+            </DataTrigger>
+          </ControlTemplate.Triggers>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+  
 
     <Style x:Key="BasicButton" TargetType="{x:Type Button}">
         <Setter Property="OverridesDefaultStyle" Value="True"/>

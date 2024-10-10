@@ -25,6 +25,7 @@ namespace TournamentDJ.Model
             AudioDevices = new ObservableCollection<DeviceInformation>();
             FindAudioDevices();
             MedPlayer = new MediaPlayer();
+            //MedPlayer.Changed += MedPlayerHasChanged;
             Timer = new DispatcherTimer();
             TracksToPlay = new TrackList();
             TracksPlayed = new TrackList();
@@ -41,6 +42,11 @@ namespace TournamentDJ.Model
         public virtual void MediaEnded(MediaPlayer sender, object args)
         {
             Stop();
+        }
+
+        public virtual void MedPlayerHasChanged(MediaPlayer sender, object args)
+        {
+            IsPlaying = MedPlayer.PlaybackSession.PlaybackState == MediaPlaybackState.Playing;
         }
 
         public async Task FindAudioDevices()
@@ -112,6 +118,13 @@ namespace TournamentDJ.Model
         {
             get { return Get<TrackList>(); }
             set { Set(value); }
+        }
+
+
+        public bool IsPlaying
+        {
+            get { return Get<bool>(); }
+            private set { Set(value); }
         }
 
         public DeviceInformation SelectedAudioDevice

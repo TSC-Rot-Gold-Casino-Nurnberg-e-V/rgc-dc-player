@@ -112,7 +112,7 @@
                     <StackPanel Margin="0,0,0,3">
                         <DockPanel Grid.Column="1" HorizontalAlignment="Center" Margin="0,20,0,0">
                             <Button  Style="{StaticResource ImageButton}" Content="pack://application:,,,/Assets/previous.png" Width="40" Height="40" HorizontalAlignment="Left" Command="{Binding PreviousClickCommand}"/>
-                            <Button  Style="{StaticResource ImageButton}" Content="pack://application:,,,/Assets/play.png" Width="40" Height="40" HorizontalAlignment="Left" Command="{Binding PlayClickCommand}"/>
+                            <Button  Style="{StaticResource ImageButtonActive}" Content="pack://application:,,,/Assets/play.png" Width="40" Height="40" HorizontalAlignment="Left" Command="{Binding PlayClickCommand}"/>
                             <Button  Style="{StaticResource ImageButton}" Content="pack://application:,,,/Assets/stop.png" Width="40" Height="40" HorizontalAlignment="Left" Command="{Binding StopClickCommand}"/>
                             <Button  Style="{StaticResource ImageButton}" Content="pack://application:,,,/Assets/next.png" Width="40" Height="40" HorizontalAlignment="Left" Command="{Binding NextClickCommand}"/>
                             <Button  Style="{StaticResource BasicButton}" Content="Fadeout" Width="80" Height="40" HorizontalAlignment="Left" Command="{Binding FadeoutClickCommand}"/>
