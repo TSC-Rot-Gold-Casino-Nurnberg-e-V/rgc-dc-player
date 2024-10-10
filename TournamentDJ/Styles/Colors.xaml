@@ -73,6 +73,13 @@
             <GradientStop Color="{StaticResource Primary500}" Offset="1"/>
         </GradientStopCollection>
     </LinearGradientBrush>
+    <LinearGradientBrush x:Key="BorderActiveBrush" StartPoint="0,0" EndPoint="1,1">
+        <GradientStopCollection>
+            <GradientStop Color="{StaticResource Secondary600}" Offset="0"/>
+            <GradientStop Color="{StaticResource Secondary200}" Offset="0.5"/>
+            <GradientStop Color="{StaticResource Secondary800}" Offset="1"/>
+        </GradientStopCollection>
+    </LinearGradientBrush>
 
 
 </ResourceDictionary>

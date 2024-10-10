@@ -24,6 +24,7 @@
                 <ResourceDictionary Source="pack://application:,,,/TournamentDJ;component/Styles/CheckBoxStyles.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/TournamentDJ;component/Styles/TextBoxStyles.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/TournamentDJ;component/Styles/ScrollBarStyles.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/TournamentDJ;component/Styles/BorderStyles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             <conv:UriToStringConverter x:Key="UriToStringConverter" />
         </ResourceDictionary>
@@ -42,7 +43,7 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Border Margin="2" BorderThickness="2" BorderBrush="{StaticResource BasicHighlightBorderBrush}" CornerRadius="2"  Grid.RowSpan="2" Grid.Column="0">
+        <Border Style="{StaticResource BorderActivitySensitive}"  Margin="2" BorderThickness="2" CornerRadius="2"  Grid.RowSpan="2" Grid.Column="0">
             <StackPanel>
             <DockPanel Grid.Column="0"  Grid.Row="0">
                 <StackPanel VerticalAlignment="Top" Margin="2,0,2,4" Width="160">
