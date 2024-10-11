@@ -277,6 +277,7 @@ namespace TournamentDJ.Model
 
             MedPlayer.Pause();
             GetNextTrack();
+            MedPlayer.PlaybackSession.Position = TimeSpan.Zero;
             MedPlayer.Volume = startingVolume;
 
             isFading = false;
@@ -351,11 +352,13 @@ namespace TournamentDJ.Model
         {
             MedPlayer.Pause();
 
+            //Get Next Song
             if (TrackPlaying != null && TracksToPlay != null && TracksToPlay.Tracks != null && TracksToPlay.Tracks.Count > 0)
             {
                 TracksPlayed.Tracks.Add(TrackPlaying);
             }
 
+            //Get First Track when loading new list
             if (TracksToPlay != null && TracksToPlay.Tracks != null && TracksToPlay.Tracks.Count > 0)
             {
                 TrackPlaying = TracksToPlay.Tracks[0];
