@@ -88,7 +88,7 @@ Background="Transparent"
                     <DataGridTextColumn Binding="{Binding Title}" Header="Title" Width="200"/>
                     <DataGridTextColumn Binding="{Binding Dance.Name}" Header="Dance" Width="80" IsReadOnly="True"/>
                     <DataGridTextColumn Binding="{Binding Album}" Header="Album" Width="160" IsReadOnly="True"/>
-                    <DataGridTextColumn Binding="{Binding Duration}" Header="Album" Width="160" IsReadOnly="True"/>
+                    <DataGridTextColumn Binding="{Binding Duration}" Header="Duration" Width="160" IsReadOnly="True"/>
                     <DataGridTextColumn Binding="{Binding Comment}" Header="Comment"/>
                 </DataGrid.Columns>
             </DataGrid>

@@ -44,7 +44,7 @@
             <ColumnDefinition Width="3*"/>
         </Grid.ColumnDefinitions>
         <StackPanel Grid.Column="0" Margin="5">
-            <TextBlock Text="Dance Rounds"/>
+            <TextBlock Text="Dance Rounds" Style="{StaticResource BasicTextBlock}"/>
             <DataGrid x:Name="danceDataGrid" AutoGenerateColumns="False"
                 EnableRowVirtualization="True" 
                 ItemsSource="{Binding Source={StaticResource danceRoundViewSource}}" 
@@ -100,7 +100,7 @@ Background="Transparent"
             </DataGrid>
         </StackPanel>
         <StackPanel Grid.Column="1" Margin="5">
-            <TextBlock Text="Available Dances"/>
+            <TextBlock Text="Available Dances" Style="{StaticResource BasicTextBlock}"/>
             <ListBox Height="300" ItemsSource="{Binding Dances}"
              DisplayMemberPath="Name"
              SelectedItem="{Binding SelectedDanceInDances}"
@@ -113,7 +113,7 @@ Background="Transparent"
             <Button Content="Down" Command="{Binding MoveDanceDownCommand}" Style="{StaticResource BasicButton}" Height="30" Width="70"/>
         </StackPanel>
         <StackPanel Grid.Column="3" Margin="5">
-            <TextBlock Text="{Binding SelectedDanceRound.Name}"/>
+            <TextBlock Text="{Binding SelectedDanceRound.Name}" Style="{StaticResource BasicTextBlock}"/>
             <ListBox Height="300" ItemsSource="{Binding OrderedDancesInSelectedRound}"
                      DisplayMemberPath="Name"
                      SelectedItem="{Binding SelectedDanceInRound}"
