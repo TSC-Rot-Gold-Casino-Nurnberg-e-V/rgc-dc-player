@@ -117,25 +117,6 @@ Background="Transparent"
 
           </StackPanel>
           <StackPanel Grid.Column="1" Margin="5">
-            <DataGrid x:Name="danceDataGrid" AutoGenerateColumns="False"
-                          EnableRowVirtualization="True"
-                          ItemsSource="{Binding Source={StaticResource danceViewSource}}"
-                          RowDetailsVisibilityMode="VisibleWhenSelected"
-                          CanUserAddRows="True"
-                           Height="300" Width="600"
-                          Margin="5"
-                      Foreground="{StaticResource BasicTextBlockGradientBrush}"
-HorizontalGridLinesBrush="{StaticResource BasicHighlightBorderBrush}"
-VerticalGridLinesBrush="{StaticResource BasicHighlightBorderBrush}"
-Background="Transparent"
-                      BorderBrush="{StaticResource BorderBaseBrush}">
-              <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding DanceTypeId}" Header="Id" Width="SizeToHeader" IsReadOnly="True"/>
-                <DataGridTextColumn Binding="{Binding MinBPM}" Header="MinBPM" Width="SizeToHeader"/>
-                <DataGridTextColumn Binding="{Binding MaxBPM}" Header="MaxBPM" Width="SizeToHeader"/>
-                <DataGridTextColumn Binding="{Binding Name}" Header="Name" Width="*"/>
-              </DataGrid.Columns>
-            </DataGrid>
             <DockPanel>
               <TextBox Text="{Binding TrackFilterString, UpdateSourceTrigger=PropertyChanged}" Width="200" Height="30" Style="{StaticResource BasicTextBox}"/>
               <Button Width="100" HorizontalAlignment="Left" Margin="4,0,4,0" Content="Apply Filter" Style="{StaticResource BasicButton}"/>
@@ -201,10 +182,10 @@ Background="Transparent"
           </StackPanel>
         </Grid>
       </TabItem>
-      <TabItem Header="DanceRounds">
+      <TabItem Header="Dances and Round">
         <local:DanceRoundEditorView/>
       </TabItem>
-      <TabItem Header="TrackLists">
+      <TabItem Header="Tracklists">
         <local:TrackListEditorView DataContext="{Binding trackListEditorViewModel}"/>
       </TabItem>
     </TabControl>
