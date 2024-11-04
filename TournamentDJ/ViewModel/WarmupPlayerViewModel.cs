@@ -52,6 +52,12 @@ namespace TournamentDJ.ViewModel
             TracksToPlay = TrackListBuilder.GetAllTracks();
         }
 
+        public override void ExecuteFadeout()
+        {
+            Player.StopAutoplay();
+            Player.Fadeout();
+        }
+
         public override void ExecuteReselect(Track track)
         {
             Player.Reselect(track, notFavourite: true, overrideParams: true, onlyUseUncategorized: OnlyUseUncategorized);

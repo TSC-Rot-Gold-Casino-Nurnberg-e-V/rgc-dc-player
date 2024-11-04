@@ -6,7 +6,7 @@
         public bool OnlyUseUncategorized { get; set; } = true;
         public override void GetNextTrack()
         {
-            MedPlayer.Pause();
+            //MedPlayer.Pause();
 
             if (TrackPlaying != null && TracksToPlay.Tracks.Count > 0)
             {
@@ -23,6 +23,11 @@
             {
                 TracksToPlay = TrackListBuilder.CreateDanceRound(SelectedDanceRound, cantBeFavourite: true, overrideParams: true, onlyUseUncategorized: OnlyUseUncategorized);
             }
+        }
+
+        public void StopAutoplay()
+        {
+            MedPlayer.AutoPlay = false;
         }
     }
 }

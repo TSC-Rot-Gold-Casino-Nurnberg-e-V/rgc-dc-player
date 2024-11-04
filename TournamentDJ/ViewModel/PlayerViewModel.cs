@@ -176,7 +176,7 @@ namespace TournamentDJ.ViewModel
             Player.Play();
         }
 
-        public void ExecuteFadeout()
+        public virtual void ExecuteFadeout()
         {
             Player.Fadeout();
         }
