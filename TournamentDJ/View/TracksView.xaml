@@ -1,0 +1,177 @@
+﻿<UserControl x:Class="TournamentDJ.View.TracksView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TournamentDJ.View"
+        xmlns:ess="clr-namespace:TournamentDJ.Essentials"
+        xmlns:core="clr-namespace:System;assembly=mscorlib"
+        xmlns:vm="clr-namespace:TournamentDJ.ViewModel"
+        xmlns:conv="clr-namespace:TournamentDJ.Converter"
+        mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance Type=vm:DatabaseUtilityViewModel, IsDesignTimeCreatable=False}"
+        >
+  <UserControl.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/TournamentDJ;component/Styles/SliderStyles.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/TournamentDJ;component/Styles/ButtonStyles.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/TournamentDJ;component/Styles/Colors.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/TournamentDJ;component/Styles/TextBlockStyles.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/TournamentDJ;component/Styles/ComboBoxStyles.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/TournamentDJ;component/Styles/CheckBoxStyles.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/TournamentDJ;component/Styles/TextBoxStyles.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/TournamentDJ;component/Styles/ScrollBarStyles.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/TournamentDJ;component/Styles/DataGridStyles.xaml"/>
+      </ResourceDictionary.MergedDictionaries>
+      <ess:BindingProxy x:Key="BindingProxy" Data="{Binding}"/>
+      <SolidColorBrush x:Key="BackgroundBaseBrush" Color="{StaticResource Base900}"/>
+      <SolidColorBrush x:Key="BorderBaseBrush" Color="{StaticResource Base600}"/>
+      <CollectionViewSource x:Key="danceViewSource" Source="{Binding Dances}"/>
+      <CollectionViewSource x:Key="danceTrackViewSource" Source="{Binding Tracks}"/>
+      <CollectionViewSource x:Key="difficulties" Source="{Binding Difficulties}"/>
+    </ResourceDictionary>
+  </UserControl.Resources>
+  <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="1*" MinHeight="75"/>
+      <RowDefinition Height="4*"/>
+      <RowDefinition Height="1*"/>
+      <RowDefinition Height="1*"/>
+      <RowDefinition Height="1*"/>
+      <RowDefinition Height="6*"/>
+    </Grid.RowDefinitions>
+      <DockPanel Grid.Row="0" Height="70">
+        <Button Height="50" Content="Choose Folder" Command="{Binding ChooseFolderCommand}" Margin="5" Style="{StaticResource BasicButton}"/>
+        <Button Height="50" Content="Add to Database" Command="{Binding AddToDatabaseCommand}" Margin="2" Style="{StaticResource BasicButton}"/>
+      </DockPanel>      
+      <DataGrid Grid.Row="1" AutoGenerateColumns="False" ItemsSource="{Binding TracksToAdd}" SelectedItem="{Binding TrackPlaying}"
+                Foreground="{StaticResource BasicTextBlockGradientBrush}"
+HorizontalGridLinesBrush="{StaticResource BasicHighlightBorderBrush}"
+VerticalGridLinesBrush="{StaticResource BasicHighlightBorderBrush}"
+Background="Transparent"
+                BorderBrush="{StaticResource BorderBaseBrush}">
+        <DataGrid.Resources>
+          <Style TargetType="ComboBox" x:Key="dances">
+            <Setter Property="ItemsSource" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}, Path=DataContext.Dances}" />
+          </Style>
+          <Style TargetType="ComboBox" x:Key="difficulties">
+            <Setter Property="ItemsSource" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}, Path=DataContext.Difficulties}" />
+            <Setter Property="SelectedValuePath" Value="Key"/>
+          </Style>
+          <Style TargetType="ComboBox" x:Key="characteristics">
+            <Setter Property="ItemsSource" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}, Path=DataContext.Characteristics}" />
+            <Setter Property="SelectedValuePath" Value="Key"/>
+          </Style>
+        </DataGrid.Resources>
+        <DataGrid.Columns>
+          <DataGridTextColumn Binding="{Binding Title}" Header="Title" Width="200" IsReadOnly="True"/>
+          <DataGridComboBoxColumn
+                          Header="Dance"
+                          ElementStyle="{StaticResource dances}"
+                          EditingElementStyle="{StaticResource dances}"
+                          SelectedItemBinding="{Binding Dance}"
+                          Width="80"
+                          DisplayMemberPath="Name"/>
+          <DataGridTextColumn Binding="{Binding Comment}" Header="Comment" Width="80" IsReadOnly="True"/>
+          <DataGridTextColumn Binding="{Binding Album}" Header="Album" Width="80" IsReadOnly="True"/>
+          <DataGridTextColumn Binding="{Binding Year}" Header="Year" Width="80" IsReadOnly="True"/>
+          <DataGridTextColumn Binding="{Binding Duration}" Header="Duration" Width="80" IsReadOnly="True"/>
+          <DataGridTextColumn Binding="{Binding Genre}" Header="Genre" Width="80" IsReadOnly="True"/>
+          <DataGridComboBoxColumn
+                      Header="Difficulty"
+                      ElementStyle="{StaticResource difficulties}"
+                      EditingElementStyle="{StaticResource difficulties}"
+                      DisplayMemberPath="Value"
+                      SelectedValuePath="Key"
+                      SelectedValueBinding="{Binding Difficulty}"
+                      Width="80"
+                                            />
+          <DataGridComboBoxColumn
+                      Header="Characteristic"
+                      ElementStyle="{StaticResource characteristics}"
+                      EditingElementStyle="{StaticResource characteristics}"
+                      DisplayMemberPath="Value"
+                      SelectedValuePath="Key"
+                      SelectedValueBinding="{Binding Characteristic}"
+                      Width="80"
+                                            />
+          <DataGridTextColumn Binding="{Binding Uri}" Header="Uri" Width="80" IsReadOnly="True"/>
+
+        </DataGrid.Columns>
+      </DataGrid>
+      <TextBlock Grid.Row="2" Text="Failed Files:" Style="{StaticResource BasicTextBlock}"/>
+      <ScrollViewer Grid.Row="3" VerticalScrollBarVisibility="Auto" MaxHeight="100" Margin="10">
+        <ItemsControl ItemsSource="{Binding FailedUris}" ScrollViewer.VerticalScrollBarVisibility="Auto">
+          <ItemsControl.ItemTemplate>
+            <DataTemplate>
+              <DockPanel Height="20">
+                <TextBlock Text="{Binding OriginalString}" Background="Azure" HorizontalAlignment="Left"/>
+              </DockPanel>
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+        </ItemsControl>
+      </ScrollViewer>
+      <DockPanel Grid.Row="4">
+        <TextBox Text="{Binding TrackFilterString, UpdateSourceTrigger=PropertyChanged}" Width="200" Height="30" Style="{StaticResource BasicTextBox}"/>
+        <Button Width="100" HorizontalAlignment="Left" Margin="4,0,4,0" Content="Apply Filter" Style="{StaticResource BasicButton}"/>
+        <Button Width="100" HorizontalAlignment="Left" Margin="4,0,4,0" Content="Reset Filter" Command="{Binding ResetTrackFilterClickCommand}" Style="{StaticResource BasicButton}"/>
+      </DockPanel>
+      <DataGrid Grid.Row="5" x:Name="tracksDataGrid" AutoGenerateColumns="False"
+                    EnableRowVirtualization="True"
+                    ItemsSource="{Binding FilteredTracks}"
+                    RowDetailsVisibilityMode="Visible"
+                    SelectedItem="{Binding TrackPlaying}"
+                    Margin="5"
+                Height="300"
+                Foreground="{StaticResource BasicTextBlockGradientBrush}"
+                HorizontalGridLinesBrush="{StaticResource BasicHighlightBorderBrush}"
+                VerticalGridLinesBrush="{StaticResource BasicHighlightBorderBrush}"
+                Background="Transparent"
+                BorderBrush="{StaticResource BorderBaseBrush}">
+        <DataGrid.Resources>
+          <Style TargetType="ComboBox" x:Key="dances">
+            <Setter Property="ItemsSource" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}, Path=DataContext.Dances}" />
+          </Style>
+          <Style TargetType="ComboBox" x:Key="difficulties">
+            <Setter Property="ItemsSource" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}, Path=DataContext.Difficulties}" />
+            <Setter Property="SelectedValuePath" Value="Key"/>
+          </Style>
+          <Style TargetType="ComboBox" x:Key="characteristics">
+            <Setter Property="ItemsSource" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}, Path=DataContext.Characteristics}" />
+            <Setter Property="SelectedValuePath" Value="Key"/>
+          </Style>
+        </DataGrid.Resources>
+        <DataGrid.Columns>
+          <DataGridTextColumn Binding="{Binding Title}" Header="Title" Width="200"/>
+          <DataGridTextColumn Binding="{Binding Genre}" Header="Genre" Width="80" IsReadOnly="True"/>
+          <DataGridComboBoxColumn
+                          Header="Dance"
+                          ElementStyle="{StaticResource dances}"
+                          EditingElementStyle="{StaticResource dances}"
+                          SelectedItemBinding="{Binding Dance}"
+                          Width="80"
+                          DisplayMemberPath="Name"/>
+          <DataGridComboBoxColumn
+                      Header="Difficulty"
+                      ElementStyle="{StaticResource difficulties}"
+                      EditingElementStyle="{StaticResource difficulties}"
+                      DisplayMemberPath="Value"
+                      SelectedValuePath="Key"
+                      SelectedValueBinding="{Binding Difficulty}"
+                      Width="80"
+                                            />
+          <DataGridComboBoxColumn
+                      Header="Characteristic"
+                      ElementStyle="{StaticResource characteristics}"
+                      EditingElementStyle="{StaticResource characteristics}"
+                      DisplayMemberPath="Value"
+                      SelectedValuePath="Key"
+                      SelectedValueBinding="{Binding Characteristic}"
+                      Width="80"
+                                            />
+
+        </DataGrid.Columns>
+      </DataGrid>
+  </Grid>
+</UserControl>
