@@ -27,6 +27,7 @@
                 <ResourceDictionary Source="pack://application:,,,/TournamentDJ;component/Styles/BorderStyles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             <conv:UriToStringConverter x:Key="UriToStringConverter" />
+            <conv:DateTimeToHasBeenPlayedConverter x:Key="DateTimeConverter" />
             <ess:BindingProxy x:Key="BindingProxy" Data="{Binding}"/>
             <SolidColorBrush x:Key="BackgroundBaseBrush" Color="{StaticResource Base900}"/>
             <SolidColorBrush x:Key="BorderBaseBrush" Color="{StaticResource Base600}"/>
@@ -139,7 +140,10 @@
                         <TextBlock Style="{StaticResource BasicTextBlock}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="30" Margin ="5" Text="{Binding Player.TrackPlaying.Title}" ToolTip="Track Title"/>
                         <TextBlock Style="{StaticResource BasicTextBlock}" HorizontalAlignment="Left" Width="100" Height="40" Margin="8,16,2,4" Text="{Binding Player.timeData}" ToolTip="Time played / Time remaining"/>
                     </StackPanel>
-                    <TextBlock Style="{StaticResource BasicTextBlock}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="40" Margin ="5" Text="{Binding Player.TrackPlaying.Dance.Name}" ToolTip="Dance"/>
+                  <StackPanel>
+                        <TextBlock Style="{StaticResource BasicTextBlock}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="40" Margin ="5" Text="{Binding Player.TrackPlaying.Dance.Name}" ToolTip="Dance"/>
+                        <TextBlock Style="{StaticResource LastPlayedPlayerTextBlock}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="40" Margin ="5" Text="{Binding Player.TrackPlaying.LastPlayedTime, StringFormat={}{0:MM/dd/yyyy}}" ToolTip="Dance"/>
+                  </StackPanel>
                     <StackPanel HorizontalAlignment="Left" Margin="5,0,5,4">
                         <TextBlock Text="Mark as Favorite" Style="{StaticResource BasicTextBlock}"/>
                         <CheckBox IsChecked="{Binding Player.TrackPlaying.FlaggedAsFavourite}" HorizontalAlignment="Center" Style="{StaticResource BasicCheckBox}" Margin="2,4,2,0"/>
@@ -182,7 +186,10 @@
                             <Border BorderBrush="{StaticResource ButtonBackgroundGradientBrush}" BorderThickness="1" Margin="3" CornerRadius="2">
                                 <DockPanel Height="60">
                                     <TextBlock Style="{StaticResource BasicTextBlock}" VerticalAlignment="Top" Width="100" Height="50" Margin ="5" Text="{Binding Title}" />
-                                    <TextBlock Style="{StaticResource BasicTextBlock}"  VerticalAlignment="Top" Width="100" Height="50" Margin ="5"  Text="{Binding Dance.Name}" />
+                                  <StackPanel>
+                                    <TextBlock Style="{StaticResource BasicTextBlock}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="25" Margin ="5" Text="{Binding Dance.Name}" ToolTip="Dance"/>
+                                    <TextBlock Style="{StaticResource LastPlayedTextBlock}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="25" Margin ="5" Text="{Binding LastPlayedTime, StringFormat={}{0:MM/dd/yyyy}}" ToolTip="Last Played"/>
+                                  </StackPanel>
 
                                     <StackPanel HorizontalAlignment="Left" Margin="5,0,5,4">
                                         <TextBlock Text="Mark as Favorite" Style="{StaticResource BasicTextBlock}"/>
