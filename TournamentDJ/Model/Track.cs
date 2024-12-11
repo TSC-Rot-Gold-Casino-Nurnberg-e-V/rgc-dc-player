@@ -46,6 +46,7 @@ namespace TournamentDJ.Model
                 throw;
             }
 
+            Uris = new ObservableCollection<Uri>();
 
             Title = (file.Tag.Title != null) ? file.Tag.Title : file.Name;
             Album = (file.Tag.Album != null) ? file.Tag.Album : string.Empty;
@@ -54,7 +55,7 @@ namespace TournamentDJ.Model
             BeatsPerMinute = file.Tag.BeatsPerMinute;
             Year = (int)file.Tag.Year;
             Duration = file.Properties.Duration;
-            Uri = uri;
+            Uris.Add(uri);
             Dance = SearchDance(file);
             FlaggedAsFavourite = false;
             FlaggedForReview = false;
@@ -71,6 +72,9 @@ namespace TournamentDJ.Model
                 Difficulty = -1;
             }
         }
+
+        [Key]
+        public int Id { get; set; }
 
         public virtual Dance? Dance
         {
@@ -139,8 +143,8 @@ namespace TournamentDJ.Model
             }
         }
 
-        [Key]
-        public Uri Uri
+        //Collection of Uris, where the Track might be found.
+        public ObservableCollection<Uri> Uris
         {
             get; set;
         }

@@ -4,6 +4,7 @@ using TournamentDJ.Essentials;
 using Windows.Devices.Enumeration;
 using Windows.Media.Core;
 using Windows.Media.Playback;
+using System.IO;
 
 namespace TournamentDJ.Model
 {
@@ -65,6 +66,7 @@ namespace TournamentDJ.Model
         private void MedPlayer_MediaFailed(MediaPlayer sender, object args)
         {
             Logger.LoggerInstance.LogWrite("Media Failed");
+            //TODO Add Handling if first URI fails -> It is unkown, when exactly MediaFailed can occur
             MedPlayer.Source = null;
             //throw new NotImplementedException();
         }
@@ -170,9 +172,17 @@ namespace TournamentDJ.Model
             set
             {
                 Set(value);
+                //Make sure, the Player opens the newly set Track
                 if (value != null)
                 {
-                    OpenFile(value.Uri);
+                    //Try for at least one correct Path.
+                    foreach(Uri uri in value.Uris)
+                    {
+                        if(File.Exists(uri.LocalPath))
+                        {
+                            OpenFile(uri);
+                        }
+                    }
                 }
             }
         }
