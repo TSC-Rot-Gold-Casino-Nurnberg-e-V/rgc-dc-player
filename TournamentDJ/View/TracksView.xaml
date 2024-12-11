@@ -78,6 +78,7 @@ Background="Transparent"
           <DataGridTextColumn Binding="{Binding Year}" Header="Year" Width="80" IsReadOnly="True"/>
           <DataGridTextColumn Binding="{Binding Duration}" Header="Duration" Width="80" IsReadOnly="True"/>
           <DataGridTextColumn Binding="{Binding Genre}" Header="Genre" Width="80" IsReadOnly="True"/>
+          <DataGridTextColumn Binding="{Binding ISRC}" Header="ISRC" Width="80" IsReadOnly="True"/>
           <DataGridComboBoxColumn
                       Header="Difficulty"
                       ElementStyle="{StaticResource difficulties}"
@@ -145,6 +146,7 @@ Background="Transparent"
         <DataGrid.Columns>
           <DataGridTextColumn Binding="{Binding Title}" Header="Title" Width="200"/>
           <DataGridTextColumn Binding="{Binding Genre}" Header="Genre" Width="80" IsReadOnly="True"/>
+          <DataGridTextColumn Binding="{Binding ISRC}" Header="ISRC" Width="80" IsReadOnly="True"/>
           <DataGridComboBoxColumn
                           Header="Dance"
                           ElementStyle="{StaticResource dances}"
