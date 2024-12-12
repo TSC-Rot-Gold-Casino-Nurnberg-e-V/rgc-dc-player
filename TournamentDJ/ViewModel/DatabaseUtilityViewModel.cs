@@ -36,6 +36,7 @@ namespace TournamentDJ.ViewModel
 
         public Player Player { get; private set; }
         public TrackListEditorViewModel trackListEditorViewModel { get; private set; }
+        public Logger logger { get { return Logger.LoggerInstance; } }
 
         public ObservableCollection<Uri> FailedUris
         {
