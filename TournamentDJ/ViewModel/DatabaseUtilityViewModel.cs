@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Windows.Input;
 using TournamentDJ.Essentials;
 using TournamentDJ.Model;
+using System.IO;
 
 namespace TournamentDJ.ViewModel
 {
@@ -12,6 +13,7 @@ namespace TournamentDJ.ViewModel
     {
         public bool isPlaying = false;
         public bool playOnClick = false;
+
         public DatabaseUtilityViewModel()
         {
             trackListEditorViewModel = new TrackListEditorViewModel(this);
@@ -21,7 +23,6 @@ namespace TournamentDJ.ViewModel
             TracksToAdd = new ObservableCollection<Track>();
             FilteredTracks = new ObservableCollection<Track>();
             TrackFilterString = string.Empty;
-
         }
 
         public ObservableCollection<Track> TracksToAdd
@@ -36,11 +37,49 @@ namespace TournamentDJ.ViewModel
 
         public Player Player { get; private set; }
         public TrackListEditorViewModel trackListEditorViewModel { get; private set; }
-        public Logger logger { get { return Logger.LoggerInstance; } }
+        public Logger logger 
+        {
+            get { return Logger.LoggerInstance; }
+        }
 
         public ObservableCollection<Uri> FailedUris
         {
             get; set;
+        }
+
+        public int FilesProcessed 
+        { 
+            get
+            {
+                return Get<int>();
+            }
+            set
+            {
+                Set(value);
+                WorkerProgress = (int)((float)FilesProcessed / (float)FilesToProcess * 100);
+            }
+        }
+
+        public int FilesToProcess { get; set; }
+
+        public bool IsProcessing { get; set; }
+
+        public int WorkerProgress 
+        { 
+            get 
+            { 
+               return Get<int>();  
+            }
+            set
+            {
+                Set(value);
+                OnPropertyChanged();
+            }
+        }
+
+        private void WorkerProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            WorkerProgress = e.ProgressPercentage;
         }
 
         public ObservableCollection<Dance> Dances
@@ -160,14 +199,70 @@ namespace TournamentDJ.ViewModel
         }
 
 
-        public void ExecuteChooseFolder()
+        public async void ExecuteChooseFolder()
         {
+            //Dont do shit, if other Task is running.
+            if (IsProcessing == true)
+            {
+                return;
+            }
+
+            IsProcessing = true;
+
             OpenFolderDialog openFolderDialog = new OpenFolderDialog();
+            List<Uri> failedUriList = new List<Uri>();
+            List<Track> tracksList = new List<Track>();
+
             if (openFolderDialog.ShowDialog() == true)
             {
                 var path = openFolderDialog.FolderName;
-                DatabaseUtility.GetFiles(path, TracksToAdd, FailedUris);
+
+                Directory.SetCurrentDirectory(path);
+                string[] filepaths = Directory.GetFiles(path, "*.mp3", SearchOption.AllDirectories);
+
+                FilesToProcess = filepaths.Length;
+                FilesProcessed = 0;
+
+
+                await Task.Run(() =>
+                {
+
+                    foreach (string filepath in filepaths)
+                    {
+                        Uri uri = new Uri(filepath);
+                        Track track = null;
+                        if (uri != null)
+                        {
+                            try
+                            {
+                                track = new Track(uri);
+                            }
+                            catch (Exception)
+                            {
+                                track = null;
+                                failedUriList.Add(uri);
+                            }
+
+                            if (track != null)
+                            {
+                                tracksList.Add(track);
+                            }
+                        }
+                        FilesProcessed++;
+                    }
+                });
             }
+            foreach(Track track in tracksList)
+            {
+                TracksToAdd.Add(track);
+            }
+
+            foreach(Uri uri in failedUriList)
+            {
+                FailedUris.Add(uri);
+            }
+
+            IsProcessing = false;
         }
 
         public void ExecutePlayPause()
@@ -194,10 +289,29 @@ namespace TournamentDJ.ViewModel
             DatabaseUtility.SaveChanges();
         }
 
-        public void ExecuteAddToDatabase()
+        private async void ExecuteAddToDatabase()
         {
-            DatabaseUtility.AddToDatabase(TracksToAdd);
-            TrackFilterString = string.Empty;
+            //Dont do shit, if other Task is running.
+            if(IsProcessing == true)
+            {
+                return;
+            }
+
+            IsProcessing = true;
+            FilesToProcess = TracksToAdd.Count;
+            FilesProcessed = 0;
+
+            await Task.Run(() =>
+            {
+                foreach (var trackToAdd in TracksToAdd)
+                {
+                    DatabaseUtility.AddToDatabase(trackToAdd);
+                    FilesProcessed++;
+                }
+            });
+
+            IsProcessing = false;
+            TracksToAdd.Clear();
         }
 
         public void ExecuteResetTrackFilterClick()

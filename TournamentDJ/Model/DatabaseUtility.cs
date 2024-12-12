@@ -82,11 +82,6 @@ namespace TournamentDJ.Model
             }
         }
 
-        //private static void FillorderElements()
-        //{
-
-        //}
-
         public static void SaveChanges()
         {
             // all changes are automatically tracked, including
@@ -94,96 +89,60 @@ namespace TournamentDJ.Model
             var saved = _context.SaveChanges();
         }
 
-        public static void AddToDatabase(ObservableCollection<Track> tracksToAdd)
+        public static void AddToDatabase(Track trackToAdd)
         {
-            foreach (var trackToAdd in tracksToAdd)
+            Track? found = null;
+
+            found = checkTrackISRC(trackToAdd);
+
+            //Check for Track with same length and title
+            if (found == null)
             {
-                Track? found = null;
+                found = _context.Tracks.FirstOrDefault<Track>(x => x.Title == trackToAdd.Title && x.Duration == trackToAdd.Duration);
+            }
 
-                found = checkTrackISRC(trackToAdd);
+            //There are some really weird and rare cases when duplicate URIS are found, that have to be handled here.
+            //1. A Track gets added, with the same URI, but different lengths and Title, e.g. a file gets replaced
+            //   with a newer version, but the same file name. Solution -> Old Track gets removed, and new Version is added as new Track
+            //2. A new Track gets added with same URI and length, but different Title and ISRC.
+            // Solution -> Old Track is updated to reflect the changes. !!THIS CAN LEAD TO WRONG CATEGORIZATION!!
+            //Because of this, the whole Database has to be searched for duplicate URIs with every insertion.
 
-                //Check for Track with same length and title
-                if(found == null)
+            if (found == null)
+            {
+                foreach (Uri uri in trackToAdd.Uris)
                 {
-                    found = _context.Tracks.FirstOrDefault<Track>(x => x.Title == trackToAdd.Title && x.Duration == trackToAdd.Duration);
-                }
+                    found = checkForDuplicateUri(uri);
 
-                //There are some really weird and rare cases when duplicate URIS are found, that have to be handled here.
-                //1. A Track gets added, with the same URI, but different lengths and Title, e.g. a file gets replaced
-                //   with a newer version, but the same file name. Solution -> Old Track gets removed, and new Version is added as new Track
-                //2. A new Track gets added with same URI and length, but different Title and ISRC.
-                // Solution -> Old Track is updated to reflect the changes. !!THIS CAN LEAD TO WRONG CATEGORIZATION!!
-                //Because of this, the whole Database has to be searched for duplicate URIs with every insertion.
-
-                if (found == null)
-                {
-                    foreach (Uri uri in trackToAdd.Uris)
+                    if (found != null)
                     {
-                        found = checkForDuplicateUri(uri);
-
-                        if (found != null)
+                        //1
+                        if (found.Duration != trackToAdd.Duration && found.Title != trackToAdd.Title)
                         {
-                            //1
-                            if (found.Duration != trackToAdd.Duration && found.Title != trackToAdd.Title)
-                            {
-                                found = handleDuplicateUriWithDifferentTrack(uri);
-                            }
+                            found = handleDuplicateUriWithDifferentTrack(uri);
+                        }
 
-                            //2
-                            if (found.Duration == trackToAdd.Duration)
-                            {
-                                found = handleDuplicateUriWithSimilarTrack(uri, trackToAdd);
-                            }
+                        //2
+                        if (found.Duration == trackToAdd.Duration)
+                        {
+                            found = handleDuplicateUriWithSimilarTrack(uri, trackToAdd);
                         }
                     }
                 }
-
-                //Track already exist in some way. Just add new Uris
-                if (trackToAdd != null && found != null)
-                {
-                    updateTrackUris(found, trackToAdd);
-                }
-
-                //Track is completly new
-                if (trackToAdd != null && found == null)
-                {
-                    Tracks.Add(trackToAdd);
-                }
             }
-            //Cleanup
-            tracksToAdd.Clear();
-        }
 
-
-        public static void GetFiles(string selectedPath, ObservableCollection<Track> outTracks, ObservableCollection<Uri> outFailedUris)
-        {
-
-            Directory.SetCurrentDirectory(selectedPath);
-            string[] filepaths = Directory.GetFiles(selectedPath, "*.mp3", SearchOption.AllDirectories);
-            foreach (string filepath in filepaths)
+            //Track already exist in some way. Just add new Uris
+            if (trackToAdd != null && found != null)
             {
-                Uri uri = new Uri(filepath);
-                Track track = null;
-                if (uri != null)
-                {
-                    try
-                    {
-                        track = new Track(uri);
-                    }
-                    catch (Exception)
-                    {
-                        track = null;
-                        outFailedUris.Add(uri);
-                    }
+                updateTrackUris(found, trackToAdd);
+            }
 
-                    if (track != null)
-                    {
-                        outTracks.Add(track);
-                    }
-                }
+            //Track is completly new
+            if (trackToAdd != null && found == null)
+            {
+                Tracks.Add(trackToAdd);
             }
         }
-
 
         private static Track checkTrackISRC(Track trackToAdd)
         {
@@ -201,8 +160,7 @@ namespace TournamentDJ.Model
                 {
                     trackToAdd.ISRC = string.Empty;
                     found = null;
-                    Logger.LoggerInstance.LogWrite("Track " + trackToAdd.Uris.First<Uri>().AbsolutePath.ToString() +
-                                                    " with same ISRC, but different lengths was added as new Track");
+                    //Logger.LoggerInstance.LogWrite("Track " + trackToAdd.Uris.First<Uri>().AbsolutePath.ToString() + " with same ISRC, but different lengths was added as new Track");
                 }
             }
             return found;
@@ -243,8 +201,7 @@ namespace TournamentDJ.Model
 
             found.Title = trackToAdd.Title;
             found.ISRC = (found.ISRC == null || found.ISRC == string.Empty) ? trackToAdd.ISRC : string.Empty;
-            Logger.LoggerInstance.LogWrite("Track " + found.Uris.First<Uri>().AbsolutePath.ToString() +
-                                    " was updated");
+            //Logger.LoggerInstance.LogWrite("Track " + found.Uris.First<Uri>().AbsolutePath.ToString() + " was updated");
 
             return found;
         }
@@ -258,8 +215,7 @@ namespace TournamentDJ.Model
 
             //Make sure, every Uri is only saved once
             found.Uris = new ObservableCollection<Uri>(found.Uris.Distinct<Uri>());
-            Logger.LoggerInstance.LogWrite("Track " + trackToAdd.Uris.First<Uri>().AbsolutePath.ToString() +
-                                            " already inserted into Database. Save location updated.");
+            //Logger.LoggerInstance.LogWrite("Track " + trackToAdd.Uris.First<Uri>().AbsolutePath.ToString() + " already inserted into Database. Save location updated.");
         }
 
     }
