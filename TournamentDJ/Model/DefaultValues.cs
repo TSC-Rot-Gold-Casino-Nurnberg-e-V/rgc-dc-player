@@ -14,6 +14,7 @@
             new Dance("Cha-Cha", ["[CC]", "(CC)", "ChaCha", "[Cha]", "(Cha)"]),
             new Dance("Rumba", ["[RB]", "(RB)"]),
             new Dance("PasoDoble", ["[PD]", "(PD)"]),
+            new Dance("PasoDoble Cut"),
             new Dance("Jive", ["[JV]", "(JV)"])
         };
     }

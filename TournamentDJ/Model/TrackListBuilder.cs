@@ -7,19 +7,6 @@
 
         }
 
-
-        //TODO: Remove this method, its only for testing purposes and WILL LEAD TO PROBLEMS when used with large databases
-        public static TrackList GetAllTracks()
-        {
-            TrackList trackList = new TrackList();
-            foreach (Track track in DatabaseUtility.Tracks)
-            {
-                trackList.Tracks.Add(track);
-            }
-            return trackList;
-        }
-
-
         public static TrackList CreateDanceRound(DanceRound roundToCreate, int heats = 1, bool single = false, TrackList tracklist = null, bool cantBeFavourite = false, bool overrideParams = false, bool onlyUseUncategorized = false)
         {
             if (roundToCreate == null) { return null; }

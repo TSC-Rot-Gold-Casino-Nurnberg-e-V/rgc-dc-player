@@ -43,13 +43,6 @@ namespace TournamentDJ.ViewModel
 
         public void CreateAdditionalCommands()
         {
-            GetAllTracksCommand = new RelayCommand(ExecuteGetAllTracks);
-        }
-
-
-        public void ExecuteGetAllTracks()
-        {
-            TracksToPlay = TrackListBuilder.GetAllTracks();
         }
 
         public override void ExecuteFadeout()
