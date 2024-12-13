@@ -30,10 +30,10 @@
         </ResourceDictionary>
     </Window.Resources>
     <Grid Background="{StaticResource BackgroundBaseBrush}">
-        
+
         <StackPanel VerticalAlignment="Center" Width="500">
-            <TextBlock Margin="10" FontSize="14" Style="{StaticResource BasicTextBlock}" Text="Please select the audio out device to be used for the main competition player" TextAlignment="Center" TextWrapping="Wrap"/>
-            <TextBlock Margin="0,0,0,2" Style="{StaticResource BasicTextBlock}" Text="Output Device"/>
+            <TextBlock Margin="10" FontSize="14" Style="{StaticResource BasicTextBlock}" Text="{DynamicResource ResourceKey=SelectAudioDevicePrompt}" TextAlignment="Center" TextWrapping="Wrap"/>
+            <TextBlock Margin="0,0,0,2" Style="{StaticResource BasicTextBlock}" Text="{DynamicResource ResourceKey=OutputDevice}"/>
             <ComboBox Margin="0,0,0,10" Style="{StaticResource BasicComboBox}"
                     ItemsSource="{Binding Player.AudioDevices}"
                     SelectedItem="{Binding Player.SelectedAudioDevice}"
@@ -43,10 +43,11 @@
                     IsReadOnly="true"/>
             <DockPanel Margin="0,10,0,0">
                 <Button Width="120" Height="40" Margin="0"
-                        Style="{StaticResource TrackSelectButton}" Content="Skip" Command="{Binding SkipAudioDeviceCommand}" HorizontalAlignment="Left"/>
+                        Style="{StaticResource TrackSelectButton}" Content="{DynamicResource ResourceKey=Skip}" Command="{Binding SkipAudioDeviceCommand}" HorizontalAlignment="Left"/>
                 <Button Width="120" Height="40" Margin="0"
-                        Style="{StaticResource BasicButton}" Content="Confirm" Command="{Binding ConfirmAudioDeviceCommand}" HorizontalAlignment="Right"/>
+                        Style="{StaticResource BasicButton}" Content="{DynamicResource ResourceKey=Confirm}" Command="{Binding ConfirmAudioDeviceCommand}" HorizontalAlignment="Right"/>
             </DockPanel>
+            <ComboBox Foreground="{StaticResource BasicTextBlockGradientBrush}" Margin="10" ItemsSource="{Binding Languages}" SelectedItem="{Binding SelectedLanguage}" Width="400" Height="60" Style="{StaticResource BasicComboBox}"/>
         </StackPanel>
     </Grid>
 </Window>

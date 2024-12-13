@@ -1,7 +1,9 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:system="clr-namespace:System;assembly=mscorlib">
-
-    <system:String x:Key="close">Close</system:String>
-    <system:String x:Key="login">Login</system:String>
+    
+    <system:String x:Key="Skip">Skip</system:String>
+    <system:String x:Key="Confirm">Confirm</system:String>
+    <system:String x:Key="OutputDevice">Output Device</system:String>
+    <system:String x:Key="SelectAudioDevicePrompt">Please select the audio out device to be used for the main competition player</system:String>
 </ResourceDictionary>
