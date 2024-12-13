@@ -62,7 +62,12 @@ namespace TournamentDJ.ViewModel
 
         public int FilesToProcess { get; set; }
 
-        public bool IsProcessing { get; set; }
+        public bool IsProcessing {
+            get { return Get<bool>(); }
+            set { Set(value);
+                OnPropertyChanged();
+             }
+        }
 
         public int WorkerProgress 
         { 
@@ -111,41 +116,24 @@ namespace TournamentDJ.ViewModel
             }
         }
 
+        public Dance? SelectedDance
+        {
+            get { return Get<Dance>(); }
+            set
+            {
+                Set(value);
+                OnPropertyChanged();
+                ExecuteApplyTrackFilter();
+            }
+        }
+
         public string TrackFilterString
         {
             get { return Get<string>(); }
             set
             {
                 Set(value);
-                if (value != null || value != string.Empty)
-                {
-                    FilteredTracks.Clear();
-                    foreach (var track in Tracks)
-                    {
-                        value = value.ToLowerInvariant();
-                        if (track.Dance != null && !string.IsNullOrEmpty(track.Dance.Name) && track.Dance.Name.ToLowerInvariant().Contains(value))
-                        {
-                            FilteredTracks.Add(track);
-                            continue;
-                        }
-
-                        if (track.Title != null && !string.IsNullOrEmpty(track.Title) && track.Title.ToLowerInvariant().Contains(value))
-                        {
-                            FilteredTracks.Add(track);
-                            continue;
-                        }
-
-                        if (track.Genre != null && !string.IsNullOrEmpty(track.Genre) && track.Genre.ToLowerInvariant().Contains(value))
-                        {
-                            FilteredTracks.Add(track);
-                            continue;
-                        }
-                    }
-                }
-                else
-                {
-                    FilteredTracks = Tracks;
-                }
+                ExecuteApplyTrackFilter();
             }
         }
 
@@ -187,6 +175,7 @@ namespace TournamentDJ.ViewModel
         public ICommand PlayPauseCommand { get; private set; }
         public ICommand TogglePlayOnClickCommand { get; private set; }
         public ICommand ResetTrackFilterClickCommand { get; private set; }
+        public ICommand ApplyTrackFilterClickCommand { get; private set; }
 
         public void CreateCommands()
         {
@@ -196,6 +185,7 @@ namespace TournamentDJ.ViewModel
             PlayPauseCommand = new RelayCommand(ExecutePlayPause);
             TogglePlayOnClickCommand = new RelayCommand(ExecuteTogglePlayOnClick);
             ResetTrackFilterClickCommand = new RelayCommand(ExecuteResetTrackFilterClick);
+            ApplyTrackFilterClickCommand = new RelayCommand(ExecuteApplyTrackFilter);
         }
 
 
@@ -317,6 +307,37 @@ namespace TournamentDJ.ViewModel
         public void ExecuteResetTrackFilterClick()
         {
             TrackFilterString = string.Empty;
+            SelectedDance = null;
+            ExecuteApplyTrackFilter();
+        }
+
+        public void ExecuteApplyTrackFilter()
+        {
+            if (SelectedDance != null)
+            {
+                FilteredTracks = new ObservableCollection<Track>(Tracks.Where(X => X.Dance == SelectedDance));
+            }
+            else
+            {
+                FilteredTracks = Tracks;
+            }
+
+            ObservableCollection<Track> newFilterdTracks = new ObservableCollection<Track>();
+
+            if (TrackFilterString != null || TrackFilterString != string.Empty)
+            {
+                string filterString = TrackFilterString.ToLowerInvariant();
+                foreach (var track in FilteredTracks)
+                {
+                    if (track.Title != null && !string.IsNullOrEmpty(track.Title) && track.Title.ToLowerInvariant().Contains(filterString))
+                    {
+                        newFilterdTracks.Add(track);
+                        continue;
+                    }
+                }
+
+                FilteredTracks = newFilterdTracks;
+            }
         }
 
         public void OnWindowClosing(object sender, CancelEventArgs e)
