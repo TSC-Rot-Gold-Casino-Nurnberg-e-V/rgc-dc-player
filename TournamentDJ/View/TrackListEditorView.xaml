@@ -24,13 +24,12 @@
                 <ResourceDictionary Source="pack://application:,,,/TournamentDJ;component/Styles/ScrollBarStyles.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/TournamentDJ;component/Styles/DataGridStyles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
+            <conv:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
             <ess:BindingProxy x:Key="BindingProxy" Data="{Binding}"/>
             <SolidColorBrush x:Key="BackgroundBaseBrush" Color="{StaticResource Base900}"/>
             <SolidColorBrush x:Key="BorderBaseBrush" Color="{StaticResource Base600}"/>
             <CollectionViewSource x:Key="danceViewSource" Source="{Binding Dances}"/>
             <CollectionViewSource x:Key="danceTrackViewSource" Source="{Binding Tracks}"/>
-            <CollectionViewSource x:Key="difficulties" Source="{Binding Difficulties}"/>
-            <CollectionViewSource x:Key="danceRoundViewSource" Source="{Binding DanceRounds}"/>
         </ResourceDictionary>
     </UserControl.Resources>
     <UserControl.DataContext>
@@ -66,24 +65,41 @@ Background="Transparent"
                 <KeyBinding Key="Insert" Command="{Binding AddToTrackListCommand}"/>
             </StackPanel.InputBindings>
             <DockPanel>
+                <Grid>
+                <ComboBox x:Name="DanceFilterComboBox"
+                Style="{StaticResource BasicComboBox}"
+                ItemsSource="{Binding Dances}"
+                SelectedItem="{Binding SelectedDance}"
+                DisplayMemberPath="Name"
+                IsEditable="true"
+                IsReadOnly="true"
+                Width="200"
+                Margin="0,0,4,0"/>
+                <TextBlock Style="{StaticResource BasicTextBlock}"
+                    VerticalAlignment="Bottom"
+                    HorizontalAlignment="Left"
+                           Margin="4"
+                    Visibility="{Binding SelectedItem, ElementName=DanceFilterComboBox, Converter={StaticResource NullToVisibilityConverter}}"
+                    IsHitTestVisible="False"
+                    Text="Select Dance... " />
+                </Grid>
+
                 <TextBox Text="{Binding TrackFilterString, UpdateSourceTrigger=PropertyChanged}" Width="200" Height="30" Style="{StaticResource BasicTextBox}"/>
                 <Button Width="100" HorizontalAlignment="Left" Margin="4,0,4,0" Content="Apply Filter" Style="{StaticResource BasicButton}"/>
                 <Button Width="100" HorizontalAlignment="Left" Margin="4,0,4,0" Content="Reset Filter" Command="{Binding ResetTrackFilterClickCommand}" Style="{StaticResource BasicButton}"/>
             </DockPanel>
-            
-
-                <DataGrid Grid.Column="1" x:Name="tracksDataGrid" AutoGenerateColumns="False" 
-                  EnableRowVirtualization="True" 
-                  ItemsSource="{Binding FilteredTracks}" 
-                  RowDetailsVisibilityMode="Visible" 
-                  SelectedItem="{Binding SelectedTrackInTracks}"
-                      Height="500"
-                  Margin="5"                                  
-                          Foreground="{StaticResource BasicTextBlockGradientBrush}"
-HorizontalGridLinesBrush="{StaticResource BasicHighlightBorderBrush}"
-VerticalGridLinesBrush="{StaticResource BasicHighlightBorderBrush}"
-Background="Transparent"
-                          BorderBrush="{StaticResource BorderBaseBrush}">
+            <DataGrid Grid.Column="1" x:Name="tracksDataGrid" AutoGenerateColumns="False" 
+                EnableRowVirtualization="True" 
+                ItemsSource="{Binding FilteredTracks}" 
+                RowDetailsVisibilityMode="Visible" 
+                SelectedItem="{Binding SelectedTrackInTracks}"
+                Height="500"
+                Margin="5"                                  
+                Foreground="{StaticResource BasicTextBlockGradientBrush}"
+                HorizontalGridLinesBrush="{StaticResource BasicHighlightBorderBrush}"
+                VerticalGridLinesBrush="{StaticResource BasicHighlightBorderBrush}"
+                Background="Transparent"
+                BorderBrush="{StaticResource BorderBaseBrush}">
                 <DataGrid.Columns>
                     <DataGridTextColumn Binding="{Binding Title}" Header="Title" Width="200"/>
                     <DataGridTextColumn Binding="{Binding Dance.Name}" Header="Dance" Width="80" IsReadOnly="True"/>
