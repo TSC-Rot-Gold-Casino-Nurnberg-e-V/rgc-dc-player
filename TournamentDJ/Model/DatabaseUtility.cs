@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Windows;
+using TagLib.Ape;
 using TournamentDJ.Essentials;
 
 namespace TournamentDJ.Model
@@ -125,7 +127,8 @@ namespace TournamentDJ.Model
                         //2
                         if (found.Duration == trackToAdd.Duration)
                         {
-                            found = handleDuplicateUriWithSimilarTrack(uri, trackToAdd);
+                            found = handleDuplicateUriWithSimilarTrack(trackToAdd, found);
+                            trackToAdd = null;
                         }
                     }
                 }
@@ -185,24 +188,29 @@ namespace TournamentDJ.Model
         {
             Track? found = null;
 
-            found.Uris.Remove(uri);
+            Application.Current.Dispatcher.Invoke(new Action(() => found.Uris.Remove(uri)));
+            
             if (found.Uris.Count == 0)
             {
                 _context.Tracks.Remove(found);
             }
+
             found = null;
 
             return found;
         }
 
-        private static Track handleDuplicateUriWithSimilarTrack(Uri uri, Track trackToAdd)
+        private static Track handleDuplicateUriWithSimilarTrack(Track trackToAdd, Track found)
         {
-            Track? found = null;
+            void updateTrack()
+            {
+                found.Title = trackToAdd.Title;
+                found.ISRC = (found.ISRC == null || found.ISRC == string.Empty) ? trackToAdd.ISRC : string.Empty;
+            }
 
-            found.Title = trackToAdd.Title;
-            found.ISRC = (found.ISRC == null || found.ISRC == string.Empty) ? trackToAdd.ISRC : string.Empty;
-            //Logger.LoggerInstance.LogWrite("Track " + found.Uris.First<Uri>().AbsolutePath.ToString() + " was updated");
+            Application.Current.Dispatcher.Invoke(new Action(() => updateTrack()));
 
+            found = null;
             return found;
         }
 
@@ -210,11 +218,13 @@ namespace TournamentDJ.Model
         {
             foreach (Uri uri in trackToAdd.Uris)
             {
-                found.Uris.Add(uri);
+                //found.Uris.Add(uri);
+                Application.Current.Dispatcher.Invoke(new Action(() => found.Uris.Add(uri)));
             }
 
             //Make sure, every Uri is only saved once
-            found.Uris = new ObservableCollection<Uri>(found.Uris.Distinct<Uri>());
+            ObservableCollection<Uri> newUris = new ObservableCollection<Uri>(found.Uris.Distinct<Uri>());
+            found.Uris = newUris;
             //Logger.LoggerInstance.LogWrite("Track " + trackToAdd.Uris.First<Uri>().AbsolutePath.ToString() + " already inserted into Database. Save location updated.");
         }
 
