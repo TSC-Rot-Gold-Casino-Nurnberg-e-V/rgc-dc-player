@@ -36,11 +36,10 @@
     </UserControl.Resources>
     <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
         <Grid.RowDefinitions>
-            <RowDefinition Height="1*" MinHeight="75"/>
+            <RowDefinition Height="0.5*" MinHeight="70"/>
             <RowDefinition Height="3*"/>
             <RowDefinition Height="40"/>
             <RowDefinition Height="5*"/>
-            <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
         <DockPanel Grid.Row="0" Height="70">
             <Button Height="50" Content="Choose Folder" Command="{Binding ChooseFolderCommand}" Margin="5" Style="{StaticResource BasicButton}"/>
@@ -127,7 +126,7 @@ Background="Transparent"
         </DockPanel>
         <Grid Grid.Row="3">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="4*"/>
+                <ColumnDefinition Width="3*"/>
                 <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
             <DataGrid Grid.Column="0" x:Name="tracksDataGrid" AutoGenerateColumns="False"
