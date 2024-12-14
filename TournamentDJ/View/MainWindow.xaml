@@ -9,6 +9,7 @@
         xmlns:ess="clr-namespace:TournamentDJ.Essentials"
         xmlns:view="clr-namespace:TournamentDJ.View" 
         xmlns:viewmodel="clr-namespace:TournamentDJ.ViewModel" 
+        xmlns:conv="clr-namespace:TournamentDJ.Converter"
         d:DataContext="{d:DesignInstance Type=viewmodel:MainWindowViewModel,IsDesignTimeCreatable=False}"
         Title="MainWindow" 
         Width="{x:Static SystemParameters.PrimaryScreenWidth}"  
@@ -27,45 +28,88 @@
                 <ResourceDictionary Source="pack://application:,,,/TournamentDJ;component/Styles/ScrollBarStyles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             <ess:BindingProxy x:Key="BindingProxy" Data="{Binding}"/>
+            <conv:BoolToCollapsedConverter x:Key="BoolToCollapsedConverter"/>
             <SolidColorBrush x:Key="BackgroundBaseBrush" Color="{StaticResource Base900}"/>
             <SolidColorBrush x:Key="BorderBaseBrush" Color="{StaticResource Base600}"/>
         </ResourceDictionary>
     </Window.Resources>
-    
+
+
+
+
+
+
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="40" MinHeight="40" x:Name="TopBar" />
-            <RowDefinition Height="2" x:Name="Split1" />
-            <RowDefinition Height="250" MinHeight="250" x:Name="CompPlayer"/>
-            <RowDefinition Height="2" x:Name="Split2" />
-            <RowDefinition Height="180" x:Name="WarmupPlayer"  MinHeight="180"/>
-            <RowDefinition Height="2" x:Name="Split3" />
-            <RowDefinition Height="*" MinHeight="250" x:Name="DualPlayer"/>
-        </Grid.RowDefinitions>
-        <Grid Grid.Row="0" Background="{StaticResource BasicBackgroundBrush}">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" MinWidth="160"/>
-                <ColumnDefinition Width="3*"/>
-                <ColumnDefinition Width="*" MinWidth="160"/>
-            </Grid.ColumnDefinitions>
-            <ScrollViewer Grid.Column="1" ess:AutoScrollBehavior.AutoScroll="True" HorizontalAlignment="Center" VerticalScrollBarVisibility="Auto">
-                <TextBlock Text="{Binding logger.LogText}" Style="{StaticResource BasicTextBlock}" Width="400" Margin="4,0,4,0" FontSize="10" HorizontalAlignment="Center" Foreground="{StaticResource MenuPopupBrush}"/>
-            </ScrollViewer>
-            <DockPanel Background="{StaticResource BasicBackgroundBrush}" Grid.Column="2">
-                <Button Style="{StaticResource BasicButton}" Content="Open Database Utility" Width="140" HorizontalAlignment="Right" Command="{Binding OpenDatabaseUtilityCommand}"/>
-            </DockPanel>
+        <Grid Background="BlueViolet" Visibility="{Binding AdvancedModeNotActive, Converter={StaticResource BoolToCollapsedConverter}}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40" MinHeight="40"/>
+                <RowDefinition Height="2"/>
+                <RowDefinition Height="450" MinHeight="250" />
+                <RowDefinition Height="2" />
+                <RowDefinition Height="280" MinHeight="180"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0" Background="{StaticResource BasicBackgroundBrush}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" MinWidth="160"/>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="*" MinWidth="160"/>
+                </Grid.ColumnDefinitions>
+                <ScrollViewer Grid.Column="1" ess:AutoScrollBehavior.AutoScroll="True" HorizontalAlignment="Center" VerticalScrollBarVisibility="Auto">
+                    <TextBlock Text="{Binding logger.LogText}" Style="{StaticResource BasicTextBlock}" Width="400" Margin="4,0,4,0" FontSize="10" HorizontalAlignment="Center" Foreground="{StaticResource MenuPopupBrush}"/>
+                </ScrollViewer>
+                <DockPanel Background="{StaticResource BasicBackgroundBrush}" Grid.Column="2">
+                    <TextBlock Text="{DynamicResource ResourceKey=AdvancedMode}" Style="{StaticResource BasicTextBlock}" FontSize="22" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <CheckBox Style="{StaticResource BasicCheckBox}" IsChecked="{Binding AdvancedModeActive}">
+                        <CheckBox.LayoutTransform>
+                            <ScaleTransform ScaleX="3" ScaleY="3" />
+                        </CheckBox.LayoutTransform>
+                    </CheckBox>
+                </DockPanel>
+            </Grid>
         </Grid>
-        <GridSplitter Grid.Row="1" Height="3" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="{StaticResource BasicDividerBrush}"/>
-        <Grid Grid.Row="2">
-            <view:TournamentPlayerView DataContext="{Binding TournamentPlayerViewModel}"/>
-        </Grid>
-        <GridSplitter Grid.Row="3" Height="3" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="{StaticResource BasicDividerBrush}"/>
-        <Grid Grid.Row="4">
-            <view:WarmupPlayerView DataContext="{Binding WarmupPlayerViewModel}"/>
-        </Grid>
-        <GridSplitter Grid.Row="5" Height="3" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="{StaticResource BasicDividerBrush}"/>
-        <Grid Grid.Row="6">
-            <view:DualPlayerView DataContext="{Binding DualPlayerViewModel}"/>
+
+        <Grid Visibility="{Binding AdvancedModeActive, Converter={StaticResource BoolToCollapsedConverter}}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40" MinHeight="40" x:Name="TopBar" />
+                <RowDefinition Height="2" x:Name="Split1" />
+                <RowDefinition Height="250" MinHeight="250" x:Name="CompPlayer"/>
+                <RowDefinition Height="2" x:Name="Split2" />
+                <RowDefinition Height="180" x:Name="WarmupPlayer"  MinHeight="180"/>
+                <RowDefinition Height="2" x:Name="Split3" />
+                <RowDefinition Height="*" MinHeight="250" x:Name="DualPlayer"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0" Background="{StaticResource BasicBackgroundBrush}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" MinWidth="160"/>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="*" MinWidth="160"/>
+                </Grid.ColumnDefinitions>
+                <ScrollViewer Grid.Column="1" ess:AutoScrollBehavior.AutoScroll="True" HorizontalAlignment="Center" VerticalScrollBarVisibility="Auto">
+                    <TextBlock Text="{Binding logger.LogText}" Style="{StaticResource BasicTextBlock}" Width="400" Margin="4,0,4,0" FontSize="10" HorizontalAlignment="Center" Foreground="{StaticResource MenuPopupBrush}"/>
+                </ScrollViewer>
+                <DockPanel Background="{StaticResource BasicBackgroundBrush}" Grid.Column="2">
+                    <Button Style="{StaticResource BasicButton}" 
+                        Content="Open Database Utility" 
+                        Width="140" 
+                        HorizontalAlignment="Right" 
+                        Command="{Binding OpenDatabaseUtilityCommand}"
+                        />
+                    <TextBlock Text="{DynamicResource ResourceKey=AdvancedMode}" Style="{StaticResource BasicTextBlock}"/>
+                    <CheckBox Style="{StaticResource BasicCheckBox}" IsChecked="{Binding AdvancedModeActive}"/>
+                </DockPanel>
+            </Grid>
+            <GridSplitter Grid.Row="1" Height="3" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="{StaticResource BasicDividerBrush}"/>
+            <Grid Grid.Row="2">
+                <view:TournamentPlayerView DataContext="{Binding TournamentPlayerViewModel}"/>
+            </Grid>
+            <GridSplitter Grid.Row="3" Height="3" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="{StaticResource BasicDividerBrush}"/>
+            <Grid Grid.Row="4">
+                <view:WarmupPlayerView DataContext="{Binding WarmupPlayerViewModel}"/>
+            </Grid>
+            <GridSplitter Grid.Row="5" Height="3" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="{StaticResource BasicDividerBrush}"/>
+            <Grid Grid.Row="6" Visibility="{Binding AdvancedModeActive, Converter={StaticResource BoolToCollapsedConverter}}">
+                <view:DualPlayerView DataContext="{Binding DualPlayerViewModel}"/>
+            </Grid>
         </Grid>
     </Grid>
 </Window>

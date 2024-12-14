@@ -6,4 +6,5 @@
     <system:String x:Key="Confirm">Confirm</system:String>
     <system:String x:Key="OutputDevice">Output Device</system:String>
     <system:String x:Key="SelectAudioDevicePrompt">Please select the audio out device to be used for the main competition player</system:String>
+    <system:String x:Key="AdvancedMode">Advanced Mode</system:String>
 </ResourceDictionary>

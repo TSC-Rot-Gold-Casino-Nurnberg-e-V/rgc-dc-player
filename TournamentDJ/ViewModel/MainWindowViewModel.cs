@@ -34,6 +34,32 @@ namespace TournamentDJ.ViewModel
             set { Set(value); }
         }
 
+        public bool AdvancedModeActive {
+            get
+            {
+                return Get<bool>();
+            } 
+            set 
+            {
+                Set(value);
+                AdvancedModeNotActive = !value;
+                OnPropertyChanged(); 
+            }
+        }
+
+        public bool AdvancedModeNotActive
+        {
+            get
+            {
+                return Get<bool>();
+            }
+            private set
+            {
+                Set(value);
+                OnPropertyChanged();
+            }
+        }
+
         public Logger logger { get { return Logger.LoggerInstance; } }
 
         public DatabaseUtility dbUtil = new DatabaseUtility();
@@ -45,6 +71,7 @@ namespace TournamentDJ.ViewModel
             WarmupPlayerViewModel = new WarmupPlayerViewModel();
             DualPlayerViewModel = new DualPlayerViewModel();
             CreateCommands();
+            AdvancedModeActive = true;
         }
 
 
