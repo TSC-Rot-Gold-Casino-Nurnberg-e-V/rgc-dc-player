@@ -8,7 +8,7 @@
         {
             //MedPlayer.Pause();
 
-            if (TrackPlaying != null && TracksToPlay.Tracks.Count > 0)
+            if (TrackPlaying != null && TracksToPlay != null && TracksToPlay.Tracks.Count > 0)
             {
                 TracksPlayed.Tracks.Add(TrackPlaying);
             }

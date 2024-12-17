@@ -40,15 +40,16 @@
 
 
     <Grid Background="{StaticResource BasicBackgroundBrush}">
-        <Grid Background="BlueViolet" Visibility="{Binding AdvancedModeNotActive, Converter={StaticResource BoolToCollapsedConverter}}">
+        <Viewbox Stretch="Uniform">
+        <Grid Width="1280" Height="650" Visibility="{Binding AdvancedModeNotActive, Converter={StaticResource BoolToCollapsedConverter}}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="40" MinHeight="40"/>
                 <RowDefinition Height="2"/>
-                <RowDefinition Height="264" MinHeight="254" />
+                <RowDefinition Height="254" MinHeight="254" />
                 <RowDefinition Height="2" />
-                <RowDefinition Height="280" MinHeight="190"/>
+                <RowDefinition Height="150" MinHeight="150"/>
                 <RowDefinition Height="2" />
-                <RowDefinition Height="280" MinHeight="180"/>
+                <RowDefinition Height="200" MinHeight="200"/>
             </Grid.RowDefinitions>
             <Grid Grid.Row="0" Background="{StaticResource BasicBackgroundBrush}">
                 <Grid.ColumnDefinitions>
@@ -77,16 +78,16 @@
                 <view:WarmupPlayerSimpleView DataContext="{Binding WarmupPlayerViewModel}"/>
             </Grid>
             <GridSplitter Grid.Row="5" Height="3" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="{StaticResource BasicDividerBrush}"/>
-            <Grid Grid.Row="6">
-                <view:DualPlayerView DataContext="{Binding DualPlayerViewModel}"/>
+                <Grid Grid.Row="6">
+                    <view:TouchPlayerSimpleView DataContext="{Binding TouchPlayerViewModel}"/>
+                </Grid>
             </Grid>
-        </Grid>
-
+        </Viewbox>
 
 
 
         <Viewbox Stretch="Uniform">
-            <Grid Visibility="{Binding AdvancedModeActive, Converter={StaticResource BoolToCollapsedConverter}}">
+            <Grid Width="1280" Height="650" Visibility="{Binding AdvancedModeActive, Converter={StaticResource BoolToCollapsedConverter}}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="40" MinHeight="40" x:Name="TopBar" />
                     <RowDefinition Height="2" x:Name="Split1" />

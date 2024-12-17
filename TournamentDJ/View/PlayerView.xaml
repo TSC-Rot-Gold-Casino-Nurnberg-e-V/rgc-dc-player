@@ -29,7 +29,6 @@
             <ColumnDefinition Width="1*"/>
         </Grid.ColumnDefinitions>
         <StackPanel HorizontalAlignment="Left" Grid.Column="0" Orientation="Vertical" Background="Black" Height="200">
-            <TextBlock Width="244" Height="50" Margin ="5" Background="Azure" Text="{Binding TrackPlaying.Uri, Converter={StaticResource UriToStringConverter}, StringFormat='Path={0}'}" TextWrapping="Wrap" />
             <TextBlock Width="244" Height="50" Margin ="5" Background="Azure" Text="{Binding Player.timeData}" />
         </StackPanel>
         <StackPanel Grid.Column="1" HorizontalAlignment="Left">

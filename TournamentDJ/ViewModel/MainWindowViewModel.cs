@@ -22,6 +22,12 @@ namespace TournamentDJ.ViewModel
             set { Set(value); }
         }
 
+        public TouchPlayerViewModel TouchPlayerViewModel
+        {
+            get { return Get<TouchPlayerViewModel>(); }
+            set { Set(value); }
+        }
+
         public DualPlayerViewModel DualPlayerViewModel
         {
             get { return Get<DualPlayerViewModel>(); }
@@ -70,6 +76,7 @@ namespace TournamentDJ.ViewModel
             TournamentPlayerViewModel = new TournamentPlayerViewModel();
             WarmupPlayerViewModel = new WarmupPlayerViewModel();
             DualPlayerViewModel = new DualPlayerViewModel();
+            TouchPlayerViewModel = new TouchPlayerViewModel();
             CreateCommands();
             AdvancedModeActive = true;
         }

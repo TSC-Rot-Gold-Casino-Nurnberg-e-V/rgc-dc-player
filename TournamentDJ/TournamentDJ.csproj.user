@@ -18,6 +18,9 @@
     <Compile Update="View\DanceRoundEditorView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="View\TouchPlayerSimpleView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Styles\ButtonStyles.xaml">
@@ -51,6 +54,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="View\SelectSpecificTrackWindows.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\TouchPlayerSimpleView.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="View\TournamentPlayerSimpleView.xaml">

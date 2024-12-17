@@ -11,6 +11,7 @@ namespace TournamentDJ.ViewModel
             get { return Get<WarmupPlayer>(); }
             set { Set(value); }
         }
+
         public WarmupPlayerViewModel() : base()
         {
             Player = new WarmupPlayer();
@@ -20,7 +21,6 @@ namespace TournamentDJ.ViewModel
                 new TimeSpan(0, 0, 15),
                 new TimeSpan(0, 0, 60),
                 new TimeSpan(0, 0, 90),
-                TimeSpan.Zero,
             ];
             CreateAdditionalCommands();
 

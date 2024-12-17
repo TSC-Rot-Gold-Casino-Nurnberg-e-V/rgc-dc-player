@@ -34,9 +34,9 @@
         <SolidColorBrush Color="{StaticResource Base900}"/>
     </UserControl.Background>
 
-    <Grid Margin="6">
+    <Grid Margin="4">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="9*"/>
+            <ColumnDefinition Width="10*"/>
             <ColumnDefinition Width="10*"/>
         </Grid.ColumnDefinitions>
         <Border Style="{StaticResource BorderActivitySensitive}"  Margin="2" BorderThickness="2" CornerRadius="2" Grid.Column="0" Grid.ColumnSpan="1">
@@ -81,33 +81,38 @@ IsReadOnly="true"/>
                 <Button  Style="{StaticResource ImageButton}" Content="pack://application:,,,/Assets/next.png" Width="60" Height="60" HorizontalAlignment="Left" Command="{Binding NextClickCommand}"/>
                 <Button  Style="{StaticResource BasicTouchButton}" Content="Fadeout" Width="100" Height="60" HorizontalAlignment="Left" Command="{Binding FadeoutClickCommand}"/>
             </DockPanel>
-            <Slider Margin="40,0,0,3" HorizontalAlignment="Left"
-                    Width="400" Height="40" Value="{Binding Player.MedPlayer.Volume}" Maximum="1.0" 
+        </StackPanel>
+        <Slider Margin="4" HorizontalAlignment="Right" Grid.Row="0" Grid.RowSpan="2" VerticalAlignment="Center"
+                    Width="120" Height="40" Value="{Binding Player.MedPlayer.Volume}" Maximum="1.0" 
                         Style="{StaticResource TouchSlider}"
                         LargeChange="0.1" >
+            <Slider.LayoutTransform>
+                <RotateTransform Angle="270"/>
+            </Slider.LayoutTransform>
 
-                <i:Interaction.Behaviors>
-                    <ess:MouseWheelSliderBehavior Amount="0.03" />
-                </i:Interaction.Behaviors>
-            </Slider>
-        </StackPanel>
+            <i:Interaction.Behaviors>
+                <ess:MouseWheelSliderBehavior Amount="0.03" />
+            </i:Interaction.Behaviors>
+        </Slider>
 
         <Border BorderBrush="{StaticResource BasicHighlightBorderBrush}"  Margin="2" BorderThickness="2" CornerRadius="2" Grid.Column="1" Grid.ColumnSpan="1">
 
 
             <DockPanel Height="200">
-                <StackPanel>
+                <StackPanel Width="160">
                     <TextBlock Style="{StaticResource BasicTextBlock}" FontSize="16" FontWeight="Thin" Margin="4" HorizontalAlignment="Left" VerticalAlignment="Top" Width="160" Height="40" Text="{Binding Player.TrackPlaying.Title}" ToolTip="Track Title"/>
                     <TextBlock Style="{StaticResource BasicTextBlock}" FontSize="16" FontWeight="Thin" Margin="4" HorizontalAlignment="Left" Width="160" Height="20" Text="{Binding Player.timeData}" ToolTip="Time played / Time remaining"/>
+
+                </StackPanel>
+                
+                <StackPanel Width="120">
                     <TextBlock Style="{StaticResource BasicTextBlock}" FontSize="16" FontWeight="Thin" Margin="4" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="40" Text="{Binding Player.TrackPlaying.Dance.Name}" ToolTip="Dance"/>
                     <TextBlock Style="{StaticResource LastPlayedPlayerTextBlock}" FontSize="16" FontWeight="Normal" Margin="4" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="40" Text="{Binding Player.TrackPlaying.LastPlayedTime, StringFormat={}{0:MM/dd/yyyy}}" ToolTip="Dance"/>
 
                 </StackPanel>
-                <StackPanel>
-                   </StackPanel>
-                <StackPanel HorizontalAlignment="Left" MinHeight="100">
+                <StackPanel HorizontalAlignment="Left" MinHeight="90">
                     <TextBlock Text="Comment" Style="{StaticResource BasicTextBlock}" FontSize="16" FontWeight="Thin" Margin="4"/>
-                    <TextBox Text="{Binding Player.TrackPlaying.Comment}" Width="160" Margin="4" Height="100" HorizontalAlignment="Left" TextWrapping="Wrap" Style="{StaticResource BasicTextBox}" VerticalScrollBarVisibility="Auto"/>
+                    <TextBox Text="{Binding Player.TrackPlaying.Comment}" Width="140" Margin="4" Height="90" HorizontalAlignment="Left" TextWrapping="Wrap" Style="{StaticResource BasicTextBox}" VerticalScrollBarVisibility="Auto"/>
                 </StackPanel>
                 <Button Margin="6" VerticalAlignment="Top" Style="{StaticResource BasicTouchButton}" Content="Reselect" Width="100" Height="60" Command="{Binding ReselectClickCommand}" CommandParameter="{Binding Player.TrackPlaying}"/>
 

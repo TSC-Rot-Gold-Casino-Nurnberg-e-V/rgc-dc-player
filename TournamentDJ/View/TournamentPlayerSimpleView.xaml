@@ -39,7 +39,7 @@
         <SolidColorBrush Color="{StaticResource Base900}"/>
     </UserControl.Background>
 
-    <Grid Background="{StaticResource BackgroundBaseBrush}" Margin="6">
+    <Grid Background="{StaticResource BackgroundBaseBrush}" Margin="4">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="8*" MinWidth="300"/>
             <ColumnDefinition Width="13*" MinWidth="300"/>
