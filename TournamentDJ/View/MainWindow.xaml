@@ -44,9 +44,9 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="40" MinHeight="40"/>
                 <RowDefinition Height="2"/>
-                <RowDefinition Height="264" MinHeight="264" />
+                <RowDefinition Height="264" MinHeight="254" />
                 <RowDefinition Height="2" />
-                <RowDefinition Height="280" MinHeight="180"/>
+                <RowDefinition Height="280" MinHeight="190"/>
                 <RowDefinition Height="2" />
                 <RowDefinition Height="280" MinHeight="180"/>
             </Grid.RowDefinitions>
@@ -94,7 +94,7 @@
                     <RowDefinition Height="2" x:Name="Split2" />
                     <RowDefinition Height="180" x:Name="WarmupPlayer"  MinHeight="180"/>
                     <RowDefinition Height="2" x:Name="Split3" />
-                    <RowDefinition Height="*" MinHeight="250" x:Name="DualPlayer"/>
+                    <RowDefinition Height="*" MinHeight="250" x:Name="DualPlayer" />
                 </Grid.RowDefinitions>
                 <Grid Grid.Row="0" Background="{StaticResource BasicBackgroundBrush}">
                     <Grid.ColumnDefinitions>

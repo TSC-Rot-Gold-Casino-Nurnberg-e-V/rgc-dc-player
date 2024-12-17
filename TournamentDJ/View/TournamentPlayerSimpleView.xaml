@@ -49,8 +49,8 @@
                 <StackPanel>
                     <DockPanel>
                         <StackPanel Margin="4" Width="260" HorizontalAlignment="Left">
-                            <TextBlock Style="{StaticResource BasicTextBlock}" Text="Output Device" FontSize="20" />
-                            <ComboBox FontSize="20"
+                            <TextBlock Style="{StaticResource BasicTextBlock}" Text="Output Device" FontSize="18"/>
+                            <ComboBox FontSize="18"
                                 Style="{StaticResource BasicComboBox}"
                             ItemsSource="{Binding Player.AudioDevices}"
                             SelectedItem="{Binding Player.SelectedAudioDevice}"
@@ -59,9 +59,9 @@
                             IsEditable="true"
                             IsReadOnly="true"/>
                         </StackPanel>
-                        <StackPanel HorizontalAlignment="Left" Margin="4">
-                            <TextBlock Text="Laufzeit" Style="{StaticResource BasicTextBlock}" FontSize="20"/>
-                            <ComboBox Name="comboBox1" Style="{StaticResource BasicComboBox}" FontSize="20"
+                        <StackPanel HorizontalAlignment="Left" Margin="4" Width="150">
+                            <TextBlock Text="Laufzeit" Style="{StaticResource BasicTextBlock}" FontSize="18"/>
+                            <ComboBox Name="comboBox1" Style="{StaticResource BasicComboBox}" FontSize="18"
                                     ItemsSource="{Binding Runtimes}"
                                     SelectedItem="{Binding SelectedTimeSpan}"
                                     Text="auswählen..."
@@ -70,9 +70,9 @@
                         </StackPanel>
                     </DockPanel>
                     <DockPanel>
-                        <StackPanel HorizontalAlignment="Left" Margin="4">
-                            <TextBlock Text="Tanzrunde" Style="{StaticResource BasicTextBlock}" FontSize="20"/>
-                            <ComboBox Name="comboBox2" Style="{StaticResource BasicComboBox}" FontSize="20"
+                        <StackPanel HorizontalAlignment="Left" Margin="4" Width="175">
+                            <TextBlock Text="Tanzrunde" Style="{StaticResource BasicTextBlock}" FontSize="18"/>
+                            <ComboBox Name="comboBox2" Style="{StaticResource BasicComboBox}" FontSize="18"
                         ItemsSource="{Binding DanceRounds}"
                         SelectedItem="{Binding SelectedDanceRound}"
                         DisplayMemberPath="Name"
@@ -80,8 +80,8 @@
                         IsEditable="true"
                         IsReadOnly="true"/>
                         </StackPanel>
-                        <StackPanel HorizontalAlignment="Left" Margin="4">
-                            <TextBlock Text="Anzahl Heats" Style="{StaticResource BasicTextBlock}" FontSize="20"/>
+                        <StackPanel HorizontalAlignment="Left" Margin="4" Width="140">
+                            <TextBlock Text="Anzahl Heats" Style="{StaticResource BasicTextBlock}" FontSize="18"/>
                             <ComboBox Name="comboBox3" Style="{StaticResource BasicComboBox}"
                         ItemsSource="{Binding NumberOfHeats}"
                         SelectedItem="{Binding SelectedNumberOfHeats}"
@@ -90,8 +90,8 @@
                         IsReadOnly="true" FontSize="20"/>
                         </StackPanel>
                         
-                        <StackPanel HorizontalAlignment="Left" Margin="4">
-                            <TextBlock Text="Single" Style="{StaticResource BasicTextBlock}" FontSize="20"/>
+                        <StackPanel HorizontalAlignment="Left" Margin="4" Width="120">
+                            <TextBlock Text="Single" Style="{StaticResource BasicTextBlock}" FontSize="18" HorizontalAlignment="Center"/>
                             <CheckBox IsChecked="{Binding IsSingleSelected}" 
                                       HorizontalAlignment="Center" 
                                       Style="{StaticResource BasicCheckBox}" 

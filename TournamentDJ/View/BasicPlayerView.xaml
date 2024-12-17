@@ -65,7 +65,7 @@
             </DockPanel>
         </Border>
         <DockPanel Grid.Row="1">
-            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Visible" HorizontalAlignment="Left" Width="300" VerticalAlignment="Stretch" Margin="2,2,2,2">
+            <ScrollViewer Grid.Row="1" MaxHeight="160" VerticalScrollBarVisibility="Visible" HorizontalAlignment="Left" Width="300" VerticalAlignment="Stretch" Margin="2,2,2,2">
                 <ItemsControl ItemsSource="{Binding SelectedTrackList.Tracks}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
