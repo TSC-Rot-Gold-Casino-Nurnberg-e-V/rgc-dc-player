@@ -299,4 +299,177 @@
             </Trigger>
         </Style.Triggers>
     </Style>
+
+
+    <ControlTemplate x:Key="VerticalTouchScrollBar"
+             TargetType="{x:Type ScrollBar}">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition MaxHeight="36" />
+                <RowDefinition Height="0.00001*" />
+                <RowDefinition MaxHeight="36" />
+            </Grid.RowDefinitions>
+            <Border Grid.RowSpan="3"
+        CornerRadius="2"
+        Background="Transparent" />
+            <RepeatButton Grid.Row="0"
+              Style="{StaticResource BasicScrollBarLineButton}"
+              Height="36"
+              Command="ScrollBar.LineUpCommand"
+              Content="M 0 8 L 16 8 L 8 0 Z" />
+            <Track x:Name="PART_Track"
+       Grid.Row="1"
+       IsDirectionReversed="true">
+                <Track.DecreaseRepeatButton>
+                    <RepeatButton Style="{StaticResource BasicScrollBarPageButton}"
+                  Command="ScrollBar.PageUpCommand" />
+                </Track.DecreaseRepeatButton>
+                <Track.Thumb>
+                    <Thumb Style="{StaticResource BasicScrollBarThumb}"
+           Margin="1,0,1,0">
+                        <Thumb.BorderBrush>
+
+                            <LinearGradientBrush StartPoint="0,0"
+                             EndPoint="1,0">
+                                <LinearGradientBrush.GradientStops>
+                                    <GradientStopCollection>
+                                        <GradientStop Color="{DynamicResource Primary600}"
+                            Offset="0.0" />
+                                        <GradientStop Color="{DynamicResource Primary800}"
+                            Offset="1.0" />
+                                    </GradientStopCollection>
+                                </LinearGradientBrush.GradientStops>
+                            </LinearGradientBrush>
+
+                        </Thumb.BorderBrush>
+                        <Thumb.Background>
+
+                            <LinearGradientBrush StartPoint="0,0"
+                             EndPoint="1,0">
+                                <LinearGradientBrush.GradientStops>
+                                    <GradientStopCollection>
+                                        <GradientStop Color="{DynamicResource Primary400}"
+                            Offset="0.0" />
+                                        <GradientStop Color="{DynamicResource Primary700}"
+                            Offset="1.0" />
+                                    </GradientStopCollection>
+                                </LinearGradientBrush.GradientStops>
+                            </LinearGradientBrush>
+
+                        </Thumb.Background>
+                    </Thumb>
+                </Track.Thumb>
+                <Track.IncreaseRepeatButton>
+                    <RepeatButton Style="{StaticResource BasicScrollBarPageButton}"
+                  Command="ScrollBar.PageDownCommand" />
+                </Track.IncreaseRepeatButton>
+            </Track>
+            <RepeatButton Grid.Row="2"
+              Style="{StaticResource BasicScrollBarLineButton}"
+              Height="36"
+              Command="ScrollBar.LineDownCommand"
+              Content="M 0 0 L 8 8 L 16 0 Z" />
+        </Grid>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="HorizontalTouchScrollBar"
+             TargetType="{x:Type ScrollBar}">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition MaxWidth="36" />
+                <ColumnDefinition Width="0.00001*" />
+                <ColumnDefinition MaxWidth="36" />
+            </Grid.ColumnDefinitions>
+            <Border Grid.ColumnSpan="3"
+        CornerRadius="2"
+        Background="#F0F0F0" />
+            <RepeatButton Grid.Column="0"
+              Style="{StaticResource BasicScrollBarLineButton}"
+              Width="36"
+              Command="ScrollBar.LineLeftCommand"
+              Content="M 8 0 L 8 16 L 0 8 Z" />
+            <Track x:Name="PART_Track"
+       Grid.Column="1"
+       IsDirectionReversed="False">
+                <Track.DecreaseRepeatButton>
+                    <RepeatButton Style="{StaticResource BasicScrollBarPageButton}"
+                  Command="ScrollBar.PageLeftCommand" />
+                </Track.DecreaseRepeatButton>
+                <Track.Thumb>
+                    <Thumb Style="{StaticResource BasicScrollBarThumb}"
+           Margin="0,1,0,1">
+
+                        <Thumb.BorderBrush>
+
+                            <LinearGradientBrush StartPoint="0,0"
+                             EndPoint="1,0">
+                                <LinearGradientBrush.GradientStops>
+                                    <GradientStopCollection>
+                                        <GradientStop Color="{DynamicResource Primary400}"
+                            Offset="0.0" />
+                                        <GradientStop Color="{DynamicResource Primary800}"
+                            Offset="1.0" />
+                                    </GradientStopCollection>
+                                </LinearGradientBrush.GradientStops>
+                            </LinearGradientBrush>
+
+                        </Thumb.BorderBrush>
+                        <Thumb.Background>
+
+                            <LinearGradientBrush StartPoint="0,0"
+                             EndPoint="0,1">
+                                <LinearGradientBrush.GradientStops>
+                                    <GradientStopCollection>
+                                        <GradientStop Color="{DynamicResource Primary200}"
+                            Offset="0.0" />
+                                        <GradientStop Color="{DynamicResource Primary500}"
+                            Offset="1.0" />
+                                    </GradientStopCollection>
+                                </LinearGradientBrush.GradientStops>
+                            </LinearGradientBrush>
+
+                        </Thumb.Background>
+                    </Thumb>
+                </Track.Thumb>
+                <Track.IncreaseRepeatButton>
+                    <RepeatButton Style="{StaticResource BasicScrollBarPageButton}"
+                  Command="ScrollBar.PageRightCommand" />
+                </Track.IncreaseRepeatButton>
+            </Track>
+            <RepeatButton Grid.Column="2"
+              Style="{StaticResource BasicScrollBarLineButton}"
+              Width="36"
+              Command="ScrollBar.LineRightCommand"
+              Content="M 0 0 L 8 8 L 0 16 Z" />
+        </Grid>
+    </ControlTemplate>
+
+
+    <Style x:Key="TouchScrollBar"
+   TargetType="{x:Type ScrollBar}">
+        <Setter Property="SnapsToDevicePixels"
+      Value="True" />
+        <Setter Property="OverridesDefaultStyle"
+      Value="true" />
+        <Style.Triggers>
+            <Trigger Property="Orientation"
+         Value="Horizontal">
+                <Setter Property="Width"
+          Value="Auto" />
+                <Setter Property="Height"
+          Value="36" />
+                <Setter Property="Template"
+          Value="{StaticResource HorizontalTouchScrollBar}" />
+            </Trigger>
+            <Trigger Property="Orientation"
+         Value="Vertical">
+                <Setter Property="Width"
+          Value="36" />
+                <Setter Property="Height"
+          Value="Auto" />
+                <Setter Property="Template"
+          Value="{StaticResource VerticalTouchScrollBar}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
 </ResourceDictionary>

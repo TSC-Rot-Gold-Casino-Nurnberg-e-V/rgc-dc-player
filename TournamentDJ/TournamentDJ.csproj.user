@@ -53,6 +53,9 @@
     <Page Update="View\SelectSpecificTrackWindows.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="View\TournamentPlayerSimpleView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="View\TrackListEditorView.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -72,6 +75,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="View\DanceRoundEditorView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\WarmupPlayerSimpleView.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="View\WarmupPlayerView.xaml">

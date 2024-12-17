@@ -1,0 +1,223 @@
+﻿<UserControl x:Class="TournamentDJ.View.TournamentPlayerSimpleView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+      xmlns:local="clr-namespace:TournamentDJ.View"
+      xmlns:ess="clr-namespace:TournamentDJ.Essentials"
+      xmlns:vm="clr-namespace:TournamentDJ.ViewModel"
+      xmlns:conv="clr-namespace:TournamentDJ.Converter"
+      mc:Ignorable="d" 
+      d:DataContext="{d:DesignInstance Type=vm:TournamentPlayerViewModel, IsDesignTimeCreatable=False}"
+      d:DesignHeight="300" d:DesignWidth="800"
+      >
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/TournamentDJ;component/Styles/SliderStyles.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/TournamentDJ;component/Styles/ButtonStyles.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/TournamentDJ;component/Styles/Colors.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/TournamentDJ;component/Styles/TextBlockStyles.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/TournamentDJ;component/Styles/ComboBoxStyles.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/TournamentDJ;component/Styles/CheckBoxStyles.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/TournamentDJ;component/Styles/TextBoxStyles.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/TournamentDJ;component/Styles/ScrollBarStyles.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/TournamentDJ;component/Styles/BorderStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <conv:UriToStringConverter x:Key="UriToStringConverter" />
+            <conv:DateTimeToHasBeenPlayedConverter x:Key="DateTimeConverter" />
+            <conv:DictionaryItemConverter x:Key="DictionaryItemConverter" />
+            <ess:BindingProxy x:Key="BindingProxy" Data="{Binding}"/>
+            <SolidColorBrush x:Key="BackgroundBaseBrush" Color="{StaticResource Base900}"/>
+            <SolidColorBrush x:Key="BorderBaseBrush" Color="{StaticResource Base600}"/>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <UserControl.Background>
+        <SolidColorBrush Color="{StaticResource Base900}"/>
+    </UserControl.Background>
+
+    <Grid Background="{StaticResource BackgroundBaseBrush}" Margin="6">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="8*" MinWidth="300"/>
+            <ColumnDefinition Width="13*" MinWidth="300"/>
+        </Grid.ColumnDefinitions>
+        <DockPanel Grid.Column="0" Margin="0,0,0,0">
+            <Border Style="{StaticResource BorderActivitySensitive}" Margin="2" BorderThickness="2" CornerRadius="2" >
+                <StackPanel>
+                    <DockPanel>
+                        <StackPanel Margin="4" Width="260" HorizontalAlignment="Left">
+                            <TextBlock Style="{StaticResource BasicTextBlock}" Text="Output Device" FontSize="20" />
+                            <ComboBox FontSize="20"
+                                Style="{StaticResource BasicComboBox}"
+                            ItemsSource="{Binding Player.AudioDevices}"
+                            SelectedItem="{Binding Player.SelectedAudioDevice}"
+                            DisplayMemberPath="Name"
+                            Text="Default"
+                            IsEditable="true"
+                            IsReadOnly="true"/>
+                        </StackPanel>
+                        <StackPanel HorizontalAlignment="Left" Margin="4">
+                            <TextBlock Text="Laufzeit" Style="{StaticResource BasicTextBlock}" FontSize="20"/>
+                            <ComboBox Name="comboBox1" Style="{StaticResource BasicComboBox}" FontSize="20"
+                                    ItemsSource="{Binding Runtimes}"
+                                    SelectedItem="{Binding SelectedTimeSpan}"
+                                    Text="auswählen..."
+                                    IsEditable="true"
+                                    IsReadOnly="true"/>
+                        </StackPanel>
+                    </DockPanel>
+                    <DockPanel>
+                        <StackPanel HorizontalAlignment="Left" Margin="4">
+                            <TextBlock Text="Tanzrunde" Style="{StaticResource BasicTextBlock}" FontSize="20"/>
+                            <ComboBox Name="comboBox2" Style="{StaticResource BasicComboBox}" FontSize="20"
+                        ItemsSource="{Binding DanceRounds}"
+                        SelectedItem="{Binding SelectedDanceRound}"
+                        DisplayMemberPath="Name"
+                        Text="auswählen..."
+                        IsEditable="true"
+                        IsReadOnly="true"/>
+                        </StackPanel>
+                        <StackPanel HorizontalAlignment="Left" Margin="4">
+                            <TextBlock Text="Anzahl Heats" Style="{StaticResource BasicTextBlock}" FontSize="20"/>
+                            <ComboBox Name="comboBox3" Style="{StaticResource BasicComboBox}"
+                        ItemsSource="{Binding NumberOfHeats}"
+                        SelectedItem="{Binding SelectedNumberOfHeats}"
+                        Text="auswählen..."
+                        IsEditable="true"
+                        IsReadOnly="true" FontSize="20"/>
+                        </StackPanel>
+                        
+                        <StackPanel HorizontalAlignment="Left" Margin="4">
+                            <TextBlock Text="Single" Style="{StaticResource BasicTextBlock}" FontSize="20"/>
+                            <CheckBox IsChecked="{Binding IsSingleSelected}" 
+                                      HorizontalAlignment="Center" 
+                                      Style="{StaticResource BasicCheckBox}" 
+                                      Margin="2,4,2,0">
+                                <CheckBox.LayoutTransform>
+                                    <ScaleTransform ScaleX="2" ScaleY="2"/>
+                                </CheckBox.LayoutTransform>
+                            </CheckBox>
+                        
+                        </StackPanel>
+
+                    </DockPanel>
+                    <StackPanel Margin="0,0,0,3">
+                        <DockPanel Grid.Column="1" HorizontalAlignment="Center" Margin="0,0,0,0">
+                            <Button  Style="{StaticResource ImageButton}" Content="pack://application:,,,/Assets/previous.png" Width="60" Height="60" HorizontalAlignment="Left" Command="{Binding PreviousClickCommand}"/>
+                            <Button  Style="{StaticResource ImageButtonActive}" Content="pack://application:,,,/Assets/play.png" Width="60" Height="60" HorizontalAlignment="Left" Command="{Binding PlayClickCommand}"/>
+                            <Button  Style="{StaticResource ImageButton}" Content="pack://application:,,,/Assets/stop.png" Width="60" Height="60" HorizontalAlignment="Left" Command="{Binding StopClickCommand}"/>
+                            <Button  Style="{StaticResource ImageButton}" Content="pack://application:,,,/Assets/next.png" Width="60" Height="60" HorizontalAlignment="Left" Command="{Binding NextClickCommand}"/>
+                            <Button  Style="{StaticResource BasicTouchButton}" Content="Fadeout" Width="100" Height="60" HorizontalAlignment="Left" Command="{Binding FadeoutClickCommand}"/>
+                            <Button  Style="{StaticResource BasicTouchButton}" Content="Recreate" Width="100" Height="60" HorizontalAlignment="Left" Command="{Binding CreateDanceRoundClickCommand}"/>
+                        </DockPanel>
+                        <Slider Margin="0,0,0,3"
+                            Width="400" Height="40" Value="{Binding Player.MedPlayer.Volume}" Maximum="1.0" 
+                                Style="{StaticResource TouchSlider}"
+                                LargeChange="0.1" >
+
+                            <i:Interaction.Behaviors>
+                                <ess:MouseWheelSliderBehavior Amount="0.03" />
+                            </i:Interaction.Behaviors>
+                        </Slider>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+        </DockPanel>
+        <Grid Grid.Column="1" VerticalAlignment="Stretch">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="100"/>
+                <RowDefinition MinHeight="140" Height="*"/>
+            </Grid.RowDefinitions>
+            <Border Margin="4,2,2,2" BorderThickness="4" BorderBrush="{StaticResource MenuPopupBrush}" CornerRadius="2">
+                <DockPanel Height="80"  >
+                    <StackPanel>
+                        <TextBlock Style="{StaticResource BasicTextBlock}" FontSize="16" FontWeight="Thin" Margin="4" HorizontalAlignment="Left" VerticalAlignment="Top" Width="160" Height="40" Text="{Binding Player.TrackPlaying.Title}" ToolTip="Track Title"/>
+                        <TextBlock Style="{StaticResource BasicTextBlock}" FontSize="16" FontWeight="Thin" Margin="4" HorizontalAlignment="Left" Width="160" Height="20" Text="{Binding Player.timeData}" ToolTip="Time played / Time remaining"/>
+                    </StackPanel>
+                    <StackPanel>
+                        <TextBlock Style="{StaticResource BasicTextBlock}" FontSize="16" FontWeight="Thin" Margin="4" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="40" Text="{Binding Player.TrackPlaying.Dance.Name}" ToolTip="Dance"/>
+                        <TextBlock Style="{StaticResource LastPlayedPlayerTextBlock}" FontSize="16" FontWeight="Normal" Margin="4" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="40" Text="{Binding Player.TrackPlaying.LastPlayedTime, StringFormat={}{0:MM/dd/yyyy}}" ToolTip="Dance"/>
+                    </StackPanel>
+
+
+                    <StackPanel HorizontalAlignment="Left" MinHeight="100">
+                        <TextBlock Text="Comment" Style="{StaticResource BasicTextBlock}" FontSize="16" FontWeight="Thin" Margin="4"/>
+                        <TextBox Text="{Binding Player.TrackPlaying.Comment}" Width="160" Margin="4" Height="40" HorizontalAlignment="Left" TextWrapping="Wrap" Style="{StaticResource BasicTextBox}" VerticalScrollBarVisibility="Auto"/>
+                    </StackPanel>
+                    <StackPanel HorizontalAlignment="Left" Margin="4" Width="100">
+                        <ComboBox Style="{StaticResource BasicComboBox}"
+                                ItemsSource="{Binding Difficulties}"
+                                DisplayMemberPath="Value"
+                                SelectedValuePath="Key"
+                                SelectedValue="{Binding Player.TrackPlaying.Difficulty}"
+                                IsEditable="True"
+                                IsReadOnly="True"
+                                  FontSize="16"
+                                  FontWeight="Thin"
+                                  ToolTip="{DynamicResource ResourceKey=DifficultyToolTip}"/>
+                        <ComboBox Style="{StaticResource BasicComboBox}"
+                                ItemsSource="{Binding Characteristics}"
+                                DisplayMemberPath="Value"
+                                SelectedValuePath="Key"
+                                SelectedValue="{Binding Player.TrackPlaying.Characteristic, Mode=TwoWay}"
+                                IsEditable="True"
+                                 IsReadOnly="True"
+                            FontSize="16"
+                            FontWeight="Thin"
+                                  Margin="0,15,0,0"
+                                  ToolTip="{DynamicResource ResourceKey=CharacteristicsToolTip}"/>
+                    </StackPanel>
+
+                    <Button Margin="6" VerticalAlignment="Center" Style="{StaticResource BasicTouchButton}" Content="Reselect" Width="100" Height="60" Command="{Binding ReselectClickCommand}" CommandParameter="{Binding Player.TrackPlaying}"/>
+                    <StackPanel HorizontalAlignment="Right" Margin="8">
+                        <TextBlock Text="Review" Style="{StaticResource BasicTextBlock}" FontSize="16" FontWeight="Thin" Margin="4"/>
+                        <CheckBox IsChecked="{Binding Player.TrackPlaying.FlaggedForReview}" 
+                                  HorizontalAlignment="Center" 
+                                  Style="{StaticResource BasicCheckBox}" Margin="2,4,2,0">
+                            <CheckBox.LayoutTransform>
+                                <ScaleTransform ScaleX="2" ScaleY="2"/>
+                            </CheckBox.LayoutTransform>
+                        </CheckBox>
+                    </StackPanel>                
+                </DockPanel>
+            </Border>
+            <Border  Grid.Row="1" BorderBrush="{StaticResource BorderBaseBrush}" BorderThickness="2" CornerRadius="2" Margin="4,2,2,2">
+                <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="2,2,2,2">
+                    <ScrollViewer.Resources>
+                        <Style TargetType="ScrollBar" BasedOn="{StaticResource TouchScrollBar}"/>
+                    </ScrollViewer.Resources>
+                    <ItemsControl ItemsSource="{Binding TracksToPlay.Tracks}"
+                              >
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                                <Border BorderBrush="{StaticResource ButtonBackgroundGradientBrush}" BorderThickness="1" Margin="2" CornerRadius="2">
+                                    <DockPanel Height="80">
+                                        <TextBlock Style="{StaticResource BasicTextBlock}" VerticalAlignment="Top" Width="160" Height="40" FontSize="16" FontWeight="Thin" Margin="4" Text="{Binding Title}" />
+                                        <StackPanel>
+                                            <TextBlock Style="{StaticResource BasicTextBlock}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="25" FontSize="16" FontWeight="Thin" Margin="4" Text="{Binding Dance.Name}" ToolTip="Dance"/>
+                                            <TextBlock Style="{StaticResource LastPlayedTextBlock}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="25" FontSize="16" FontWeight="Thin" Margin="4" Text="{Binding LastPlayedTime, StringFormat={}{0:MM/dd/yyyy}}" ToolTip="Last Played"/>
+                                        </StackPanel>
+                                        <StackPanel HorizontalAlignment="Left" MinHeight="100">
+                                            <TextBlock Text="Comment" Style="{StaticResource BasicTextBlock}" FontSize="16" FontWeight="Thin" Margin="4"/>
+                                            <TextBox Text="{Binding Comment}" Width="160" Margin="4" Height="40" HorizontalAlignment="Left" TextWrapping="Wrap" Style="{StaticResource BasicTextBox}" VerticalScrollBarVisibility="Auto"/>
+                                        </StackPanel>
+                                        <Button Style="{StaticResource BasicTouchButton}" Content="Choose" Width="100" Height="60" Command="{Binding Data.OpenSelectSpecificTrackWindowCommand, Source={StaticResource BindingProxy}}" CommandParameter="{Binding}"/>
+                                        <Button Style="{StaticResource BasicTouchButton}" Margin="6" Content="Reselect" Width="100" Height="60" HorizontalAlignment="Left" Command="{Binding Data.ReselectClickCommand, Source={StaticResource BindingProxy}}" CommandParameter="{Binding}"/>
+                                    </DockPanel>
+                                </Border>
+                            </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
+            </ScrollViewer>
+            </Border>
+        </Grid>
+    </Grid>
+</UserControl>

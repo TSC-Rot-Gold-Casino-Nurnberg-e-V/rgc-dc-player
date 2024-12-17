@@ -190,6 +190,44 @@
         </Setter>
     </Style>
 
+    <Style x:Key="BasicTouchButton" TargetType="{x:Type Button}">
+        <Setter Property="OverridesDefaultStyle" Value="True"/>
+        <Setter Property="Margin" Value="2,4,2,4"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Viewbox>
+                        <Grid Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Width}" Height="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Height}">
+                            <Border Margin="0" Name="border" CornerRadius="5" BorderThickness="0" Height="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Height}" Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Width}" Background="{StaticResource ButtonBackgroundGradientBrush}">
+                                <Label Name="text" VerticalAlignment="Center" VerticalContentAlignment="Center" 
+                                        HorizontalAlignment="Center" HorizontalContentAlignment="Center" FontWeight="SemiBold">
+                                    <Label.Content>
+                                        <TextBlock
+                                        TextWrapping="WrapWithOverflow"
+                                        Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content}"
+                                        FontWeight="SemiBold" 
+                                        ToolTip="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content}"
+                                        TextTrimming="CharacterEllipsis"
+                                        Foreground="{StaticResource TextBrush}"
+                                        FontSize="20"/>
+                                    </Label.Content>
+                                </Label>
+                            </Border>
+                        </Grid>
+                    </Viewbox>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="{StaticResource ButtonMouseOverGradientBrush}" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="{StaticResource ButtonIsPressedGradientBrush}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
 
     <Style x:Key="TrackSelectButton" TargetType="{x:Type Button}">
         <Setter Property="OverridesDefaultStyle" Value="True"/>

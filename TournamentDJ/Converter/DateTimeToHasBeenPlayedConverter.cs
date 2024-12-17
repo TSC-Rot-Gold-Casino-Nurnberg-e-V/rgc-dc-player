@@ -9,7 +9,7 @@ namespace TournamentDJ.Converter
 		{
 			DateTime dateTimeToConvert = DateTime.Parse(value.ToString());
 			TimeSpan timeDiff = DateTime.Now.Subtract(dateTimeToConvert);
-			if(timeDiff.TotalSeconds < 86400)
+			if(dateTimeToConvert.Year == DateTime.Now.Year && dateTimeToConvert.DayOfYear == DateTime.Now.DayOfYear)
 			{
 				return true;
 			}

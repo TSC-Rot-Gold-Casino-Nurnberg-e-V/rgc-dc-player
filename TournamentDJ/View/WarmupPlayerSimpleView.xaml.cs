@@ -5,9 +5,9 @@ namespace TournamentDJ.View
     /// <summary>
     /// Interaktionslogik für PlayerView.xaml
     /// </summary>
-    public partial class WarmupPlayerSimpleView : UserControl
+    public partial class WarmupPlayerView : UserControl
     {
-        public WarmupPlayerSimpleView()
+        public WarmupPlayerView()
         {
             InitializeComponent();
         }

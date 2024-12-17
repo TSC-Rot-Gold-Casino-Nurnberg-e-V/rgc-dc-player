@@ -47,6 +47,9 @@
     <Compile Update="View\SelectSpecificTrackWindows.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="View\TournamentPlayerSimpleView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="View\TrackListEditorView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -54,6 +57,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="View\BasicPlayerView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="View\WarmupPlayerSimpleView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="View\WarmupPlayerView.xaml.cs">
@@ -81,6 +87,12 @@
     <Resource Include="Assets\play.png" />
     <Resource Include="Assets\previous.png" />
     <Resource Include="Assets\stop.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="View\TournamentPlayerSimpleView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
 
 </Project>
