@@ -145,6 +145,8 @@ namespace TournamentDJ.Model
             {
                 Tracks.Add(trackToAdd);
             }
+
+            SaveChanges();
         }
 
         private static Track checkTrackISRC(Track trackToAdd)
