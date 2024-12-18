@@ -27,6 +27,7 @@
             <ess:BindingProxy x:Key="BindingProxy" Data="{Binding}"/>
             <conv:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
             <conv:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
+            <conv:StringFormatConverter x:Key="StringFormatConverter"/>
             <SolidColorBrush x:Key="BackgroundBaseBrush" Color="{StaticResource Base900}"/>
             <SolidColorBrush x:Key="BorderBaseBrush" Color="{StaticResource Base600}"/>
             <CollectionViewSource x:Key="danceViewSource" Source="{Binding Dances}"/>
@@ -77,7 +78,7 @@ Background="Transparent"
                 <DataGridTextColumn Binding="{Binding Comment}" Header="Comment" Width="80" IsReadOnly="True"/>
                 <DataGridTextColumn Binding="{Binding Album}" Header="Album" Width="80" IsReadOnly="True"/>
                 <DataGridTextColumn Binding="{Binding Year}" Header="Year" Width="80" IsReadOnly="True"/>
-                <DataGridTextColumn Binding="{Binding Duration}" Header="Duration" Width="80" IsReadOnly="True"/>
+                <DataGridTextColumn Binding="{Binding Duration, StringFormat=mm\\:ss}" Header="Duration" Width="90" IsReadOnly="True"/>
                 <DataGridTextColumn Binding="{Binding Genre}" Header="Genre" Width="80" IsReadOnly="True"/>
                 <DataGridTextColumn Binding="{Binding ISRC}" Header="ISRC" Width="80" IsReadOnly="True"/>
                 <DataGridComboBoxColumn
@@ -183,8 +184,8 @@ Background="Transparent"
                     <DataGridTextColumn Binding="{Binding Comment}" Header="Comment" Width="250" IsReadOnly="False"/>
                     <DataGridCheckBoxColumn Binding="{Binding FlaggedAsFavourite}" Header="Favourite" Width="60" IsReadOnly="False"/>
                     <DataGridCheckBoxColumn Binding="{Binding FlaggedForReview}" Header="Review" Width="50" IsReadOnly="False"/>
-                    <DataGridTextColumn Binding="{Binding LastPlayedTime}" Header="Last Played" Width="130" IsReadOnly="True"/>
-                    <DataGridTextColumn Binding="{Binding Duration}" Header="Duration" Width="90" IsReadOnly="True"/>
+                    <DataGridTextColumn Binding="{Binding LastPlayedTime , StringFormat={}{0:dd.MM.yyyy HH:mm}}" Header="Last Played" Width="130" IsReadOnly="True"/>
+                    <DataGridTextColumn Binding="{Binding Duration, StringFormat=mm\\:ss}" Header="Duration" Width="90" IsReadOnly="True"/>
                     <DataGridTextColumn Binding="{Binding Album}" Header="Album" Width="90" IsReadOnly="True"/>
                     <DataGridTextColumn Binding="{Binding Genre}" Header="Genre" Width="80" IsReadOnly="True"/>
                     <DataGridTextColumn Binding="{Binding Year}" Header="Year" Width="40" IsReadOnly="True"/>

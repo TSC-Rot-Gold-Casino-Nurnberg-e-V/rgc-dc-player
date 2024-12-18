@@ -107,7 +107,7 @@
         </StackPanel>
         <StackPanel>
           <TextBlock Style="{StaticResource BasicTextBlock}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="40" Margin ="5" Text="{Binding Player.TrackPlaying.Dance.Name}" ToolTip="Dance"/>
-          <TextBlock Style="{StaticResource LastPlayedPlayerTextBlock}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="40" Margin ="5" Text="{Binding Player.TrackPlaying.LastPlayedTime, StringFormat={}{0:MM/dd/yyyy}}" ToolTip="Dance"/>
+          <TextBlock Style="{StaticResource LastPlayedPlayerTextBlock}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="40" Margin ="5" ToolTip="Dance"/>
         </StackPanel>
         <StackPanel HorizontalAlignment="Left" Margin="5,0,5,4">
           <TextBlock Text="Mark as Favorite" Style="{StaticResource BasicTextBlock}"/>

@@ -107,7 +107,7 @@ IsReadOnly="true"/>
                 
                 <StackPanel Width="120">
                     <TextBlock Style="{StaticResource BasicTextBlock}" FontSize="16" FontWeight="Thin" Margin="4" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="40" Text="{Binding Player.TrackPlaying.Dance.Name}" ToolTip="Dance"/>
-                    <TextBlock Style="{StaticResource LastPlayedPlayerTextBlock}" FontSize="16" FontWeight="Normal" Margin="4" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="40" Text="{Binding Player.TrackPlaying.LastPlayedTime, StringFormat={}{0:MM/dd/yyyy}}" ToolTip="Dance"/>
+                    <TextBlock Style="{StaticResource LastPlayedPlayerTextBlock}" FontSize="16" FontWeight="Normal" Margin="4" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="40" ToolTip="Dance"/>
 
                 </StackPanel>
                 <StackPanel HorizontalAlignment="Left" MinHeight="90">
