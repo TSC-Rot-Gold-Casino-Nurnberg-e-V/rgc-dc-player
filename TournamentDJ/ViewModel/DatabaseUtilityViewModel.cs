@@ -302,6 +302,7 @@ namespace TournamentDJ.ViewModel
 
             IsProcessing = false;
             TracksToAdd.Clear();
+            ExecuteResetTrackFilterClick();
         }
 
         public void ExecuteResetTrackFilterClick()
