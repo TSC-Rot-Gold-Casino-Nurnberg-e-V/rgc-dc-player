@@ -243,14 +243,15 @@ namespace TournamentDJ.Model
             MedPlayer.Source = MediaSource.CreateFromUri(newUri);
         }
 
-        public async void Play()
+        public async void Play(bool overrideLastPlayed = false)
         {
             while (MedPlayer.PlaybackSession.PlaybackState == MediaPlaybackState.Buffering || MedPlayer.PlaybackSession.PlaybackState == MediaPlaybackState.Opening)
             {
                 await Task.Delay(100);
             }
             MedPlayer.Play();
-            if (TrackPlaying != null)
+
+            if (!overrideLastPlayed && TrackPlaying != null)
             {
                 TrackPlaying.LastPlayedTime = DateTime.Now;
             }
@@ -385,7 +386,7 @@ namespace TournamentDJ.Model
                 TracksToPlay.Tracks.Insert(0, TrackPlaying);
             }
 
-            if (TracksPlayed.Tracks.Count > 0)
+            if (TracksToPlay != null && TracksPlayed.Tracks.Count > 0)
             {
                 TrackPlaying = TracksPlayed.Tracks[TracksPlayed.Tracks.Count - 1];
                 TracksPlayed.Tracks.RemoveAt(TracksPlayed.Tracks.Count - 1);

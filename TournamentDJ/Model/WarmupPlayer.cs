@@ -13,7 +13,7 @@
                 TracksPlayed.Tracks.Add(TrackPlaying);
             }
 
-            if (TracksToPlay.Tracks.Count > 0)
+            if (TracksToPlay != null && TracksToPlay.Tracks.Count > 0)
             {
                 TrackPlaying = TracksToPlay.Tracks[0];
                 TracksToPlay.Tracks.RemoveAt(0);

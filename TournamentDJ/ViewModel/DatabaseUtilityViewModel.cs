@@ -147,7 +147,7 @@ namespace TournamentDJ.ViewModel
                 isPlaying = false;
                 if (playOnClick)
                 {
-                    Player.Play();
+                    Player.Play(true);
                     isPlaying = true;
                 }
                 OnPropertyChanged();
@@ -264,7 +264,7 @@ namespace TournamentDJ.ViewModel
             }
             else
             {
-                Player.Play();
+                Player.Play(true);
                 isPlaying = true;
             }
         }

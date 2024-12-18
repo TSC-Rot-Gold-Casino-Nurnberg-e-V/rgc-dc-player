@@ -95,7 +95,7 @@
                     <RowDefinition Height="2" x:Name="Split2" />
                     <RowDefinition Height="180" x:Name="WarmupPlayer"  MinHeight="180"/>
                     <RowDefinition Height="2" x:Name="Split3" />
-                    <RowDefinition Height="*" MinHeight="250" x:Name="DualPlayer" />
+                    <RowDefinition Height="180" MinHeight="180" x:Name="DualPlayer" />
                 </Grid.RowDefinitions>
                 <Grid Grid.Row="0" Background="{StaticResource BasicBackgroundBrush}">
                     <Grid.ColumnDefinitions>
