@@ -176,6 +176,7 @@ namespace TournamentDJ.ViewModel
         public ICommand TogglePlayOnClickCommand { get; private set; }
         public ICommand ResetTrackFilterClickCommand { get; private set; }
         public ICommand ApplyTrackFilterClickCommand { get; private set; }
+        public ICommand ChooseFileCommand { get; private set; }
 
         public void CreateCommands()
         {
@@ -186,8 +187,38 @@ namespace TournamentDJ.ViewModel
             TogglePlayOnClickCommand = new RelayCommand(ExecuteTogglePlayOnClick);
             ResetTrackFilterClickCommand = new RelayCommand(ExecuteResetTrackFilterClick);
             ApplyTrackFilterClickCommand = new RelayCommand(ExecuteApplyTrackFilter);
+            ChooseFileCommand = new RelayCommand(ExecuteChooseFile);
         }
 
+
+        public void ExecuteChooseFile()
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "MP3 files (*.mp3)|*.mp3|All files (*.*)|*.*";
+
+            Track track;
+            if (openFileDialog.ShowDialog() == true)
+            {
+                var uri = new Uri(openFileDialog.FileName);
+                if (uri != null)
+                {
+                    try
+                    {
+                        track = new Track(uri);
+                    }
+                    catch (Exception)
+                    {
+                        track = null;
+                        FailedUris.Add(uri);
+                    }
+
+                    if (track != null)
+                    {
+                        TracksToAdd.Add(track);
+                    }
+                }
+            }
+        }
 
         public async void ExecuteChooseFolder()
         {

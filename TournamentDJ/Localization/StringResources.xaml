@@ -9,4 +9,5 @@
     <system:String x:Key="AdvancedMode">Advanced Mode</system:String>
     <system:String x:Key="DifficultyToolTip">Difficulty</system:String>
     <system:String x:Key="CharacteristicsToolTip">Characteristic</system:String>
+    <system:String x:Key="OpenFile">Open File</system:String>
 </ResourceDictionary>

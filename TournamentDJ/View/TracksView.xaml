@@ -43,8 +43,9 @@
             <RowDefinition Height="5*"/>
         </Grid.RowDefinitions>
         <DockPanel Grid.Row="0" Height="70">
-            <Button Height="50" Content="Choose Folder" Command="{Binding ChooseFolderCommand}" Margin="5" Style="{StaticResource BasicButton}"/>
-            <Button Height="50" Content="Add to Database" Command="{Binding AddToDatabaseCommand}" Margin="2" Style="{StaticResource BasicButton}"/>
+            <Button Height="50" Width="100" Content="Choose Folder" Command="{Binding ChooseFolderCommand}" Margin="5" Style="{StaticResource BasicButton}"/>
+            <Button Height="50" Width="100" Content="{DynamicResource ResourceKey=OpenFile}" Command="{Binding ChooseFileCommand}" Margin="5" Style="{StaticResource BasicButton}"/>
+            <Button Height="50" Width="100" Content="Add to Database" Command="{Binding AddToDatabaseCommand}" Margin="2" Style="{StaticResource BasicButton}"/>
             <ProgressBar Height="40" Minimum="0" Maximum="100" Value="{Binding WorkerProgress}" Visibility="{Binding IsProcessing, Converter={StaticResource BoolToVisibilityConverter}}"/>
         </DockPanel>
         <DataGrid Grid.Row="1" AutoGenerateColumns="False" ItemsSource="{Binding TracksToAdd}" SelectedItem="{Binding TrackPlaying}"
