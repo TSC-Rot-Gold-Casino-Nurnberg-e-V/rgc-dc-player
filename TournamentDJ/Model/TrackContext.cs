@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.IO;
+using Windows.UI.Text;
 
 namespace TournamentDJ.Model
 {
@@ -12,8 +14,11 @@ namespace TournamentDJ.Model
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite(
-                "Data Source=dbMusic.db");
+            Directory.CreateDirectory(Path.Combine(System.Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "TournamentDJ"));
+
+            var dataSource = Path.Combine(System.Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "TournamentDJ\\dbMusic.db");
+            optionsBuilder
+                .UseSqlite($"Data Source={dataSource};");
             optionsBuilder.UseLazyLoadingProxies();
         }
     }
