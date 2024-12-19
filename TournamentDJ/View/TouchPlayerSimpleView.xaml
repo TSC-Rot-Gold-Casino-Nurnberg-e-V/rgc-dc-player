@@ -32,14 +32,9 @@
     </UserControl.Resources>
 
     <Grid Background="{StaticResource BasicBackgroundBrush}" Margin="6">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="220"/>
-            <ColumnDefinition Width="13*"/>
-            <ColumnDefinition Width="13*"/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Border   Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Grid.ColumnSpan="3" BorderThickness="2" CornerRadius="2">
             <Border.Style>
@@ -53,8 +48,8 @@
                 </Style>
             </Border.Style>
         </Border >
-        <StackPanel Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Width="200" Margin="4">
-            <TextBlock Style="{StaticResource BasicTextBlock}" Text="Output Device" FontSize="18"/>
+        <StackPanel Grid.Column="0" Width="200" Margin="4">
+            <TextBlock Style="{StaticResource BasicTextBlock}" Text="{DynamicResource OutputDevice}" FontSize="18" ToolTip="{DynamicResource OutputDeviceTooltip}"/>
             <ComboBox FontSize="18"
                           Style="{StaticResource BasicComboBox}"
                       ItemsSource="{Binding Player.AudioDevices}"
@@ -62,93 +57,96 @@
                       DisplayMemberPath="Name"
                       Text="Default"
                       IsEditable="true"
-                      IsReadOnly="true"/>
+                      IsReadOnly="true"
+                      ToolTip="{DynamicResource OutputDeviceSelectorTooltip}"/>
             <DockPanel Grid.Column="1" HorizontalAlignment="Center" Margin="0,0,0,0">
-                <Button  Style="{StaticResource ImageButton}" Content="pack://application:,,,/Assets/stop.png" Width="60" Height="60" HorizontalAlignment="Left" Command="{Binding StopClickCommand}"/>
-                <Button  Style="{StaticResource BasicTouchButton}" Content="Fadeout" Width="100" Height="60" HorizontalAlignment="Left" Command="{Binding FadeoutClickCommand}"/>
+                <Button  Style="{StaticResource ImageButton}" Content="pack://application:,,,/Assets/stop.png" ToolTip="{DynamicResource StopTooltip}" 
+                         Width="60" Height="60" HorizontalAlignment="Left" Command="{Binding StopClickCommand}"/>
+                <Button  Style="{StaticResource BasicTouchButton}" Content="{DynamicResource Fadeout}" ToolTip="{DynamicResource FadeoutTooltip}" 
+                         Width="100" Height="60" HorizontalAlignment="Left" Command="{Binding FadeoutClickCommand}"/>
             </DockPanel>
             <Slider Margin="4"
                             Width="190" Height="40" Value="{Binding Player.MedPlayer.Volume}" Maximum="1.0" 
                                 Style="{StaticResource TouchSlider}"
-                                LargeChange="0.1" >
-
+                                LargeChange="0.1"
+                    ToolTip="{DynamicResource VolumeSliderTooltip}">
                 <i:Interaction.Behaviors>
                     <ess:MouseWheelSliderBehavior Amount="0.03" />
                 </i:Interaction.Behaviors>
             </Slider>
         </StackPanel>
-        <StackPanel Grid.Column="1" Grid.Row="0" Grid.RowSpan="2">
+        <StackPanel Grid.Column="1">
             <DockPanel  Margin="4" >
-                <TextBlock Style="{StaticResource BasicTextBlock}" Width="100" Text="TrackList" FontSize="18" Margin="0,4,8,4"/>
+                <TextBlock Style="{StaticResource BasicTextBlock}" Width="100" Text="{DynamicResource Tracklist}" FontSize="18" Margin="0,4,8,4"/>
                 <ComboBox
-Style="{StaticResource BasicComboBox}"
-SelectedItem="{Binding SelectedTrackList, TargetNullValue='Default'}"
-DisplayMemberPath="Name"
-Text="Default"
-ItemsSource="{Binding TrackLists}"
-IsEditable="true"
-IsReadOnly="true"
-                    FontSize="18"
-                    Width="160"/>
-                <TextBlock Style="{StaticResource BasicTextBlock}" FontSize="16" FontWeight="Thin" Margin="4" HorizontalAlignment="Right" Width="160" Height="20" Text="{Binding Player.timeData}" ToolTip="Time played / Time remaining"/>
-
-            </DockPanel>
-            <ScrollViewer  Height="140" VerticalScrollBarVisibility="Visible" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="2,2,2,2">
-                <ScrollViewer.Resources>
-                    <Style TargetType="ScrollBar" BasedOn="{StaticResource TouchScrollBar}"/>
-                </ScrollViewer.Resources>
-                <ItemsControl ItemsSource="{Binding SelectedTrackList.Tracks}">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Button Style="{StaticResource TrackSelectButton}" HorizontalAlignment="Left" Content="{Binding Title}" Height="60" Width="110" Command="{Binding Data.PlayOnTrackSelectedCommand, Source={StaticResource BindingProxy}}" CommandParameter="{Binding}"/>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <UniformGrid Columns="4"/>
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                </ItemsControl>
-            </ScrollViewer>
-        </StackPanel>
-        <StackPanel Grid.Column="2" Grid.Row="0" Grid.RowSpan="2">
-            <DockPanel  Margin="4">
-
-                <TextBlock Style="{StaticResource BasicTextBlock}" Text="TrackList" Width="100" FontSize="18" Margin="0,4,8,4"/>
-                <ComboBox
-Style="{StaticResource BasicComboBox}"
-SelectedItem="{Binding SelectedSecondaryTrackList, TargetNullValue='Default'}"
-DisplayMemberPath="Name"
-Text="Default"
-ItemsSource="{Binding TrackLists}"
-IsEditable="true"
-IsReadOnly="true"
+                    Style="{StaticResource BasicComboBox}"
+                    SelectedItem="{Binding SelectedTrackList, TargetNullValue='Default'}"
+                    DisplayMemberPath="Name"
+                    Text="Default"
+                    ItemsSource="{Binding TrackLists}"
+                    IsEditable="true"
+                    IsReadOnly="true"
                     FontSize="18"
                     Width="160"
+                    ToolTip="{DynamicResource TracklistSelectorTooltip}"/>
+                <TextBlock Style="{StaticResource BasicTextBlock}" FontSize="16" FontWeight="Thin" Margin="16,4,4,4" 
+                           HorizontalAlignment="Right" Width="100" Height="20" Text="{Binding Player.timeData}" ToolTip="{DynamicResource TimeDataTooltip}"/>
+                <TextBlock Style="{StaticResource BasicTextBlock}" FontSize="16" FontWeight="Thin" Margin="4" TextWrapping="NoWrap" Height="20" Width="360" 
+                           Text="{Binding Player.TrackPlaying.Title}" ToolTip="{Binding Player.TrackPlaying.Title}"/>
+                <TextBlock Style="{StaticResource BasicTextBlock}" Text="TrackList" Width="100" FontSize="18" Margin="16,4,8,4"/>
+                <ComboBox
+                    Style="{StaticResource BasicComboBox}"
+                    SelectedItem="{Binding SelectedSecondaryTrackList, TargetNullValue='Default'}"
+                    DisplayMemberPath="Name"
+                    Text="Default"
+                    ItemsSource="{Binding TrackLists}"
+                    IsEditable="true"
+                    IsReadOnly="true"
+                    FontSize="18"
+                    Width="160"
+                    ToolTip="{DynamicResource TracklistSelectorTooltip}"
                     />
-                <TextBlock Style="{StaticResource BasicTextBlock}" FontSize="16" FontWeight="Thin" Margin="4" HorizontalAlignment="Right" Width="160" Height="20"/>
             </DockPanel>
-            <ScrollViewer  Height="140" VerticalScrollBarVisibility="Visible" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="2,2,2,2">
-                <ScrollViewer.Resources>
-                    <Style TargetType="ScrollBar" BasedOn="{StaticResource TouchScrollBar}"/>
-                </ScrollViewer.Resources>
-                <ItemsControl ItemsSource="{Binding SelectedSecondaryTrackList.Tracks}">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Button Style="{StaticResource TrackSelectButton}" HorizontalAlignment="Left" Content="{Binding Title}" Height="60" Width="110" Command="{Binding Data.PlayOnTrackSelectedCommand, Source={StaticResource BindingProxy}}" CommandParameter="{Binding}"/>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <UniformGrid Columns="4"/>
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                </ItemsControl>
-            </ScrollViewer>
+            <DockPanel>
+                <ScrollViewer  Height="140" VerticalScrollBarVisibility="Visible" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="2,2,2,2">
+                    <ScrollViewer.Resources>
+                        <Style TargetType="ScrollBar" BasedOn="{StaticResource TouchScrollBar}"/>
+                    </ScrollViewer.Resources>
+                    <ItemsControl ItemsSource="{Binding SelectedTrackList.Tracks}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Button Style="{StaticResource TrackSelectButton}" HorizontalAlignment="Left" Content="{Binding Title}" 
+                                        Height="60" Width="110" Command="{Binding Data.PlayOnTrackSelectedCommand, Source={StaticResource BindingProxy}}" CommandParameter="{Binding}"
+                                        ToolTip="{DynamicResource TouchPlayButtonTooltip}"/>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <UniformGrid Columns="4"/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                    </ItemsControl>
+                </ScrollViewer>
+                <ScrollViewer  Height="140" VerticalScrollBarVisibility="Visible" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="2,2,2,2">
+                    <ScrollViewer.Resources>
+                        <Style TargetType="ScrollBar" BasedOn="{StaticResource TouchScrollBar}"/>
+                    </ScrollViewer.Resources>
+                    <ItemsControl ItemsSource="{Binding SelectedSecondaryTrackList.Tracks}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Button Style="{StaticResource TrackSelectButton}" HorizontalAlignment="Left" Content="{Binding Title}" 
+                                        Height="60" Width="110" Command="{Binding Data.PlayOnTrackSelectedCommand, Source={StaticResource BindingProxy}}" CommandParameter="{Binding}"
+                                         ToolTip="{DynamicResource TouchPlayButtonTooltip}"/>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <UniformGrid Columns="4"/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                    </ItemsControl>
+                </ScrollViewer>
+            </DockPanel>
         </StackPanel>
-
-
-
-
     </Grid>
 </UserControl>

@@ -5,9 +5,23 @@
     <system:String x:Key="Skip">Skip</system:String>
     <system:String x:Key="Confirm">Confirm</system:String>
     <system:String x:Key="OutputDevice">Output Device</system:String>
+    <system:String x:Key="OutputDeviceTooltip">Output Device</system:String>
+    <system:String x:Key="OutputDeviceSelectorTooltip">Select the output device that will be used for playback</system:String>
     <system:String x:Key="SelectAudioDevicePrompt">Please select the audio out device to be used for the main competition player</system:String>
     <system:String x:Key="AdvancedMode">Advanced Mode</system:String>
     <system:String x:Key="DifficultyToolTip">Difficulty</system:String>
     <system:String x:Key="CharacteristicsToolTip">Characteristic</system:String>
     <system:String x:Key="OpenFile">Open File</system:String>
+    <system:String x:Key="Fadeout">Fadeout</system:String>
+    <system:String x:Key="FadeoutTooltip">Fades the current track out</system:String>
+    <system:String x:Key="StopTooltip">Immediately stops playback of current track</system:String>
+    <system:String x:Key="PlayTooltip">Starts playback of currently selected track</system:String>
+    <system:String x:Key="NextTooltip">Selects the next track from the tracklist</system:String>
+    <system:String x:Key="PreviousTooltip">Selects the next track from the tracklist</system:String>
+    <system:String x:Key="VolumeSliderTooltip">Volume</system:String>
+    <system:String x:Key="Tracklist">Tracklist</system:String>
+    <system:String x:Key="TracklistSelectorTooltip">Select the tracklist to be used</system:String>
+    <system:String x:Key="TimeDataTooltip">Time played / Total time</system:String>
+    <system:String x:Key="TouchPlayButtonTooltip">Fades out currently playing track and starts playing this track</system:String>
+
 </ResourceDictionary>

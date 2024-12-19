@@ -68,7 +68,7 @@
                 <ControlTemplate TargetType="Button">
                     <Viewbox>
                         <Grid Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Width}" Height="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Height}">
-                            <Border Margin="0" Name="border" CornerRadius="5" BorderThickness="0" Height="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Height}" Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Width}" Background="{StaticResource ButtonBackgroundGradientBrush}">
+                            <Border Margin="0"  ToolTip="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ToolTip}" Name="border" CornerRadius="5" BorderThickness="0" Height="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Height}" Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Width}" Background="{StaticResource ButtonBackgroundGradientBrush}">
                             </Border>
                         <Rectangle Width="30" Height="30" SnapsToDevicePixels="true">
                             <Rectangle.Fill>
@@ -98,7 +98,10 @@
         <ControlTemplate TargetType="Button">
           <Viewbox>
             <Grid Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Width}" Height="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Height}">
-              <Border Margin="0" Name="border" CornerRadius="5" BorderThickness="0" Height="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Height}" Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Width}" Background="{StaticResource ButtonBackgroundGradientBrush}">
+              <Border Margin="0" Name="border" CornerRadius="5" BorderThickness="0" 
+                      ToolTip="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ToolTip}"
+                      Height="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Height}" 
+                      Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Width}" Background="{StaticResource ButtonBackgroundGradientBrush}">
               </Border>
               <Rectangle x:Name="Image" Width="30" Height="30" SnapsToDevicePixels="true">
                 <Rectangle.Fill>
@@ -168,7 +171,7 @@
                                         TextWrapping="WrapWithOverflow"
                                         Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content}"
                                         FontWeight="SemiBold" 
-                                        ToolTip="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content}"
+                                        ToolTip="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ToolTip}"
                                         TextTrimming="CharacterEllipsis"
                                         Foreground="{StaticResource TextBrush}"
                                         FontSize="12"/>
@@ -206,7 +209,7 @@
                                         TextWrapping="WrapWithOverflow"
                                         Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content}"
                                         FontWeight="SemiBold" 
-                                        ToolTip="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content}"
+                                        ToolTip="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ToolTip}"
                                         TextTrimming="CharacterEllipsis"
                                         Foreground="{StaticResource TextBrush}"
                                         FontSize="20"/>
@@ -246,7 +249,7 @@
                                     Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content}"
                                     FontWeight="Thin" 
                                             FontStretch="Condensed"
-                                    ToolTip="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content}"
+                                    ToolTip="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ToolTip}"
                                     TextTrimming="CharacterEllipsis"
                                     Foreground="{StaticResource TrackTextBrush}"
                                     FontSize="12"/>
