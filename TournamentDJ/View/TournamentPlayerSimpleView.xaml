@@ -114,8 +114,8 @@
                             <Button  Style="{StaticResource ImageButtonActive}" Content="pack://application:,,,/Assets/play.png" ToolTip="{DynamicResource PlayTooltip}" Width="60" Height="60" HorizontalAlignment="Left" Command="{Binding PlayClickCommand}"/>
                             <Button  Style="{StaticResource ImageButton}" Content="pack://application:,,,/Assets/stop.png" ToolTip="{DynamicResource StopTooltip}" Width="60" Height="60" HorizontalAlignment="Left" Command="{Binding StopClickCommand}"/>
                             <Button  Style="{StaticResource ImageButton}" Content="pack://application:,,,/Assets/next.png" ToolTip="{DynamicResource NextTooltip}" Width="60" Height="60" HorizontalAlignment="Left" Command="{Binding NextClickCommand}"/>
-                            <Button  Style="{StaticResource BasicTouchButton}" Content="Fadeout" Width="100" Height="60" ToolTip="{DynamicResource FadeoutTooltip}" HorizontalAlignment="Left" Command="{Binding FadeoutClickCommand}"/>
-                            <Button  Style="{StaticResource BasicTouchButton}" Content="Recreate" Width="100" Height="60" ToolTip="{DynamicResource RecreateTooltip}" HorizontalAlignment="Left" Command="{Binding CreateDanceRoundClickCommand}"/>
+                            <Button  Style="{StaticResource BasicTouchButton}" Content="{DynamicResource Fadeout}" Width="100" Height="60" ToolTip="{DynamicResource FadeoutTooltip}" HorizontalAlignment="Left" Command="{Binding FadeoutClickCommand}"/>
+                            <Button  Style="{StaticResource BasicTouchButton}" Content="{DynamicResource Recreate}" Width="100" Height="60" ToolTip="{DynamicResource RecreateTooltip}" HorizontalAlignment="Left" Command="{Binding CreateDanceRoundClickCommand}"/>
                         </DockPanel>
                         <Slider Margin="0,0,0,3"
                             Width="400" Height="40" Value="{Binding Player.MedPlayer.Volume}" Maximum="1.0" 
