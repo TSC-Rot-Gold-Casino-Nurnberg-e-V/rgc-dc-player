@@ -41,7 +41,7 @@
                 <TextBlock Style="{StaticResource BasicTextBlock}" VerticalAlignment="Top" Width="140" Height="50" Margin ="5" Text="{Binding TrackPlaying.Title}" />
                 <TextBlock Style="{StaticResource BasicTextBlock}" VerticalAlignment="Top" Width="100" Height="50" Margin ="5" Text="{Binding Player.timeData}" />
                 <StackPanel Margin="4,2,2,2" Width="160">
-                    <TextBlock Style="{StaticResource BasicTextBlock}" Text="Output Device"/>
+                    <TextBlock Style="{StaticResource BasicTextBlock}" Text="{DynamicResource OutputDevice}"/>
                     <ComboBox
               Style="{StaticResource BasicComboBox}"
           ItemsSource="{Binding Player.AudioDevices}"
@@ -52,7 +52,7 @@
           IsReadOnly="true"/>
                 </StackPanel>
                 <StackPanel  Margin="5,0,5,4">
-                    <TextBlock Style="{StaticResource BasicTextBlock}" Text="TrackList"/>
+                    <TextBlock Style="{StaticResource BasicTextBlock}" Text="{DynamicResource Tracklist}"/>
                     <ComboBox
         Style="{StaticResource BasicComboBox}"
         SelectedItem="{Binding SelectedTrackList, TargetNullValue='Default'}"

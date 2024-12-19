@@ -50,7 +50,7 @@
         </TabControl>
         <DockPanel Grid.Row="1">
             <StackPanel Grid.Row="1" Width="200">
-                <TextBlock Text="Output Device" Style="{StaticResource BasicTextBlock}"/>
+                <TextBlock Text="{DynamicResource OutputDevice}" Style="{StaticResource BasicTextBlock}"/>
                 <ComboBox
             ItemsSource="{Binding Player.AudioDevices}"
             SelectedItem="{Binding Player.SelectedAudioDevice}"

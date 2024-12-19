@@ -62,7 +62,7 @@
             <ComboBox Name="comboBox1" Style="{StaticResource BasicComboBox}"
         ItemsSource="{Binding Runtimes}"
         SelectedItem="{Binding SelectedTimeSpan}"
-        Text="auswählen..."
+        Text="{DynamicResource Select}"
         IsEditable="true"
         IsReadOnly="true"/>
           </StackPanel>
@@ -72,7 +72,7 @@
         ItemsSource="{Binding DanceRounds}"
         SelectedItem="{Binding SelectedDanceRound}"
         DisplayMemberPath="Name"
-        Text="auswählen..."
+        Text="{DynamicResource Select}"
         IsEditable="true"
         IsReadOnly="true"/>
           </StackPanel>

@@ -5,6 +5,8 @@
     <system:String x:Key="Skip">Skip</system:String>
     <system:String x:Key="Single">Single</system:String>
     <system:String x:Key="SingleTooltip">When this is selected, the same track will be used for every heat</system:String>
+    <system:String x:Key="UseTracklist">Use Tracklist</system:String>
+    <system:String x:Key="UseTracklistTooltip">When this is selected, only tracks included in the selected tracklist will be used</system:String>
     <system:String x:Key="ChooseTrack">Choose</system:String>
     <system:String x:Key="ChooseTrackTooltip">Select a track that will replace this one</system:String>
     <system:String x:Key="Dance">Dance</system:String>
@@ -26,7 +28,9 @@
     <system:String x:Key="OutputDeviceSelectorTooltip">Select the output device that will be used for playback</system:String>
     <system:String x:Key="SelectAudioDevicePrompt">Please select the audio out device to be used for the main competition player</system:String>
     <system:String x:Key="AdvancedMode">Advanced Mode</system:String>
+    <system:String x:Key="Difficulty">Difficulty</system:String>
     <system:String x:Key="DifficultyToolTip">Difficulty</system:String>
+    <system:String x:Key="Characteristics">Characteristics</system:String>
     <system:String x:Key="CharacteristicsToolTip">Characteristic</system:String>
     <system:String x:Key="OpenFile">Open File</system:String>
     <system:String x:Key="Fadeout">Fadeout</system:String>

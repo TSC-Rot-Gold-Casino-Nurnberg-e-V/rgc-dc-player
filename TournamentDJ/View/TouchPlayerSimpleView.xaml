@@ -93,7 +93,7 @@
                            HorizontalAlignment="Right" Width="100" Height="20" Text="{Binding Player.timeData}" ToolTip="{DynamicResource TimeDataTooltip}"/>
                 <TextBlock Style="{StaticResource BasicTextBlock}" FontSize="16" FontWeight="Thin" Margin="4" TextWrapping="NoWrap" Height="20" Width="360" 
                            Text="{Binding Player.TrackPlaying.Title}" ToolTip="{Binding Player.TrackPlaying.Title}"/>
-                <TextBlock Style="{StaticResource BasicTextBlock}" Text="TrackList" Width="100" FontSize="18" Margin="16,4,8,4"/>
+                <TextBlock Style="{StaticResource BasicTextBlock}" Text="{DynamicResource Tracklist}" Width="100" FontSize="18" Margin="16,4,8,4"/>
                 <ComboBox
                     Style="{StaticResource BasicComboBox}"
                     SelectedItem="{Binding SelectedSecondaryTrackList, TargetNullValue='Default'}"
