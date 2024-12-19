@@ -49,7 +49,7 @@
                 <StackPanel>
                     <DockPanel>
                         <StackPanel Margin="4" Width="260" HorizontalAlignment="Left">
-                            <TextBlock Style="{StaticResource BasicTextBlock}" Text="Output Device" FontSize="18"/>
+                            <TextBlock Style="{StaticResource BasicTextBlock}" Text="{DynamicResource OutputDevice}" FontSize="18"/>
                             <ComboBox FontSize="18"
                                 Style="{StaticResource BasicComboBox}"
                             ItemsSource="{Binding Player.AudioDevices}"
@@ -57,67 +57,71 @@
                             DisplayMemberPath="Name"
                             Text="Default"
                             IsEditable="true"
-                            IsReadOnly="true"/>
+                            IsReadOnly="true"
+                            ToolTip="{DynamicResource OutputDeviceSelectorTooltip}"/>
                         </StackPanel>
                         <StackPanel HorizontalAlignment="Left" Margin="4" Width="150">
-                            <TextBlock Text="Laufzeit" Style="{StaticResource BasicTextBlock}" FontSize="18"/>
+                            <TextBlock Text="{DynamicResource TargetRuntime}" Style="{StaticResource BasicTextBlock}" FontSize="18"/>
                             <ComboBox Name="comboBox1" Style="{StaticResource BasicComboBox}" FontSize="18"
                                     ItemsSource="{Binding Runtimes}"
                                     SelectedItem="{Binding SelectedTimeSpan}"
-                                    Text="auswählen..."
+                                    Text="{DynamicResource Select}"
                                     IsEditable="true"
-                                    IsReadOnly="true"/>
+                                    IsReadOnly="true"
+                                      ToolTip="{DynamicResource TargetRuntimeSelectorTooltip}"/>
                         </StackPanel>
                     </DockPanel>
                     <DockPanel>
                         <StackPanel HorizontalAlignment="Left" Margin="4" Width="175">
-                            <TextBlock Text="Tanzrunde" Style="{StaticResource BasicTextBlock}" FontSize="18"/>
+                            <TextBlock Text="{DynamicResource DanceRound}" Style="{StaticResource BasicTextBlock}" FontSize="18"/>
                             <ComboBox Name="comboBox2" Style="{StaticResource BasicComboBox}" FontSize="18"
                         ItemsSource="{Binding DanceRounds}"
                         SelectedItem="{Binding SelectedDanceRound}"
                         DisplayMemberPath="Name"
-                        Text="auswählen..."
+                        Text="{DynamicResource Select}"
                         IsEditable="true"
-                        IsReadOnly="true"/>
+                        IsReadOnly="true"
+                                      ToolTip="{DynamicResource DanceRoundSelectorTooltip}"/>
                         </StackPanel>
                         <StackPanel HorizontalAlignment="Left" Margin="4" Width="140">
-                            <TextBlock Text="Anzahl Heats" Style="{StaticResource BasicTextBlock}" FontSize="18"/>
+                            <TextBlock Text="{DynamicResource Heats}" Style="{StaticResource BasicTextBlock}" FontSize="18"/>
                             <ComboBox Name="comboBox3" Style="{StaticResource BasicComboBox}"
                         ItemsSource="{Binding NumberOfHeats}"
                         SelectedItem="{Binding SelectedNumberOfHeats}"
-                        Text="auswählen..."
+                        Text="{DynamicResource Select}"
                         IsEditable="true"
-                        IsReadOnly="true" FontSize="20"/>
+                        IsReadOnly="true" FontSize="20"
+                                      ToolTip="{DynamicResource HeatsSelectorTooltip}"/>
                         </StackPanel>
                         
                         <StackPanel HorizontalAlignment="Left" Margin="4" Width="120">
-                            <TextBlock Text="Single" Style="{StaticResource BasicTextBlock}" FontSize="18" HorizontalAlignment="Center"/>
+                            <TextBlock Text="{DynamicResource Single}" ToolTip="{StaticResource SingleTooltip}" Style="{StaticResource BasicTextBlock}" FontSize="18" HorizontalAlignment="Center"/>
                             <CheckBox IsChecked="{Binding IsSingleSelected}" 
                                       HorizontalAlignment="Center" 
                                       Style="{StaticResource BasicCheckBox}" 
-                                      Margin="2,4,2,0">
+                                      Margin="2,4,2,0"
+                                      ToolTip="{DynamicResource SingleTooltip}">
                                 <CheckBox.LayoutTransform>
                                     <ScaleTransform ScaleX="2" ScaleY="2"/>
                                 </CheckBox.LayoutTransform>
                             </CheckBox>
-                        
                         </StackPanel>
 
                     </DockPanel>
                     <StackPanel Margin="0,0,0,3">
                         <DockPanel Grid.Column="1" HorizontalAlignment="Center" Margin="0,0,0,0">
-                            <Button  Style="{StaticResource ImageButton}" Content="pack://application:,,,/Assets/previous.png" Width="60" Height="60" HorizontalAlignment="Left" Command="{Binding PreviousClickCommand}"/>
-                            <Button  Style="{StaticResource ImageButtonActive}" Content="pack://application:,,,/Assets/play.png" Width="60" Height="60" HorizontalAlignment="Left" Command="{Binding PlayClickCommand}"/>
-                            <Button  Style="{StaticResource ImageButton}" Content="pack://application:,,,/Assets/stop.png" Width="60" Height="60" HorizontalAlignment="Left" Command="{Binding StopClickCommand}"/>
-                            <Button  Style="{StaticResource ImageButton}" Content="pack://application:,,,/Assets/next.png" Width="60" Height="60" HorizontalAlignment="Left" Command="{Binding NextClickCommand}"/>
-                            <Button  Style="{StaticResource BasicTouchButton}" Content="Fadeout" Width="100" Height="60" HorizontalAlignment="Left" Command="{Binding FadeoutClickCommand}"/>
-                            <Button  Style="{StaticResource BasicTouchButton}" Content="Recreate" Width="100" Height="60" HorizontalAlignment="Left" Command="{Binding CreateDanceRoundClickCommand}"/>
+                            <Button  Style="{StaticResource ImageButton}" Content="pack://application:,,,/Assets/previous.png" ToolTip="{DynamicResource PreviousTooltip}" Width="60" Height="60" HorizontalAlignment="Left" Command="{Binding PreviousClickCommand}"/>
+                            <Button  Style="{StaticResource ImageButtonActive}" Content="pack://application:,,,/Assets/play.png" ToolTip="{DynamicResource PlayTooltip}" Width="60" Height="60" HorizontalAlignment="Left" Command="{Binding PlayClickCommand}"/>
+                            <Button  Style="{StaticResource ImageButton}" Content="pack://application:,,,/Assets/stop.png" ToolTip="{DynamicResource StopTooltip}" Width="60" Height="60" HorizontalAlignment="Left" Command="{Binding StopClickCommand}"/>
+                            <Button  Style="{StaticResource ImageButton}" Content="pack://application:,,,/Assets/next.png" ToolTip="{DynamicResource NextTooltip}" Width="60" Height="60" HorizontalAlignment="Left" Command="{Binding NextClickCommand}"/>
+                            <Button  Style="{StaticResource BasicTouchButton}" Content="Fadeout" Width="100" Height="60" ToolTip="{DynamicResource FadeoutTooltip}" HorizontalAlignment="Left" Command="{Binding FadeoutClickCommand}"/>
+                            <Button  Style="{StaticResource BasicTouchButton}" Content="Recreate" Width="100" Height="60" ToolTip="{DynamicResource RecreateTooltip}" HorizontalAlignment="Left" Command="{Binding CreateDanceRoundClickCommand}"/>
                         </DockPanel>
                         <Slider Margin="0,0,0,3"
                             Width="400" Height="40" Value="{Binding Player.MedPlayer.Volume}" Maximum="1.0" 
                                 Style="{StaticResource TouchSlider}"
-                                LargeChange="0.1" >
-
+                                LargeChange="0.1" 
+                                ToolTip="{DynamicResource VolumeSliderTooltip}">
                             <i:Interaction.Behaviors>
                                 <ess:MouseWheelSliderBehavior Amount="0.03" />
                             </i:Interaction.Behaviors>
@@ -134,18 +138,21 @@
             <Border Margin="4,2,2,2" BorderThickness="4" BorderBrush="{StaticResource MenuPopupBrush}" CornerRadius="2">
                 <DockPanel Height="80"  >
                     <StackPanel>
-                        <TextBlock Style="{StaticResource BasicTextBlock}" FontSize="16" FontWeight="Thin" Margin="4" HorizontalAlignment="Left" VerticalAlignment="Top" Width="160" Height="40" Text="{Binding Player.TrackPlaying.Title}" ToolTip="Track Title"/>
-                        <TextBlock Style="{StaticResource BasicTextBlock}" FontSize="16" FontWeight="Thin" Margin="4" HorizontalAlignment="Left" Width="160" Height="20" Text="{Binding Player.timeData}" ToolTip="Time played / Time remaining"/>
+                        <TextBlock Style="{StaticResource BasicTextBlock}" FontSize="16" FontWeight="Thin" Margin="4" HorizontalAlignment="Left" 
+                                   VerticalAlignment="Top" Width="160" Height="40" Text="{Binding Player.TrackPlaying.Title}" ToolTip="{Binding Player.TrackPlaying.Title}"/>
+                        <TextBlock Style="{StaticResource BasicTextBlock}" FontSize="16" FontWeight="Thin" Margin="4" HorizontalAlignment="Left" 
+                                   Width="160" Height="20" Text="{Binding Player.timeData}" ToolTip="{DynamicResource TimeDataTooltip}"/>
                     </StackPanel>
                     <StackPanel>
-                        <TextBlock Style="{StaticResource BasicTextBlock}" FontSize="16" FontWeight="Thin" Margin="4" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="40" Text="{Binding Player.TrackPlaying.Dance.Name}" ToolTip="Dance"/>
-                        <TextBlock Style="{StaticResource LastPlayedPlayerTextBlock}" FontSize="16" FontWeight="Normal" Margin="4" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="40" ToolTip="Dance"/>
+                        <TextBlock Style="{StaticResource BasicTextBlock}" FontSize="16" FontWeight="Thin" Margin="4" HorizontalAlignment="Left" 
+                                   VerticalAlignment="Top" Width="100" Height="40" Text="{Binding Player.TrackPlaying.Dance.Name}" ToolTip="{DynamicResource Dance}"/>
+                        <TextBlock Style="{StaticResource LastPlayedPlayerTextBlock}" FontSize="16" FontWeight="Normal" Margin="4" 
+                                   HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="40" ToolTip="{DynamicResource LastPlayedTooltip}"/>
                     </StackPanel>
-
-
                     <StackPanel HorizontalAlignment="Left" MinHeight="100">
-                        <TextBlock Text="Comment" Style="{StaticResource BasicTextBlock}" FontSize="16" FontWeight="Thin" Margin="4"/>
-                        <TextBox Text="{Binding Player.TrackPlaying.Comment}" Width="160" Margin="4" Height="40" HorizontalAlignment="Left" TextWrapping="Wrap" Style="{StaticResource BasicTextBox}" VerticalScrollBarVisibility="Auto"/>
+                        <TextBlock Text="{DynamicResource Comment}" Style="{StaticResource BasicTextBlock}" FontSize="16" FontWeight="Thin" Margin="4"/>
+                        <TextBox Text="{Binding Player.TrackPlaying.Comment}" Width="160" Margin="4" Height="40" HorizontalAlignment="Left" 
+                                 TextWrapping="Wrap" Style="{StaticResource BasicTextBox}" VerticalScrollBarVisibility="Auto"/>
                     </StackPanel>
                     <StackPanel HorizontalAlignment="Left" Margin="4" Width="100">
                         <ComboBox Style="{StaticResource BasicComboBox}"
@@ -157,7 +164,7 @@
                                 IsReadOnly="True"
                                   FontSize="16"
                                   FontWeight="Thin"
-                                  ToolTip="{DynamicResource ResourceKey=DifficultyToolTip}"/>
+                                  ToolTip="{DynamicResource DifficultyToolTip}"/>
                         <ComboBox Style="{StaticResource BasicComboBox}"
                                 ItemsSource="{Binding Characteristics}"
                                 DisplayMemberPath="Value"
@@ -168,14 +175,17 @@
                             FontSize="16"
                             FontWeight="Thin"
                                   Margin="0,15,0,0"
-                                  ToolTip="{DynamicResource ResourceKey=CharacteristicsToolTip}"/>
+                                  ToolTip="{DynamicResource CharacteristicsToolTip}"/>
                     </StackPanel>
 
-                    <Button Margin="6" VerticalAlignment="Center" Style="{StaticResource BasicTouchButton}" Content="Reselect" Width="100" Height="60" Command="{Binding ReselectClickCommand}" CommandParameter="{Binding Player.TrackPlaying}"/>
+                    <Button Margin="6" VerticalAlignment="Center" Style="{StaticResource BasicTouchButton}" Content="{DynamicResource Reselect}" Width="100" Height="60" 
+                            Command="{Binding ReselectClickCommand}" CommandParameter="{Binding Player.TrackPlaying}" ToolTip="{DynamicResource ReselectTooltip}"/>
                     <StackPanel HorizontalAlignment="Right" Margin="8">
-                        <TextBlock Text="Review" Style="{StaticResource BasicTextBlock}" FontSize="16" FontWeight="Thin" Margin="4"/>
+                        <TextBlock Text="{DynamicResource Review}" Style="{StaticResource BasicTextBlock}" FontSize="16" ToolTip="{DynamicResource ReviewTooltip}"
+                                   FontWeight="Thin" Margin="4"/>
                         <CheckBox IsChecked="{Binding Player.TrackPlaying.FlaggedForReview}" 
                                   HorizontalAlignment="Center" 
+                                  ToolTip="{DynamicResource ReviewTooltip}"
                                   Style="{StaticResource BasicCheckBox}" Margin="2,4,2,0">
                             <CheckBox.LayoutTransform>
                                 <ScaleTransform ScaleX="2" ScaleY="2"/>
@@ -195,17 +205,26 @@
                         <DataTemplate>
                                 <Border BorderBrush="{StaticResource ButtonBackgroundGradientBrush}" BorderThickness="1" Margin="2" CornerRadius="2">
                                     <DockPanel Height="80">
-                                        <TextBlock Style="{StaticResource BasicTextBlock}" VerticalAlignment="Top" Width="160" Height="40" FontSize="16" FontWeight="Thin" Margin="4" Text="{Binding Title}" />
+                                        <TextBlock Style="{StaticResource BasicTextBlock}" VerticalAlignment="Top" Width="160" Height="40" 
+                                                   FontSize="16" FontWeight="Thin" Margin="4" Text="{Binding Title}" />
                                         <StackPanel>
-                                            <TextBlock Style="{StaticResource BasicTextBlock}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="25" FontSize="16" FontWeight="Thin" Margin="4" Text="{Binding Dance.Name}" ToolTip="Dance"/>
-                                            <TextBlock Style="{StaticResource LastPlayedTextBlock}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="25" FontSize="16" FontWeight="Thin" Margin="4" ToolTip="Last Played"/>
+                                            <TextBlock Style="{StaticResource BasicTextBlock}" HorizontalAlignment="Left" VerticalAlignment="Top" 
+                                                       Width="100" Height="25" FontSize="16" FontWeight="Thin" Margin="4" Text="{Binding Dance.Name}" 
+                                                       ToolTip="{DynamicResource Dance}"/>
+                                            <TextBlock Style="{StaticResource LastPlayedTextBlock}" HorizontalAlignment="Left" VerticalAlignment="Top" 
+                                                       Width="100" Height="25" FontSize="16" FontWeight="Thin" Margin="4" ToolTip="{DynamicResource LastPlayedTooltip}"/>
                                         </StackPanel>
                                         <StackPanel HorizontalAlignment="Left" MinHeight="100">
-                                            <TextBlock Text="Comment" Style="{StaticResource BasicTextBlock}" FontSize="16" FontWeight="Thin" Margin="4"/>
-                                            <TextBox Text="{Binding Comment}" Width="160" Margin="4" Height="40" HorizontalAlignment="Left" TextWrapping="Wrap" Style="{StaticResource BasicTextBox}" VerticalScrollBarVisibility="Auto"/>
+                                            <TextBlock Text="{DynamicResource Comment}" Style="{StaticResource BasicTextBlock}" FontSize="16" FontWeight="Thin" Margin="4"/>
+                                            <TextBox Text="{Binding Comment}" Width="160" Margin="4" Height="40" HorizontalAlignment="Left" 
+                                                     TextWrapping="Wrap" Style="{StaticResource BasicTextBox}" VerticalScrollBarVisibility="Auto"/>
                                         </StackPanel>
-                                        <Button Style="{StaticResource BasicTouchButton}" Content="Choose" Width="100" Height="60" Command="{Binding Data.OpenSelectSpecificTrackWindowCommand, Source={StaticResource BindingProxy}}" CommandParameter="{Binding}"/>
-                                        <Button Style="{StaticResource BasicTouchButton}" Margin="6" Content="Reselect" Width="100" Height="60" HorizontalAlignment="Left" Command="{Binding Data.ReselectClickCommand, Source={StaticResource BindingProxy}}" CommandParameter="{Binding}"/>
+                                        <Button Style="{StaticResource BasicTouchButton}" Content="{DynamicResource ChooseTrack}" Width="100" Height="60" 
+                                                Command="{Binding Data.OpenSelectSpecificTrackWindowCommand, Source={StaticResource BindingProxy}}" 
+                                                CommandParameter="{Binding}" ToolTip="{DynamicResource ChooseTrackTooltip}"/>
+                                        <Button Style="{StaticResource BasicTouchButton}" Margin="6" Content="{DynamicResource Reselect}" Width="100" 
+                                                Height="60" HorizontalAlignment="Left" Command="{Binding Data.ReselectClickCommand, Source={StaticResource BindingProxy}}" 
+                                                CommandParameter="{Binding}" ToolTip="{DynamicResource ReselectTooltip}"/>
                                     </DockPanel>
                                 </Border>
                             </DataTemplate>

@@ -3,6 +3,23 @@
                     xmlns:system="clr-namespace:System;assembly=mscorlib">
     
     <system:String x:Key="Skip">Skip</system:String>
+    <system:String x:Key="Single">Single</system:String>
+    <system:String x:Key="SingleTooltip">When this is selected, the same track will be used for every heat</system:String>
+    <system:String x:Key="ChooseTrack">Choose</system:String>
+    <system:String x:Key="ChooseTrackTooltip">Select a track that will replace this one</system:String>
+    <system:String x:Key="Dance">Dance</system:String>
+    <system:String x:Key="DanceTooltip">Type of dance this track is associated with</system:String>
+    <system:String x:Key="Comment">Comment</system:String>
+    <system:String x:Key="CommentTooltip">#Missing</system:String>
+    <system:String x:Key="Review">Review</system:String>
+    <system:String x:Key="ReviewTooltip">Marks a track for review. It will not be played, while this is checked</system:String>
+    <system:String x:Key="Favourite">Favourite</system:String>
+    <system:String x:Key="FavouriteTooltip">Marks a track as favourite. It will not be played in warmup, while this is checked</system:String>
+    <system:String x:Key="Heats">Heats</system:String>
+    <system:String x:Key="HeatsSelectorTooltip">Select the heat count</system:String>
+    <system:String x:Key="Reselect">Reselect</system:String>
+    <system:String x:Key="ReselectTooltip">Selects a different track, that fits this dancerounds categorization</system:String>
+    <system:String x:Key="Select">Select</system:String>
     <system:String x:Key="Confirm">Confirm</system:String>
     <system:String x:Key="OutputDevice">Output Device</system:String>
     <system:String x:Key="OutputDeviceTooltip">Output Device</system:String>
@@ -14,6 +31,8 @@
     <system:String x:Key="OpenFile">Open File</system:String>
     <system:String x:Key="Fadeout">Fadeout</system:String>
     <system:String x:Key="FadeoutTooltip">Fades the current track out</system:String>
+    <system:String x:Key="Recreate">Recreate</system:String>
+    <system:String x:Key="RecreateTooltip">Reselects all dances of this round and resets the player to the first dance</system:String>
     <system:String x:Key="StopTooltip">Immediately stops playback of current track</system:String>
     <system:String x:Key="PlayTooltip">Starts playback of currently selected track</system:String>
     <system:String x:Key="NextTooltip">Selects the next track from the tracklist</system:String>
@@ -22,6 +41,11 @@
     <system:String x:Key="Tracklist">Tracklist</system:String>
     <system:String x:Key="TracklistSelectorTooltip">Select the tracklist to be used</system:String>
     <system:String x:Key="TimeDataTooltip">Time played / Total time</system:String>
+    <system:String x:Key="TargetRuntime">Runtime</system:String>
+    <system:String x:Key="TargetRuntimeSelectorTooltip">Select a timer, after which the current track will start fading out</system:String>
     <system:String x:Key="TouchPlayButtonTooltip">Fades out currently playing track and starts playing this track</system:String>
+    <system:String x:Key="DanceRound">Danceround</system:String>
+    <system:String x:Key="DanceRoundSelectorTooltip">Select the danceround (order of dances) that should be used for this player</system:String>
+    <system:String x:Key="LastPlayedTooltip">Time or date the track was last played</system:String>
 
 </ResourceDictionary>
