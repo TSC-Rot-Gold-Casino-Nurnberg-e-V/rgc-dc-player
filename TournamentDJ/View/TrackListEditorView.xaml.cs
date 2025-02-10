@@ -11,5 +11,10 @@ namespace TournamentDJ.View
         {
             InitializeComponent();
         }
+
+        private void tracksDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
     }
 }

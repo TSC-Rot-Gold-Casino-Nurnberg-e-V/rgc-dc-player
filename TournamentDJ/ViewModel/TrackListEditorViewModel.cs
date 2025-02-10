@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections;
+using System.Collections.ObjectModel;
 using System.Windows.Input;
 using TournamentDJ.Essentials;
 using TournamentDJ.Model;
@@ -75,6 +76,9 @@ namespace TournamentDJ.ViewModel
             }
         }
 
+        public IList SelectedTracksInTracks { get; set; }
+        public IList SelectedTracksInTrackList { get; set; }
+
         public Track SelectedTrackInList
         {
             get { return Get<Track>(); }
@@ -131,17 +135,34 @@ namespace TournamentDJ.ViewModel
 
         public void ExecuteAddToTrackList()
         {
-            if (SelectedTrackList != null && SelectedTrackInTracks != null && !SelectedTrackList.Tracks.Contains(SelectedTrackInTracks))
+            if (SelectedTrackList != null && SelectedTracksInTracks != null)
             {
-                SelectedTrackList.Tracks.Add(SelectedTrackInTracks);
+                foreach (Track track in SelectedTracksInTracks)
+                {
+                    if(!SelectedTrackList.Tracks.Contains(track))
+                    {
+                        SelectedTrackList.Tracks.Add(track);
+                    }
+                }
             }
         }
 
         public void ExecuteRemoveFromTrackList()
         {
-            if (SelectedTrackInList != null)
+            if (SelectedTrackList != null && SelectedTracksInTrackList != null)
             {
-                SelectedTrackList.Tracks.Remove(SelectedTrackInList);
+                //Copy selection over to make sure it doesn't get changed during removal
+                List<Track> tracksToRemove = new List<Track>();
+                
+                foreach (Track track in SelectedTracksInTrackList)
+                {
+                        tracksToRemove.Add((Track) track);
+                }
+
+                foreach (Track track in tracksToRemove)
+                {
+                    SelectedTrackList.Tracks.Remove(track);
+                }
             }
         }
 
