@@ -190,6 +190,7 @@ Background="Transparent"
                     <DataGridTextColumn Binding="{Binding Album}" Header="Album" Width="90" IsReadOnly="True"/>
                     <DataGridTextColumn Binding="{Binding Genre}" Header="Genre" Width="80" IsReadOnly="True"/>
                     <DataGridTextColumn Binding="{Binding Year}" Header="Year" Width="40" IsReadOnly="True"/>
+                    <DataGridTextColumn Binding="{Binding PlayCount}" Header="Play Count" Width="80" IsReadOnly="True"/>
                     <DataGridTextColumn Binding="{Binding BeatsPerMinute}" Header="BPM" Width="40" IsReadOnly="True"/>
 
                 </DataGrid.Columns>

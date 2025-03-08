@@ -64,5 +64,10 @@ namespace TournamentDJ.ViewModel
             TracksToPlay = TrackListBuilder.CreateDanceRound(SelectedDanceRound, SelectedNumberOfHeats, IsSingleSelected, tracklist: SelectedTrackList);
         }
 
+        public override void ExecutePlay()
+        {
+            Player.Play(overrideLastPlayed: default, increasePlayCount: true);
+        }
+
     }
 }

@@ -34,11 +34,15 @@
     </Window.Resources>
     <Grid Background="{StaticResource BackgroundBaseBrush}">
         <StackPanel>
+            <DockPanel>
+                <TextBox Text="{Binding TrackFilterString, UpdateSourceTrigger=PropertyChanged}" Width="200" Height="30" Style="{StaticResource BasicTextBox}"/>
+                <Button Width="100" HorizontalAlignment="Left" Margin="4,0,4,0" Content="Reset Filter" Command="{Binding ResetTrackFilterClickCommand}" Style="{StaticResource BasicButton}"/>
+            </DockPanel>
             <DataGrid ItemsSource="{Binding TracksToSelectFrom}"
                   SelectedItem="{Binding SelectedSpecificTrack}"
                   Height="300"
                   AutoGenerateColumns="False"
-                     Foreground="{StaticResource BasicTextBlockGradientBrush}"
+                        Foreground="{StaticResource BasicTextBlockGradientBrush}"
 HorizontalGridLinesBrush="{StaticResource BasicHighlightBorderBrush}"
 VerticalGridLinesBrush="{StaticResource BasicHighlightBorderBrush}"
 Background="Transparent" 
@@ -58,13 +62,13 @@ Background="Transparent"
                     <DataGridTextColumn Binding="{Binding Dance.Name}" Header="Dance" Width="80" IsReadOnly="True"/>
                     <DataGridTextColumn Binding="{Binding Album}" Header="Album" Width="160" IsReadOnly="True"/>
                     <DataGridComboBoxColumn 
-            Header="Difficulty"
-            ElementStyle="{StaticResource difficulties}"
-            EditingElementStyle="{StaticResource difficulties}"
-            DisplayMemberPath="Value"
-            SelectedValuePath="Key"
-            SelectedValueBinding="{Binding Difficulty}"
-            Width="80"
+                        Header="Difficulty"
+                        ElementStyle="{StaticResource difficulties}"
+                        EditingElementStyle="{StaticResource difficulties}"
+                        DisplayMemberPath="Value"
+                        SelectedValuePath="Key"
+                        SelectedValueBinding="{Binding Difficulty}"
+                        Width="80"
                         IsReadOnly="True"
             />
                     <DataGridComboBoxColumn 

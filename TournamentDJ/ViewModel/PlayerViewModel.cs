@@ -62,6 +62,16 @@ namespace TournamentDJ.ViewModel
             set { Player.TracksToSelectFrom = value; }
         }
 
+        public string TrackFilterString
+        {
+            get { return Get<string>(); }
+            set
+            {
+                Set(value);
+                //ApplySelectSpecificTrackFilter();
+            }
+        }
+
 
         public TimeSpan SelectedTimeSpan
         {
@@ -171,7 +181,7 @@ namespace TournamentDJ.ViewModel
         }
 
 
-        public void ExecutePlay()
+        public virtual void ExecutePlay()
         {
             Player.Play();
         }

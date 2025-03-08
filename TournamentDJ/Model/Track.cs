@@ -52,6 +52,7 @@ namespace TournamentDJ.Model
             Album = (file.Tag.Album != null) ? file.Tag.Album : string.Empty;
             Genre = (file.Tag.FirstGenre != null) ? file.Tag.FirstGenre : string.Empty;
             ISRC = (file.Tag.ISRC != null) ? file.Tag.ISRC : string.Empty;
+            PlayCount = 0;
             BeatsPerMinute = file.Tag.BeatsPerMinute;
             Year = (int)file.Tag.Year;
             Duration = file.Properties.Duration;
@@ -85,6 +86,8 @@ namespace TournamentDJ.Model
         {
             get; set;
         }
+
+        public int PlayCount { get; set; }
 
         public string? Comment
         {

@@ -243,7 +243,7 @@ namespace TournamentDJ.Model
             MedPlayer.Source = MediaSource.CreateFromUri(newUri);
         }
 
-        public async void Play(bool overrideLastPlayed = false)
+        public async void Play(bool overrideLastPlayed = false, bool increasePlayCount = false)
         {
             while (MedPlayer.PlaybackSession.PlaybackState == MediaPlaybackState.Buffering || MedPlayer.PlaybackSession.PlaybackState == MediaPlaybackState.Opening)
             {
@@ -254,6 +254,11 @@ namespace TournamentDJ.Model
             if (!overrideLastPlayed && TrackPlaying != null)
             {
                 TrackPlaying.LastPlayedTime = DateTime.Now;
+            }
+
+            if (increasePlayCount  && TrackPlaying != null) 
+            {
+                TrackPlaying.PlayCount++;
             }
         }
 
