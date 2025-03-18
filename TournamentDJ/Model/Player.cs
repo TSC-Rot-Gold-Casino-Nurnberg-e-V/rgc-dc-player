@@ -33,10 +33,21 @@ namespace TournamentDJ.Model
 
         public virtual void MediaEnded(MediaPlayer sender, object args)
         {
-            App.Current.Dispatcher.Invoke(delegate
+            if(MedPlayer.AutoPlay == false)
             {
-                Stop();
-            });
+                App.Current.Dispatcher.Invoke(delegate
+                {
+                    Stop();
+                });
+            }
+            else
+            {
+                App.Current.Dispatcher.Invoke(delegate
+                {
+                    GetNextTrack();
+                });
+            }
+
         }
 
         public virtual void MedPlayerHasChanged(MediaPlayer sender, object args)
@@ -403,8 +414,6 @@ namespace TournamentDJ.Model
             MedPlayer.AutoPlay = true;
             Play();
         }
-
-
 
         private Track TrackToSelectSpecific { get; set; }
         public void CreateTracksToSelectFrom(Track track)
