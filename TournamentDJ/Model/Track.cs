@@ -1,7 +1,11 @@
-﻿using System.Collections.ObjectModel;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
+using System.Text;
 using System.Text.RegularExpressions;
+using TagLib.Id3v2;
 using TournamentDJ.Essentials;
+using Windows.Gaming.Input;
 
 namespace TournamentDJ.Model
 {
@@ -35,12 +39,14 @@ namespace TournamentDJ.Model
         public Track(Uri uri)
         {
             TagLib.File file;
+            TagLib.Id3v2.Tag tag;
             string filePath = uri.LocalPath;
             try
             {
                 file = TagLib.File.Create(filePath);
+                tag = (TagLib.Id3v2.Tag) file.GetTag(TagLib.TagTypes.Id3v2);
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 Logger.LoggerInstance.LogWrite("URI of Track coould not be found");
                 throw;
@@ -52,6 +58,27 @@ namespace TournamentDJ.Model
             Album = (file.Tag.Album != null) ? file.Tag.Album : string.Empty;
             Genre = (file.Tag.FirstGenre != null) ? file.Tag.FirstGenre : string.Empty;
             ISRC = (file.Tag.ISRC != null) ? file.Tag.ISRC : string.Empty;
+
+
+            string cpinf = string.Empty;
+            List<TagLib.Id3v2.Frame> frames = tag.GetFrames("COMM").ToList();
+            foreach(Frame frame in frames)
+            {
+                string text = frame.ToString();
+                if(text != null)
+                {
+                    if (text.StartsWith("L:"))
+                    {
+                        cpinf = text;
+                    }
+                    else
+                    {
+                        Comment = text;
+                    }
+                }
+            }
+            
+
             PlayCount = 0;
             BeatsPerMinute = file.Tag.BeatsPerMinute;
             Year = (int)file.Tag.Year;
@@ -60,10 +87,8 @@ namespace TournamentDJ.Model
             Dance = SearchDance(file);
             FlaggedAsFavourite = false;
             FlaggedForReview = false;
-            Comment = string.Empty;
 
-
-            int[] ParsedValues = RetrieveSpoerlData(file);
+            int[] ParsedValues = RetrieveSpoerlData(cpinf);
             Rating = ParsedValues[0];
             Characteristic = ParsedValues[1];
             Difficulty = Math.Abs(ParsedValues[2] - 4); //Adapt Values to correct range, CP uses an inverted Range
@@ -152,13 +177,18 @@ namespace TournamentDJ.Model
             get; set;
         }
 
+        public virtual ObservableCollection<Tag> Tags
+        {
+            get; set;
+        } = new ObservableCollection<Tag>();
+
         public virtual ObservableCollection<TrackList> TrackLists
         { get; private set; } =
         new ObservableCollection<TrackList>();
 
 
         //returns an int array with lenght 4, containing L, C, B and N, as used in Competition Player by Sebastian Spörl
-        private int[] RetrieveSpoerlData(TagLib.File file)
+        private int[] RetrieveSpoerlData(string comment)
         {
             int[] properties = new int[4];
             for (int i = 0; i < properties.Length; i++)
@@ -166,10 +196,9 @@ namespace TournamentDJ.Model
                 properties[i] = -1;
             }
 
-
             //Comment should look like "CPINFL:2/C:2/B:2/N:0T", we only care about the 4 integers
             string pattern = @"-?\d\/-?\d\/-?\d\/-?\d";
-            string comment = file.Tag.Comment;
+
             if (comment == null)
             {
                 return properties;
