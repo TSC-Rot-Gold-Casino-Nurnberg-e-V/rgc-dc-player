@@ -448,13 +448,16 @@ namespace TournamentDJ.Model
             }
         }
 
+
+        ///TODO Finish up
         /// <summary>
-        /// Compares two tags and writes the newer one to both files
+        /// Compares two tags and writes the newer one to both files.
+        /// if useConservative is true, the more conservative Values for Rating, Difficulty and Characteristic will be used.
         /// THIS DOES NOT CHECK IF THE TRACKS ARE EQUAL AT ALL
         /// </summary>
         /// <param name="track1"></param>
         /// <param name="track2"></param>
-        public static void CompareAndSetTag(Track track1, Track track2)
+        public static void CompareAndSetTag(Track track1, Track track2, bool useConservative = false)
         {
             try
             {
@@ -464,18 +467,23 @@ namespace TournamentDJ.Model
                 var tag1 = file1.Tag;
                 var tag2 = file2.Tag;
 
-                if(tag1 == null || tag2 == null) { return; }
+                if (useConservative)
+                {
+                    track1.Rating = track1.Rating < track2.Rating ? track1.Rating : track2.Rating;
+                    track1.Difficulty = track1.Difficulty > track2.Difficulty ? track1.Difficulty : track2.Difficulty;
+                    track1.Characteristic = track1.Characteristic < track2.Characteristic ? track1.Characteristic : track2.Characteristic;
+                }
+
+                TagLib.Tag newerTag = null;
+                if (tag1 == null || tag2 == null) { return; }
                 if (tag1.DateTagged.GetValueOrDefault() > tag2.DateTagged.GetValueOrDefault())
                 {
                     tag1.CopyTo(file2.Tag, true);
-                    file2.Save();
                 }
                 else
                 {
                     tag2.CopyTo(file1.Tag, true);
-                    file1.Save();
                 }
-
             }
             catch(Exception e)
             {

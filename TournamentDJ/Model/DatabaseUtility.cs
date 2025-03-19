@@ -237,7 +237,7 @@ namespace TournamentDJ.Model
             //Track already exist in some way. Just add new Uris
             if (trackToAdd != null && found != null)
             {
-                Track.CompareAndSetTag(trackToAdd, found);
+                //TODO: Compare Track Tags
                 updateTrackUris(found, trackToAdd);
             }
 
