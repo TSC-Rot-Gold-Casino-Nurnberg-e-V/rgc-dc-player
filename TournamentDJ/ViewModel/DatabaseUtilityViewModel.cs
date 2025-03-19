@@ -5,6 +5,7 @@ using System.Windows.Input;
 using TournamentDJ.Essentials;
 using TournamentDJ.Model;
 using System.IO;
+using Windows.Security.Isolation;
 
 namespace TournamentDJ.ViewModel
 {
@@ -37,7 +38,7 @@ namespace TournamentDJ.ViewModel
 
         public Player Player { get; private set; }
         public TrackListEditorViewModel trackListEditorViewModel { get; private set; }
-        public Logger logger 
+        public Logger logger
         {
             get { return Logger.LoggerInstance; }
         }
@@ -47,8 +48,8 @@ namespace TournamentDJ.ViewModel
             get; set;
         }
 
-        public int FilesProcessed 
-        { 
+        public int FilesProcessed
+        {
             get
             {
                 return Get<int>();
@@ -66,14 +67,14 @@ namespace TournamentDJ.ViewModel
             get { return Get<bool>(); }
             set { Set(value);
                 OnPropertyChanged();
-             }
+            }
         }
 
-        public int WorkerProgress 
-        { 
-            get 
-            { 
-               return Get<int>();  
+        public int WorkerProgress
+        {
+            get
+            {
+                return Get<int>();
             }
             set
             {
@@ -177,6 +178,7 @@ namespace TournamentDJ.ViewModel
         public ICommand ResetTrackFilterClickCommand { get; private set; }
         public ICommand ApplyTrackFilterClickCommand { get; private set; }
         public ICommand ChooseFileCommand { get; private set; }
+        public ICommand ExportFileDataCommand { get; private set; }
 
         public void CreateCommands()
         {
@@ -188,7 +190,34 @@ namespace TournamentDJ.ViewModel
             ResetTrackFilterClickCommand = new RelayCommand(ExecuteResetTrackFilterClick);
             ApplyTrackFilterClickCommand = new RelayCommand(ExecuteApplyTrackFilter);
             ChooseFileCommand = new RelayCommand(ExecuteChooseFile);
+            ExportFileDataCommand = new RelayCommand(ExecuteExportFileData);
         }
+
+
+        public async void ExecuteExportFileData()
+        {
+            //Dont do shit, if other Task is running.
+            if (IsProcessing == true)
+            {
+                return;
+            }
+
+            IsProcessing = true;
+            FilesToProcess = Tracks.Count;
+            FilesProcessed = 0;
+
+            await Task.Run(() =>
+            {
+                foreach (Track track in Tracks)
+                {
+                    track.WriteDataToFile();
+                    FilesProcessed++;
+                }
+            });
+
+            IsProcessing = false;
+        }
+        
 
 
         public void ExecuteChooseFile()
