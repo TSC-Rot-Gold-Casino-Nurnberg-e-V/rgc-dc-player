@@ -7,6 +7,7 @@ using TagLib;
 using TagLib.Id3v2;
 using TournamentDJ.Essentials;
 using Windows.Gaming.Input;
+using Windows.UI.Notifications;
 
 namespace TournamentDJ.Model
 {
@@ -444,6 +445,41 @@ namespace TournamentDJ.Model
                 {
                     Logger.LoggerInstance.LogWrite("Saving new Tag failed   " + e.Message);
                 }
+            }
+        }
+
+        /// <summary>
+        /// Compares two tags and writes the newer one to both files
+        /// THIS DOES NOT CHECK IF THE TRACKS ARE EQUAL AT ALL
+        /// </summary>
+        /// <param name="track1"></param>
+        /// <param name="track2"></param>
+        public static void CompareAndSetTag(Track track1, Track track2)
+        {
+            try
+            {
+                var file1 = TagLib.File.Create(track1.Uris.FirstOrDefault().LocalPath);
+                var file2 = TagLib.File.Create(track2.Uris.FirstOrDefault().LocalPath);
+
+                var tag1 = file1.Tag;
+                var tag2 = file2.Tag;
+
+                if(tag1 == null || tag2 == null) { return; }
+                if (tag1.DateTagged.GetValueOrDefault() > tag2.DateTagged.GetValueOrDefault())
+                {
+                    tag1.CopyTo(file2.Tag, true);
+                    file2.Save();
+                }
+                else
+                {
+                    tag2.CopyTo(file1.Tag, true);
+                    file1.Save();
+                }
+
+            }
+            catch(Exception e)
+            {
+                Logger.LoggerInstance.LogWrite("Could not compare Tracks " + e.Message);
             }
         }
     }
