@@ -67,6 +67,10 @@ Background="Transparent"
                     <Setter Property="ItemsSource" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}, Path=DataContext.Characteristics}" />
                     <Setter Property="SelectedValuePath" Value="Key"/>
                 </Style>
+                <Style TargetType="ComboBox" x:Key="ratings">
+                    <Setter Property="ItemsSource" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}, Path=DataContext.Ratings}" />
+                    <Setter Property="SelectedValuePath" Value="Key"/>
+                </Style>
             </DataGrid.Resources>
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding Title}" Header="Title" Width="200" IsReadOnly="True"/>
@@ -101,7 +105,15 @@ Background="Transparent"
                       SelectedValueBinding="{Binding Characteristic}"
                       Width="80"
                                             />
-
+                <DataGridComboBoxColumn
+                      Header="Rating"
+                      ElementStyle="{StaticResource ratings}"
+                      EditingElementStyle="{StaticResource ratings}"
+                      DisplayMemberPath="Value"
+                      SelectedValuePath="Key"
+                      SelectedValueBinding="{Binding Rating}"
+                      Width="80"
+                            />
             </DataGrid.Columns>
         </DataGrid>
         <DockPanel Grid.Row="2">
@@ -155,7 +167,11 @@ Background="Transparent"
                     <Setter Property="ItemsSource" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}, Path=DataContext.Characteristics}" />
                     <Setter Property="SelectedValuePath" Value="Key"/>
                 </Style>
-            </DataGrid.Resources>
+                <Style TargetType="ComboBox" x:Key="ratings">
+                    <Setter Property="ItemsSource" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}, Path=DataContext.Ratings}" />
+                    <Setter Property="SelectedValuePath" Value="Key"/>
+                </Style>
+                </DataGrid.Resources>
             <DataGrid.Columns>
             <DataGridTextColumn Binding="{Binding Title}" Header="Title" Width="200"/>
                     <DataGridComboBoxColumn
@@ -183,6 +199,15 @@ Background="Transparent"
                       SelectedValueBinding="{Binding Characteristic}"
                       Width="80"
                                             />
+                    <DataGridComboBoxColumn
+                      Header="Rating"
+                      ElementStyle="{StaticResource ratings}"
+                      EditingElementStyle="{StaticResource ratings}"
+                      DisplayMemberPath="Value"
+                      SelectedValuePath="Key"
+                      SelectedValueBinding="{Binding Rating}"
+                      Width="80"
+                            />
                     <DataGridTextColumn Binding="{Binding Comment}" Header="Comment" Width="250" IsReadOnly="False"/>
                     <DataGridCheckBoxColumn Binding="{Binding FlaggedAsFavourite}" Header="Favourite" Width="60" IsReadOnly="False"/>
                     <DataGridCheckBoxColumn Binding="{Binding FlaggedForReview}" Header="Review" Width="50" IsReadOnly="False"/>

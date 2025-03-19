@@ -37,6 +37,15 @@ namespace TournamentDJ.Model
             {4, "very good" }
         };
 
+        public static Dictionary<int, string> Ratings = new Dictionary<int, string>
+        {
+            {0, "1"},
+            {1, "2" },
+            {2, "3" },
+            {3, "4" },
+            {4, "5" }
+        };
+
         public Track()
         {
 

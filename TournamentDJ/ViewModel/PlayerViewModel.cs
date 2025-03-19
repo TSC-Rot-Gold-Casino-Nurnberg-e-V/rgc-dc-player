@@ -149,6 +149,12 @@ namespace TournamentDJ.ViewModel
             private set { Track.Characteristics = value; }
         }
 
+        public Dictionary<int, string> Ratings
+        {
+            get { return Track.Ratings; }
+            private set { Track.Ratings = value; }
+        }
+
         public ICommand PlayClickCommand { get; private set; }
         public ICommand FadeoutClickCommand { get; private set; }
         public ICommand StopClickCommand { get; private set; }
