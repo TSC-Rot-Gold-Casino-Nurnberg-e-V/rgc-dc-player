@@ -1,4 +1,5 @@
-﻿using System.Windows.Input;
+﻿using System.Collections.ObjectModel;
+using System.Windows.Input;
 using TournamentDJ.Essentials;
 using TournamentDJ.Model;
 
@@ -15,13 +16,11 @@ namespace TournamentDJ.ViewModel
         public WarmupPlayerViewModel() : base()
         {
             Player = new WarmupPlayer();
-            Runtimes =
-            [
-                new TimeSpan(0, 0, 5),
-                new TimeSpan(0, 0, 15),
-                new TimeSpan(0, 0, 60),
-                new TimeSpan(0, 0, 90),
-            ];
+            Runtimes = new ObservableCollection<TimeSpan>();
+            foreach (TimeSpan ts in DefaultValues.DefaultWarmupRuntimes)
+            {
+                Runtimes.Add(ts);
+            }
             CreateAdditionalCommands();
 
         }

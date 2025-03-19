@@ -17,20 +17,12 @@ namespace TournamentDJ.Model
         { get; private set; }
             = new ObservableCollection<OrderElement<Dance>>();
 
-        public DanceRound(string name)
+        public DanceRound(string name = "New DanceRound", int  minDifficulty = 0, int maxDifficulty = 3, int minCharacteristics = 1)
         {
             Name = name;
-            MinDifficulty = 0;
-            MaxDifficulty = 3;
-            MinCharacteristics = 1;
-        }
-
-        public DanceRound()
-        {
-            Name = "New DanceRound";
-            MinDifficulty = 0;
-            MaxDifficulty = 3;
-            MinCharacteristics = 1;
+            MinDifficulty = minDifficulty;
+            MaxDifficulty = maxDifficulty;
+            MinCharacteristics = minCharacteristics;
         }
 
         public ObservableCollection<Dance> GetDancesInOrder()

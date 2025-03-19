@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Storage;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Windows;
@@ -11,23 +13,45 @@ namespace TournamentDJ.Model
     {
         public DatabaseUtility()
         {
+            if((_context.Database.GetService<IDatabaseCreator>() as RelationalDatabaseCreator).Exists())
+            {
+                _context.Database.Migrate();
 
-            //_context.Database.EnsureDeleted();
-            _context.Database.EnsureCreated();
+                // load the entities into EF Core
 
-            // load the entities into EF Core
+                _context.Dances.Load();
+                FillDances();
 
-            _context.Dances.Load();
-            FillDances();
+                _context.DanceRounds.Load();
+                FillDanceRounds();
 
-            _context.DanceRounds.Load();
-            FillDanceRounds();
+                _context.Tracks.Load();
+                FillTracks();
 
-            _context.Tracks.Load();
-            FillTracks();
+                _context.TrackLists.Load();
+                FillTrackLists();
+            }
+            else
+            {
+                _context.Database.Migrate();
 
-            _context.TrackLists.Load();
-            FillTrackLists();
+                // load the entities into EF Core
+
+                _context.Dances.Load();
+                FillDances();
+                AddDefaultDances();
+
+                _context.DanceRounds.Load();
+                FillDanceRounds();
+                AddDefaultDanceRounds();
+
+                _context.Tracks.Load();
+                FillTracks();
+
+                _context.TrackLists.Load();
+                FillTrackLists();
+            }
+
         }
 
         ~DatabaseUtility()
@@ -67,14 +91,13 @@ namespace TournamentDJ.Model
             TrackLists = _context.TrackLists.Local.ToObservableCollection();
         }
 
-        private static void FillDanceRounds()
-        {
-            DanceRounds = _context.DanceRounds.Local.ToObservableCollection();
-        }
-
         private static void FillDances()
         {
             Dances = _context.Dances.Local.ToObservableCollection();
+        }
+
+        private static void AddDefaultDances()
+        {
             foreach (var dance in DefaultValues.DefaultDances)
             {
                 if (Dances.FirstOrDefault(X => X.Name == dance.Name) == null)
@@ -82,6 +105,83 @@ namespace TournamentDJ.Model
                     Dances.Add(dance);
                 }
             }
+        }
+
+        private static void FillDanceRounds()
+        {
+            DanceRounds = _context.DanceRounds.Local.ToObservableCollection();
+        }
+
+        private static void AddDefaultDanceRounds()
+        {
+            var basStd = new DanceRound("BAS Std", 1, 3, 1);
+            basStd.OrderElements.Add(new OrderElement<Dance>(Dances.FirstOrDefault(x => x.Name == "SlowWaltz")));
+            basStd.OrderElements.Add(new OrderElement<Dance>(Dances.FirstOrDefault(x => x.Name == "Tango")));
+            basStd.OrderElements.Add(new OrderElement<Dance>(Dances.FirstOrDefault(x => x.Name == "VienneseWaltz")));
+            basStd.OrderElements.Add(new OrderElement<Dance>(Dances.FirstOrDefault(x => x.Name == "Slowfox")));
+            basStd.OrderElements.Add(new OrderElement<Dance>(Dances.FirstOrDefault(x => x.Name == "Quickstep")));
+            DanceRounds.Add(basStd);
+
+            var cStd = new DanceRound("C Std", 0, 2, 2);
+            cStd.OrderElements.Add(new OrderElement<Dance>(Dances.FirstOrDefault(x => x.Name == "SlowWaltz")));
+            cStd.OrderElements.Add(new OrderElement<Dance>(Dances.FirstOrDefault(x => x.Name == "Tango")));
+            cStd.OrderElements.Add(new OrderElement<Dance>(Dances.FirstOrDefault(x => x.Name == "Slowfox")));
+            cStd.OrderElements.Add(new OrderElement<Dance>(Dances.FirstOrDefault(x => x.Name == "Quickstep")));
+            DanceRounds.Add(cStd);
+
+            var dStd = new DanceRound("D Std", 0, 1, 3);
+            dStd.OrderElements.Add(new OrderElement<Dance>(Dances.FirstOrDefault(x => x.Name == "SlowWaltz")));
+            dStd.OrderElements.Add(new OrderElement<Dance>(Dances.FirstOrDefault(x => x.Name == "Tango")));
+            dStd.OrderElements.Add(new OrderElement<Dance>(Dances.FirstOrDefault(x => x.Name == "Quickstep")));
+            DanceRounds.Add(dStd);
+
+            var dStdChild = new DanceRound("D Std Kin", 0, 0, 3);
+            dStdChild.OrderElements.Add(new OrderElement<Dance>(Dances.FirstOrDefault(x => x.Name == "SlowWaltz")));
+            dStdChild.OrderElements.Add(new OrderElement<Dance>(Dances.FirstOrDefault(x => x.Name == "Tango")));
+            dStdChild.OrderElements.Add(new OrderElement<Dance>(Dances.FirstOrDefault(x => x.Name == "Quickstep")));
+            DanceRounds.Add(dStdChild);
+
+            var cStdChild = new DanceRound("C Std Kin", 0, 0, 3);
+            cStdChild.OrderElements.Add(new OrderElement<Dance>(Dances.FirstOrDefault(x => x.Name == "SlowWaltz")));
+            cStdChild.OrderElements.Add(new OrderElement<Dance>(Dances.FirstOrDefault(x => x.Name == "Tango")));
+            cStdChild.OrderElements.Add(new OrderElement<Dance>(Dances.FirstOrDefault(x => x.Name == "Slowfox")));
+            cStdChild.OrderElements.Add(new OrderElement<Dance>(Dances.FirstOrDefault(x => x.Name == "Quickstep")));
+            DanceRounds.Add(cStdChild);
+
+
+            var basLat = new DanceRound("BAS Lat", 1, 3, 1);
+            basLat.OrderElements.Add(new OrderElement<Dance>(Dances.FirstOrDefault(x => x.Name == "Samba")));
+            basLat.OrderElements.Add(new OrderElement<Dance>(Dances.FirstOrDefault(x => x.Name == "Cha-Cha")));
+            basLat.OrderElements.Add(new OrderElement<Dance>(Dances.FirstOrDefault(x => x.Name == "Rumba")));
+            basLat.OrderElements.Add(new OrderElement<Dance>(Dances.FirstOrDefault(x => x.Name == "PasoDoble Cut")));
+            basLat.OrderElements.Add(new OrderElement<Dance>(Dances.FirstOrDefault(x => x.Name == "Jive")));
+            DanceRounds.Add(basLat);
+
+            var cLat = new DanceRound("C Lat", 0, 2, 2);
+            cLat.OrderElements.Add(new OrderElement<Dance>(Dances.FirstOrDefault(x => x.Name == "Samba")));
+            cLat.OrderElements.Add(new OrderElement<Dance>(Dances.FirstOrDefault(x => x.Name == "Cha-Cha")));
+            cLat.OrderElements.Add(new OrderElement<Dance>(Dances.FirstOrDefault(x => x.Name == "Rumba")));
+            cLat.OrderElements.Add(new OrderElement<Dance>(Dances.FirstOrDefault(x => x.Name == "Jive")));
+            DanceRounds.Add(cLat);
+
+            var dLat = new DanceRound("D Lat", 0, 1, 3);
+            dLat.OrderElements.Add(new OrderElement<Dance>(Dances.FirstOrDefault(x => x.Name == "Cha-Cha")));
+            dLat.OrderElements.Add(new OrderElement<Dance>(Dances.FirstOrDefault(x => x.Name == "Rumba")));
+            dLat.OrderElements.Add(new OrderElement<Dance>(Dances.FirstOrDefault(x => x.Name == "Jive")));
+            DanceRounds.Add(dLat);
+
+            var dLatChild = new DanceRound("D Lat Kin", 0, 0, 3);
+            dLatChild.OrderElements.Add(new OrderElement<Dance>(Dances.FirstOrDefault(x => x.Name == "Cha-Cha")));
+            dLatChild.OrderElements.Add(new OrderElement<Dance>(Dances.FirstOrDefault(x => x.Name == "Rumba")));
+            dLatChild.OrderElements.Add(new OrderElement<Dance>(Dances.FirstOrDefault(x => x.Name == "Jive")));
+            DanceRounds.Add(dLatChild);
+
+            var cLatChild = new DanceRound("C Lat Kin", 0, 0, 3);
+            cLatChild.OrderElements.Add(new OrderElement<Dance>(Dances.FirstOrDefault(x => x.Name == "Samba")));
+            cLatChild.OrderElements.Add(new OrderElement<Dance>(Dances.FirstOrDefault(x => x.Name == "Cha-Cha")));
+            cLatChild.OrderElements.Add(new OrderElement<Dance>(Dances.FirstOrDefault(x => x.Name == "Rumba")));
+            cLatChild.OrderElements.Add(new OrderElement<Dance>(Dances.FirstOrDefault(x => x.Name == "Jive")));
+            DanceRounds.Add(cLatChild);
         }
 
         public static void SaveChanges()

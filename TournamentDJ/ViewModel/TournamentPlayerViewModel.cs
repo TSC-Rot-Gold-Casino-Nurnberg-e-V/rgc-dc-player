@@ -7,22 +7,15 @@ namespace TournamentDJ.ViewModel
     {
         public TournamentPlayerViewModel()
         {
-            Runtimes =
-            [
-                new TimeSpan(0, 0, 5),
-                new TimeSpan(0, 0, 15),
-                new TimeSpan(0, 0, 60),
-                new TimeSpan(0, 0, 75),
-                new TimeSpan(0, 0, 90),
-                new TimeSpan(0, 0, 95),
-                new TimeSpan(0, 0, 100),
-                new TimeSpan(0, 0, 105),
-                new TimeSpan(0, 0, 110),
-            ];
+            Runtimes = new ObservableCollection<TimeSpan>();
+            foreach(TimeSpan ts in DefaultValues.DefaultTournamentRuntimes)
+            {
+                Runtimes.Add(ts);
+            }
 
             NumberOfHeats = new ObservableCollection<int>();
 
-            for (int i = 1; i < 100; i++)
+            for (int i = 1; i < 20; i++)
             {
                 NumberOfHeats.Add(i);
             }

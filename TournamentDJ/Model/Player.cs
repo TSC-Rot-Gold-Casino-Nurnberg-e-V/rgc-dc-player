@@ -419,7 +419,10 @@ namespace TournamentDJ.Model
         public void CreateTracksToSelectFrom(Track track)
         {
             TrackToSelectSpecific = track;
-            TracksToSelectFrom = new ObservableCollection<Track>(DatabaseUtility.Tracks.Where(X => X.Dance == track.Dance && !X.FlaggedForReview));
+            if(track != null)
+            {
+                TracksToSelectFrom = new ObservableCollection<Track>(DatabaseUtility.Tracks.Where(X => X.Dance == track.Dance && !X.FlaggedForReview));
+            }
         }
 
         public void SelectSpecificTrack()
