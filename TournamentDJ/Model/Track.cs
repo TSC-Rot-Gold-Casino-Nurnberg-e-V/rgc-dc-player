@@ -410,36 +410,54 @@ namespace TournamentDJ.Model
             fields.Add("FlaggedForReview", FlaggedForReview.ToString());
             fields.Add("FlaggedAsFavourite", FlaggedAsFavourite.ToString());
             if (Dance != null && Dance.DanceIdentifiers != null && Dance.DanceIdentifiers.FirstOrDefault() != null)
-                fields.Add("Dance", Dance.DanceIdentifiers.FirstOrDefault().ToString());
+                fields.Add("Dance", Dance.Name.ToString());
             if (!string.IsNullOrEmpty(Comment))
                 fields.Add("Comment", Comment);
 
             return fields;
         }
-
-        public void WriteDataToFile()
+        
+        //returns true, if file was updated
+        public bool WriteDataToFile()
         {
             string comment = CreateNewComment(GetFields());
 
             TagLib.File file;
             TagLib.Id3v2.Tag newTag = new TagLib.Id3v2.Tag();
-            foreach(Uri uri in Uris)
+            TagLib.Id3v2.Tag oldTag = new TagLib.Id3v2.Tag();
+            foreach (Uri uri in Uris)
             {
                 try
                 {
                     file = TagLib.File.Create(uri.LocalPath);
-                    newTag = (TagLib.Id3v2.Tag)file.GetTag(TagLib.TagTypes.Id3v2);
+                    oldTag = (TagLib.Id3v2.Tag)file.GetTag(TagLib.TagTypes.Id3v2);
+                    if(oldTag != null  && !oldTag.IsEmpty)
+                    {
+                        oldTag.CopyTo(newTag, true);
+                    }
                     break; //Leave Loop as soon as we find one valid Tag 
                 }
                 catch (Exception e)
                 {
-                    Logger.LoggerInstance.LogWrite("URI of Track could not be found, when trying to read Tag (WriteDataToFile)  " + uri);
-                    throw;
+                    Logger.LoggerInstance.LogWrite("URI of Track could not be found, when trying to read Tag (WriteDataToFile)  " + uri +"  " + e.Message);
+                    return false;
                 }
             }
 
-            newTag.Title = Title;
             newTag.Comment = comment;
+            newTag.Title = Title;
+
+            if(Dance != null && newTag.FirstGenre != Dance.Name)
+            {
+                newTag.Genres = newTag.Genres.Prepend(Dance.Name).ToArray();
+            }
+
+            //return, if nothing changed
+            if (newTag.Comment == oldTag.Comment && newTag.Title == oldTag.Title)
+            {
+                return false;
+            }
+
             newTag.DateTagged = DateTime.Now;
 
             foreach (Uri uri in Uris)
@@ -453,8 +471,10 @@ namespace TournamentDJ.Model
                 catch (Exception e)
                 {
                     Logger.LoggerInstance.LogWrite("Saving new Tag failed   " + e.Message);
+                    return false;
                 }
             }
+            return true;
         }
 
 

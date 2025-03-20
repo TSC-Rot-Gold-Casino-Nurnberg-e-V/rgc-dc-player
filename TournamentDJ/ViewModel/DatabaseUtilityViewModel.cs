@@ -211,16 +211,21 @@ namespace TournamentDJ.ViewModel
             IsProcessing = true;
             FilesToProcess = Tracks.Count;
             FilesProcessed = 0;
+            int filesUpdated = 0;
 
             await Task.Run(() =>
             {
                 foreach (Track track in Tracks)
                 {
-                    track.WriteDataToFile();
+                    if (track.WriteDataToFile())
+                    {
+                        filesUpdated++;
+                    };
                     FilesProcessed++;
                 }
             });
 
+            Logger.LoggerInstance.LogWrite("Processed " + FilesProcessed + " Tracks and updated " + filesUpdated);
             IsProcessing = false;
         }
         
