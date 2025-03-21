@@ -47,6 +47,7 @@
             <Button Height="50" Width="100" Content="{DynamicResource ResourceKey=OpenFile}" Command="{Binding ChooseFileCommand}" Margin="5" Style="{StaticResource BasicButton}"/>
             <Button Height="50" Width="100" Content="Add to Database" Command="{Binding AddToDatabaseCommand}" Margin="2" Style="{StaticResource BasicButton}"/>
             <Button Height="50" Width="100" Content="Export Data" Command="{Binding ExportFileDataCommand}" Margin="2" Style="{StaticResource BasicButton}"/>
+            <Button Height="50" Width="100" Content="Update Data" Command="{Binding UpdateFileDataCommand}" Margin="2" Style="{StaticResource BasicButton}"/>
             <ProgressBar Height="40" Minimum="0" Maximum="100" Value="{Binding WorkerProgress}" Visibility="{Binding IsProcessing, Converter={StaticResource BoolToVisibilityConverter}}"/>
         </DockPanel>
         <DataGrid Grid.Row="1" AutoGenerateColumns="False" ItemsSource="{Binding TracksToAdd}" SelectedItem="{Binding TrackPlaying}"

@@ -5,6 +5,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using TagLib;
 using TagLib.Id3v2;
+using TagLib.NonContainer;
 using TournamentDJ.Essentials;
 using Windows.Gaming.Input;
 using Windows.UI.Notifications;
@@ -108,52 +109,11 @@ namespace TournamentDJ.Model
                 }
             }
 
-            string valString = string.Empty;
-            int valInt = 0;
-            bool valBool = false;
-            bool success = false;
+            //Override SpoerlData, if possible
+            UpdateData(dict, file);
 
-            dict.TryGetValue("Rating", out valString);
-            success = int.TryParse(valString, out valInt);
-            Rating = success ? valInt : Rating;
-
-            dict.TryGetValue("Difficulty", out valString);
-            success = int.TryParse(valString, out valInt);
-            Difficulty = success ? valInt : Difficulty;
-
-            dict.TryGetValue("Characteristic", out valString);
-            success = int.TryParse(valString, out valInt);
-            Characteristic = success ? valInt : Characteristic;
-
-            dict.TryGetValue("PlayCount", out valString);
-            success = int.TryParse(valString, out valInt);
-            PlayCount = success ? valInt : 0;
-
-            dict.TryGetValue("FlaggedAsFavourite", out valString);
-            success = bool.TryParse(valString, out valBool);
-            FlaggedAsFavourite = success ? valBool : false;
-
-            dict.TryGetValue("FlaggedForReview", out valString);
-            success = bool.TryParse(valString, out valBool);
-            FlaggedForReview = success ? valBool : false;
-
-            dict.TryGetValue("Comment", out valString);
-            Comment = !string.IsNullOrEmpty(valString) ? valString : Comment;
-
-            dict.TryGetValue("Dance", out valString);
-            string danceIdent = !string.IsNullOrEmpty(valString) ? valString : string.Empty;
-
-            Dance = SearchDance(file, danceIdent);
-            BeatsPerMinute = file.Tag.BeatsPerMinute;
-            Year = (int)file.Tag.Year;
-            Duration = file.Properties.Duration;
             Uris.Add(uri);
             Title = (file.Tag.Title != null) ? file.Tag.Title : System.IO.Path.GetFileName(filePath);
-            Album = (file.Tag.Album != null) ? file.Tag.Album : string.Empty;
-            Genre = (file.Tag.FirstGenre != null) ? file.Tag.FirstGenre : string.Empty;
-            ISRC = (file.Tag.ISRC != null) ? file.Tag.ISRC : string.Empty;
-
-
 
         }
 
@@ -178,6 +138,7 @@ namespace TournamentDJ.Model
         }
 
         public DateTime LastPlayedTime { get; set; } = DateTime.MinValue;
+        public DateTime LastDataUpdateTimestamp{ get; private set; } = DateTime.MinValue;
 
         public bool FlaggedAsFavourite { get; set; }
 
@@ -478,6 +439,94 @@ namespace TournamentDJ.Model
         }
 
 
+        public bool UpdateDataInDatabase()
+        {
+            TagLib.Id3v2.Tag newestTag = new TagLib.Id3v2.Tag();
+            newestTag.DateTagged = DateTime.MinValue;
+
+            TagLib.File file = null;
+            TagLib.File newestTagFile = null;
+
+            //get newest Tag from all URIs
+            foreach (Uri uri in Uris)
+            {
+                try
+                {
+                    file = TagLib.File.Create(uri.LocalPath);
+                    if(file != null && file.Tag.DateTagged > newestTag.DateTagged)
+                    {
+                        file.Tag.CopyTo(newestTag, true);
+                        newestTagFile = file;
+                    }
+                }
+                catch (Exception e)
+                {
+                    Logger.LoggerInstance.LogWrite("Getting tag from file failed   " + e.Message);
+                    return false;
+                }
+            }
+
+            if (newestTagFile != null && newestTag.DateTagged > LastDataUpdateTimestamp)
+            {
+                var dict = GetFieldsFromComment(newestTag.Comment);
+                UpdateData(dict, newestTagFile);
+                Logger.LoggerInstance.LogWrite("Updated Track " + Title);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        private void UpdateData(Dictionary<string, string> dict, TagLib.File file)
+        {
+            string valString = string.Empty;
+            int valInt = 0;
+            bool valBool = false;
+            bool success = false;
+
+            dict.TryGetValue("Rating", out valString);
+            success = int.TryParse(valString, out valInt);
+            Rating = success ? valInt : Rating;
+
+            dict.TryGetValue("Difficulty", out valString);
+            success = int.TryParse(valString, out valInt);
+            Difficulty = success ? valInt : Difficulty;
+
+            dict.TryGetValue("Characteristic", out valString);
+            success = int.TryParse(valString, out valInt);
+            Characteristic = success ? valInt : Characteristic;
+
+            dict.TryGetValue("PlayCount", out valString);
+            success = int.TryParse(valString, out valInt);
+            PlayCount = success ? valInt : 0;
+
+            dict.TryGetValue("FlaggedAsFavourite", out valString);
+            success = bool.TryParse(valString, out valBool);
+            FlaggedAsFavourite = success ? valBool : false;
+
+            dict.TryGetValue("FlaggedForReview", out valString);
+            success = bool.TryParse(valString, out valBool);
+            FlaggedForReview = success ? valBool : false;
+
+            dict.TryGetValue("Comment", out valString);
+            Comment = !string.IsNullOrEmpty(valString) ? valString : Comment;
+
+            dict.TryGetValue("Dance", out valString);
+            string danceIdent = !string.IsNullOrEmpty(valString) ? valString : string.Empty;
+
+            Dance = SearchDance(file, danceIdent);
+            BeatsPerMinute = file.Tag.BeatsPerMinute;
+            Year = (int)file.Tag.Year;
+            Duration = file.Properties.Duration;
+            Album = (file.Tag.Album != null) ? file.Tag.Album : string.Empty;
+            Genre = (file.Tag.FirstGenre != null) ? file.Tag.FirstGenre : string.Empty;
+            ISRC = (file.Tag.ISRC != null) ? file.Tag.ISRC : string.Empty;
+
+            LastDataUpdateTimestamp = DateTime.Now;
+        }
+        
         ///TODO Finish up
         /// <summary>
         /// Compares two tags and writes the newer one to both files.

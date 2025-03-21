@@ -185,6 +185,7 @@ namespace TournamentDJ.ViewModel
         public ICommand ApplyTrackFilterClickCommand { get; private set; }
         public ICommand ChooseFileCommand { get; private set; }
         public ICommand ExportFileDataCommand { get; private set; }
+        public ICommand UpdateFileDataCommand { get; private set; }
 
         public void CreateCommands()
         {
@@ -197,6 +198,7 @@ namespace TournamentDJ.ViewModel
             ApplyTrackFilterClickCommand = new RelayCommand(ExecuteApplyTrackFilter);
             ChooseFileCommand = new RelayCommand(ExecuteChooseFile);
             ExportFileDataCommand = new RelayCommand(ExecuteExportFileData);
+            UpdateFileDataCommand = new RelayCommand(ExecuteUpdateFileData);
         }
 
 
@@ -228,7 +230,36 @@ namespace TournamentDJ.ViewModel
             Logger.LoggerInstance.LogWrite("Processed " + FilesProcessed + " Tracks and updated " + filesUpdated);
             IsProcessing = false;
         }
-        
+
+        public async void ExecuteUpdateFileData()
+        {
+            //Dont do shit, if other Task is running.
+            if (IsProcessing == true)
+            {
+                return;
+            }
+
+            IsProcessing = true;
+            FilesToProcess = Tracks.Count;
+            FilesProcessed = 0;
+            int filesUpdated = 0;
+
+            await Task.Run(() =>
+            {
+                foreach (Track track in Tracks)
+                {
+                    if (track.UpdateDataInDatabase())
+                    {
+                        filesUpdated++;
+                    };
+                    FilesProcessed++;
+                }
+            });
+
+            Logger.LoggerInstance.LogWrite("Processed " + FilesProcessed + " Tracks and updated " + filesUpdated);
+            IsProcessing = false;
+        }
+
 
 
         public void ExecuteChooseFile()
