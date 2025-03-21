@@ -115,34 +115,34 @@ namespace TournamentDJ.Model
         private static void AddDefaultDanceRounds()
         {
             var basStd = new DanceRound("BAS Std", 1, 3, 1);
-            basStd.OrderElements.Add(new OrderElement<Dance>(Dances.FirstOrDefault(x => x.Name == "SlowWaltz")));
+            basStd.OrderElements.Add(new OrderElement<Dance>(Dances.FirstOrDefault(x => x.Name == "Slow Waltz")));
             basStd.OrderElements.Add(new OrderElement<Dance>(Dances.FirstOrDefault(x => x.Name == "Tango")));
-            basStd.OrderElements.Add(new OrderElement<Dance>(Dances.FirstOrDefault(x => x.Name == "VienneseWaltz")));
+            basStd.OrderElements.Add(new OrderElement<Dance>(Dances.FirstOrDefault(x => x.Name == "Viennese Waltz")));
             basStd.OrderElements.Add(new OrderElement<Dance>(Dances.FirstOrDefault(x => x.Name == "Slowfox")));
             basStd.OrderElements.Add(new OrderElement<Dance>(Dances.FirstOrDefault(x => x.Name == "Quickstep")));
             DanceRounds.Add(basStd);
 
             var cStd = new DanceRound("C Std", 0, 2, 2);
-            cStd.OrderElements.Add(new OrderElement<Dance>(Dances.FirstOrDefault(x => x.Name == "SlowWaltz")));
+            cStd.OrderElements.Add(new OrderElement<Dance>(Dances.FirstOrDefault(x => x.Name == "Slow Waltz")));
             cStd.OrderElements.Add(new OrderElement<Dance>(Dances.FirstOrDefault(x => x.Name == "Tango")));
             cStd.OrderElements.Add(new OrderElement<Dance>(Dances.FirstOrDefault(x => x.Name == "Slowfox")));
             cStd.OrderElements.Add(new OrderElement<Dance>(Dances.FirstOrDefault(x => x.Name == "Quickstep")));
             DanceRounds.Add(cStd);
 
             var dStd = new DanceRound("D Std", 0, 1, 3);
-            dStd.OrderElements.Add(new OrderElement<Dance>(Dances.FirstOrDefault(x => x.Name == "SlowWaltz")));
+            dStd.OrderElements.Add(new OrderElement<Dance>(Dances.FirstOrDefault(x => x.Name == "Slow Waltz")));
             dStd.OrderElements.Add(new OrderElement<Dance>(Dances.FirstOrDefault(x => x.Name == "Tango")));
             dStd.OrderElements.Add(new OrderElement<Dance>(Dances.FirstOrDefault(x => x.Name == "Quickstep")));
             DanceRounds.Add(dStd);
 
             var dStdChild = new DanceRound("D Std Kin", 0, 0, 3);
-            dStdChild.OrderElements.Add(new OrderElement<Dance>(Dances.FirstOrDefault(x => x.Name == "SlowWaltz")));
+            dStdChild.OrderElements.Add(new OrderElement<Dance>(Dances.FirstOrDefault(x => x.Name == "Slow Waltz")));
             dStdChild.OrderElements.Add(new OrderElement<Dance>(Dances.FirstOrDefault(x => x.Name == "Tango")));
             dStdChild.OrderElements.Add(new OrderElement<Dance>(Dances.FirstOrDefault(x => x.Name == "Quickstep")));
             DanceRounds.Add(dStdChild);
 
             var cStdChild = new DanceRound("C Std Kin", 0, 0, 3);
-            cStdChild.OrderElements.Add(new OrderElement<Dance>(Dances.FirstOrDefault(x => x.Name == "SlowWaltz")));
+            cStdChild.OrderElements.Add(new OrderElement<Dance>(Dances.FirstOrDefault(x => x.Name == "Slow Waltz")));
             cStdChild.OrderElements.Add(new OrderElement<Dance>(Dances.FirstOrDefault(x => x.Name == "Tango")));
             cStdChild.OrderElements.Add(new OrderElement<Dance>(Dances.FirstOrDefault(x => x.Name == "Slowfox")));
             cStdChild.OrderElements.Add(new OrderElement<Dance>(Dances.FirstOrDefault(x => x.Name == "Quickstep")));
@@ -153,7 +153,7 @@ namespace TournamentDJ.Model
             basLat.OrderElements.Add(new OrderElement<Dance>(Dances.FirstOrDefault(x => x.Name == "Samba")));
             basLat.OrderElements.Add(new OrderElement<Dance>(Dances.FirstOrDefault(x => x.Name == "Cha-Cha")));
             basLat.OrderElements.Add(new OrderElement<Dance>(Dances.FirstOrDefault(x => x.Name == "Rumba")));
-            basLat.OrderElements.Add(new OrderElement<Dance>(Dances.FirstOrDefault(x => x.Name == "PasoDoble Cut")));
+            basLat.OrderElements.Add(new OrderElement<Dance>(Dances.FirstOrDefault(x => x.Name == "Paso Doble Cut")));
             basLat.OrderElements.Add(new OrderElement<Dance>(Dances.FirstOrDefault(x => x.Name == "Jive")));
             DanceRounds.Add(basLat);
 
