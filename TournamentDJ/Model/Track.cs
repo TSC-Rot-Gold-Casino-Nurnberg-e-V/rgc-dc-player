@@ -127,28 +127,95 @@ namespace TournamentDJ.Model
 
         public string? Title
         {
-            get; set;
+            get
+            {
+                return Get<string>();
+            }
+            set
+            {
+                Set(value);
+                LastDataUpdateTimestamp = DateTime.Now;
+            }
         }
 
         public int PlayCount { get; set; }
 
         public string? Comment
         {
-            get; set;
+            get
+            {
+                return Get<string>();
+            }
+            set
+            {
+                Set(value);
+                LastDataUpdateTimestamp = DateTime.Now;
+            }
         }
 
         public DateTime LastPlayedTime { get; set; } = DateTime.MinValue;
         public DateTime LastDataUpdateTimestamp{ get; private set; } = DateTime.MinValue;
 
-        public bool FlaggedAsFavourite { get; set; }
+        public bool FlaggedAsFavourite {
+            get
+            {
+                return Get<bool>();
+            }
+            set
+            {
+                Set(value);
+                LastDataUpdateTimestamp = DateTime.Now;
+            }
+        }
 
-        public bool FlaggedForReview { get; set; }
+        public bool FlaggedForReview
+        {
+            get
+            {
+                return Get<bool>();
+            }
+            set
+            {
+                Set(value);
+                LastDataUpdateTimestamp = DateTime.Now;
+            }
+        }
 
         public int Year { get; set; }
 
-        public int Difficulty { get; set; }
-        public int Characteristic { get; set; }
-        public int Rating { get; set; }
+        public int Difficulty {
+            get
+            {
+                return Get<int>();
+            }
+            set
+            {
+                Set(value);
+                LastDataUpdateTimestamp = DateTime.Now;
+            }
+        }
+        public int Characteristic {
+            get
+            {
+                return Get<int>();
+            }
+            set
+            {
+                Set(value);
+                LastDataUpdateTimestamp = DateTime.Now;
+            }
+        }
+        public int Rating {
+            get
+            {
+                return Get<int>();
+            }
+            set
+            {
+                Set(value);
+                LastDataUpdateTimestamp = DateTime.Now;
+            }
+        }
 
         public string? Genre
         {
