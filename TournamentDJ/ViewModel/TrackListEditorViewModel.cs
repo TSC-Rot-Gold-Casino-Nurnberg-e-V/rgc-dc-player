@@ -76,6 +76,17 @@ namespace TournamentDJ.ViewModel
             }
         }
 
+        public Track SelectedTrackInList
+        {
+            get { return Get<Track>(); }
+            set
+            {
+                Set(value);
+                OnPropertyChanged();
+                DatabaseUtilityViewModel.TrackPlaying = value;
+            }
+        }
+
         public Dictionary<int, string> Difficulties
         {
             get { return Track.Difficulties; }
@@ -96,16 +107,6 @@ namespace TournamentDJ.ViewModel
 
         public IList SelectedTracksInTracks { get; set; }
         public IList SelectedTracksInTrackList { get; set; }
-
-        public Track SelectedTrackInList
-        {
-            get { return Get<Track>(); }
-            set
-            {
-                Set(value);
-                OnPropertyChanged();
-            }
-        }
 
         public ObservableCollection<Track> FilteredTracks
         {

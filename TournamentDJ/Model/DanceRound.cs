@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
+using System.Xml.Linq;
 
 namespace TournamentDJ.Model
 {
@@ -23,6 +24,14 @@ namespace TournamentDJ.Model
             MinDifficulty = minDifficulty;
             MaxDifficulty = maxDifficulty;
             MinCharacteristics = minCharacteristics;
+        }
+
+        public DanceRound()
+        {
+            Name = "New DanceRound";
+            MinDifficulty = 0;
+            MaxDifficulty = 3;
+            MinCharacteristics = 1;
         }
 
         public ObservableCollection<Dance> GetDancesInOrder()
