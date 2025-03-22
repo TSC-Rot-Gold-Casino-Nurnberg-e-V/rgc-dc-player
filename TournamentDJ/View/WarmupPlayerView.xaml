@@ -127,6 +127,7 @@
           <ComboBox Style="{StaticResource BasicComboBox}"
                     ItemsSource="{Binding Difficulties}"
                     DisplayMemberPath="Value"
+                    Width="120"
                     SelectedValuePath="Key"
                     SelectedValue="{Binding Player.TrackPlaying.Difficulty}"
                     IsEditable="true"/>
@@ -135,6 +136,7 @@
         ItemsSource="{Binding Characteristics}"
         DisplayMemberPath="Value"
         SelectedValuePath="Key"
+                    Width="120"
         SelectedValue="{Binding Player.TrackPlaying.Characteristic, Mode=TwoWay}"
         IsEditable="true"
          />
@@ -142,13 +144,14 @@
                     <ComboBox Style="{StaticResource BasicComboBox}"
         ItemsSource="{Binding Ratings}"
         DisplayMemberPath="Value"
+                              Width="120"
         SelectedValuePath="Key"
         SelectedValue="{Binding Player.TrackPlaying.Rating, Mode=TwoWay}"
         IsEditable="true"
          />
                 </StackPanel>
 
-        <Button VerticalAlignment="Top" Style="{StaticResource BasicButton}" Content="Reselect" Width="80" Height="40" Command="{Binding ReselectClickCommand}" CommandParameter="{Binding Player.TrackPlaying}"/>
+        <Button VerticalAlignment="Top" HorizontalAlignment="Right" Style="{StaticResource BasicButton}" Content="Reselect" Width="80" Height="40" Command="{Binding ReselectClickCommand}" CommandParameter="{Binding Player.TrackPlaying}"/>
       </DockPanel>
     </Border>
   </Grid>

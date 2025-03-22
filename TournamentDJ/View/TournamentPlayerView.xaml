@@ -173,6 +173,7 @@
                         <ComboBox Style="{StaticResource BasicComboBox}"
                                 ItemsSource="{Binding Difficulties}"
                                 DisplayMemberPath="Value"
+                                  Width="120"
                                 SelectedValuePath="Key"
                                 SelectedValue="{Binding Player.TrackPlaying.Difficulty}"
                                 IsEditable="true"
@@ -183,14 +184,27 @@
                     ItemsSource="{Binding Characteristics}"
                     DisplayMemberPath="Value"
                     SelectedValuePath="Key"
+                                  Width="120"
                     SelectedValue="{Binding Player.TrackPlaying.Characteristic, Mode=TwoWay}"
                     IsEditable="true"
                     IsReadOnly="True"
                                   ToolTip="{DynamicResource CharacteristicsToolTip}"
                      />
                     </StackPanel>
-
-                    <Button VerticalAlignment="Top" Style="{StaticResource BasicButton}" Content="{DynamicResource Reselect}" ToolTip="{DynamicResource ReselectTooltip}" Width="80" Height="40" Command="{Binding ReselectClickCommand}" CommandParameter="{Binding Player.TrackPlaying}"/>
+                    <StackPanel>
+                        <Button VerticalAlignment="Top" HorizontalAlignment="Right" Style="{StaticResource BasicButton}" Content="{DynamicResource Reselect}" ToolTip="{DynamicResource ReselectTooltip}" Width="80" Height="40" Command="{Binding ReselectClickCommand}" CommandParameter="{Binding Player.TrackPlaying}"/>
+                        <TextBlock Text="Rating" Style="{StaticResource BasicTextBlock}" Margin="10,0,0,0"/>
+                        <ComboBox Style="{StaticResource BasicComboBox}"
+        ItemsSource="{Binding Ratings}"
+        DisplayMemberPath="Value"
+                              Width="120"
+                                  Margin="10,0,0,0"
+                                  HorizontalAlignment="Left"
+        SelectedValuePath="Key"
+        SelectedValue="{Binding Player.TrackPlaying.Rating, Mode=TwoWay}"
+        IsEditable="true"
+         />
+                    </StackPanel>
                 </DockPanel>
             </Border>
             <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Visible" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="2,2,2,2">
