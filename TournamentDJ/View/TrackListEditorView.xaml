@@ -103,12 +103,62 @@ Background="Transparent"
                 Background="Transparent"
                 CanUserAddRows="False"
                 BorderBrush="{StaticResource BorderBaseBrush}">
+                            <DataGrid.Resources>
+                <Style TargetType="ComboBox" x:Key="dances">
+                    <Setter Property="ItemsSource" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}, Path=DataContext.Dances}" />
+                </Style>
+                <Style TargetType="ComboBox" x:Key="difficulties">
+                    <Setter Property="ItemsSource" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}, Path=DataContext.Difficulties}" />
+                    <Setter Property="SelectedValuePath" Value="Key"/>
+                </Style>
+                <Style TargetType="ComboBox" x:Key="characteristics">
+                    <Setter Property="ItemsSource" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}, Path=DataContext.Characteristics}" />
+                    <Setter Property="SelectedValuePath" Value="Key"/>
+                </Style>
+                <Style TargetType="ComboBox" x:Key="ratings">
+                    <Setter Property="ItemsSource" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}, Path=DataContext.Ratings}" />
+                    <Setter Property="SelectedValuePath" Value="Key"/>
+                </Style>
+            </DataGrid.Resources>
                 <DataGrid.Columns>
                     <DataGridTextColumn Binding="{Binding Title}" Header="Title" Width="200"/>
                     <DataGridTextColumn Binding="{Binding Dance.Name}" Header="Dance" Width="80" IsReadOnly="True"/>
                     <DataGridTextColumn Binding="{Binding Album}" Header="Album" Width="160" IsReadOnly="True"/>
-                    <DataGridTextColumn Binding="{Binding Duration}" Header="Duration" Width="160" IsReadOnly="True"/>
+                    <DataGridComboBoxColumn
+                      Header="Difficulty"
+                      ElementStyle="{StaticResource difficulties}"
+                      EditingElementStyle="{StaticResource difficulties}"
+                      DisplayMemberPath="Value"
+                      SelectedValuePath="Key"
+                      SelectedValueBinding="{Binding Difficulty}"
+                      Width="80"
+                                            />
+                    <DataGridComboBoxColumn
+                      Header="Characteristic"
+                      ElementStyle="{StaticResource characteristics}"
+                      EditingElementStyle="{StaticResource characteristics}"
+                      DisplayMemberPath="Value"
+                      SelectedValuePath="Key"
+                      SelectedValueBinding="{Binding Characteristic}"
+                      Width="80"
+                                            />
+                    <DataGridComboBoxColumn
+                      Header="Rating"
+                      ElementStyle="{StaticResource ratings}"
+                      EditingElementStyle="{StaticResource ratings}"
+                      DisplayMemberPath="Value"
+                      SelectedValuePath="Key"
+                      SelectedValueBinding="{Binding Rating}"
+                      Width="80"
+                            />
                     <DataGridTextColumn Binding="{Binding Comment}" Header="Comment"/>
+                    <DataGridTextColumn Binding="{Binding PlayCount}" Header="Play Count"/>
+                    <DataGridCheckBoxColumn Binding="{Binding FlaggedAsFavourite}" Header="Favourite"/>
+                    <DataGridCheckBoxColumn Binding="{Binding FlaggedForReview}" Header="Review"/>
+                    <DataGridTextColumn Binding="{Binding LastDataUpdateTimestamp}" Header="Last Update" Width="160" IsReadOnly="True"/>
+                    <DataGridTextColumn Binding="{Binding Duration}" Header="Duration" Width="160" IsReadOnly="True"/>
+
+                    
                 </DataGrid.Columns>
                 <DataGrid.InputBindings>
                     <MouseBinding Gesture="LeftDoubleClick" 
@@ -135,10 +185,62 @@ Background="Transparent"
                     Background="Transparent"
                     CanUserAddRows="False"
                     BorderBrush="{StaticResource BorderBaseBrush}">
+                <DataGrid.Resources>
+                    <Style TargetType="ComboBox" x:Key="dances">
+                        <Setter Property="ItemsSource" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}, Path=DataContext.Dances}" />
+                    </Style>
+                    <Style TargetType="ComboBox" x:Key="difficulties">
+                        <Setter Property="ItemsSource" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}, Path=DataContext.Difficulties}" />
+                        <Setter Property="SelectedValuePath" Value="Key"/>
+                    </Style>
+                    <Style TargetType="ComboBox" x:Key="characteristics">
+                        <Setter Property="ItemsSource" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}, Path=DataContext.Characteristics}" />
+                        <Setter Property="SelectedValuePath" Value="Key"/>
+                    </Style>
+                    <Style TargetType="ComboBox" x:Key="ratings">
+                        <Setter Property="ItemsSource" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}, Path=DataContext.Ratings}" />
+                        <Setter Property="SelectedValuePath" Value="Key"/>
+                    </Style>
+                </DataGrid.Resources>
                 <DataGrid.Columns>
                     <DataGridTextColumn Binding="{Binding Title}" Header="Title" Width="200"/>
                     <DataGridTextColumn Binding="{Binding Dance.Name}" Header="Dance" Width="80" IsReadOnly="True"/>
                     <DataGridTextColumn Binding="{Binding Album}" Header="Album" Width="160" IsReadOnly="True"/>
+                    <DataGridComboBoxColumn
+  Header="Difficulty"
+  ElementStyle="{StaticResource difficulties}"
+  EditingElementStyle="{StaticResource difficulties}"
+  DisplayMemberPath="Value"
+  SelectedValuePath="Key"
+  SelectedValueBinding="{Binding Difficulty}"
+  Width="80"
+                        IsReadOnly="True"
+                        />
+                    <DataGridComboBoxColumn
+  Header="Characteristic"
+  ElementStyle="{StaticResource characteristics}"
+  EditingElementStyle="{StaticResource characteristics}"
+  DisplayMemberPath="Value"
+  SelectedValuePath="Key"
+  SelectedValueBinding="{Binding Characteristic}"
+  Width="80"
+                        IsReadOnly="True"
+                        />
+                    <DataGridComboBoxColumn
+  Header="Rating"
+  ElementStyle="{StaticResource ratings}"
+  EditingElementStyle="{StaticResource ratings}"
+  DisplayMemberPath="Value"
+  SelectedValuePath="Key"
+  SelectedValueBinding="{Binding Rating}"
+  Width="80"
+                        IsReadOnly="True"
+        />
+                    <DataGridTextColumn Binding="{Binding Comment}" Header="Comment" IsReadOnly="True"/>
+                    <DataGridTextColumn Binding="{Binding PlayCount}" Header="Play Count" IsReadOnly="True"/>
+                    <DataGridCheckBoxColumn Binding="{Binding FlaggedAsFavourite}" Header="Favourite" IsReadOnly="True"/>
+                    <DataGridCheckBoxColumn Binding="{Binding FlaggedForReview}" Header="Review" IsReadOnly="True"/>
+                    <DataGridTextColumn Binding="{Binding Duration}" Header="Duration" Width="160" IsReadOnly="True"/>
                 </DataGrid.Columns>
                 <DataGrid.InputBindings>
                     <MouseBinding Gesture="LeftDoubleClick" 
