@@ -187,6 +187,8 @@ namespace TournamentDJ.ViewModel
         public ICommand ExportFileDataCommand { get; private set; }
         public ICommand UpdateFileDataCommand { get; private set; }
 
+        public ICommand AddToDatabaseMultithread { get; private set; }
+
         public void CreateCommands()
         {
             ChooseFolderCommand = new RelayCommand(ExecuteChooseFolder);
@@ -199,6 +201,36 @@ namespace TournamentDJ.ViewModel
             ChooseFileCommand = new RelayCommand(ExecuteChooseFile);
             ExportFileDataCommand = new RelayCommand(ExecuteExportFileData);
             UpdateFileDataCommand = new RelayCommand(ExecuteUpdateFileData);
+        }
+
+        public async void ExecuteAddToDatabase()
+        {
+            //Dont do shit, if other Task is running.
+            if (IsProcessing == true)
+            {
+                return;
+            }
+
+            IsProcessing = true;
+            FilesToProcess = TracksToAdd.Count;
+            FilesProcessed = 0;
+
+            DatabaseUtility.LoadFingerprints();
+
+            await DatabaseUtility.CreateFingerprints(TracksToAdd);
+
+            await Task.Run(() =>
+            {
+                foreach (var trackToAdd in TracksToAdd)
+                {
+                    DatabaseUtility.AddToDatabase(trackToAdd);
+                    FilesProcessed++;
+                }
+            });
+
+            IsProcessing = false;
+            TracksToAdd.Clear();
+            ExecuteResetTrackFilterClick();
         }
 
 
@@ -381,33 +413,6 @@ namespace TournamentDJ.ViewModel
             DatabaseUtility.SaveChanges();
         }
 
-        private async void ExecuteAddToDatabase()
-        {
-            //Dont do shit, if other Task is running.
-            if(IsProcessing == true)
-            {
-                return;
-            }
-
-            IsProcessing = true;
-            FilesToProcess = TracksToAdd.Count;
-            FilesProcessed = 0;
-
-            DatabaseUtility.LoadFingerprints();
-
-            await Task.Run(() =>
-            {
-                foreach (var trackToAdd in TracksToAdd)
-                {
-                    DatabaseUtility.AddToDatabase(trackToAdd);
-                    FilesProcessed++;
-                }
-            });
-
-            IsProcessing = false;
-            TracksToAdd.Clear();
-            ExecuteResetTrackFilterClick();
-        }
 
         public void ExecuteResetTrackFilterClick()
         {

@@ -5,6 +5,7 @@ using SoundFingerprinting.Data;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Windows;
+using System.Threading;
 using TagLib.Ape;
 using TournamentDJ.Deduplication;
 using TournamentDJ.Essentials;
@@ -197,12 +198,14 @@ namespace TournamentDJ.Model
         {
             foreach (Track track in _context.Tracks)
             {
-                var fingerprint = track.Fingerprints;
-                if(fingerprint != null)
-                {
-                    FingerprintBase.AddFingerprint(track, fingerprint);
-                }
+                FingerprintBase.AddFingerprintToModel(track);
             }
+        }
+
+
+        public static async Task CreateFingerprints(IEnumerable<Track> tracks)
+        {
+            await FingerprintBase.CreateFingerprints(tracks);
         }
 
         public static void AddToDatabase(Track trackToAdd)
@@ -220,35 +223,32 @@ namespace TournamentDJ.Model
                 }
             }
 
+            //TODO: Check if URI is already in use
+
             if (found == null)
             {
-                //Create Fingerprints
-                AVHashes newFingerprint = null;
-                foreach (Uri uri in trackToAdd.Uris)
+
+                int newId = FingerprintBase.Compare(trackToAdd);
+                //Match was found -> Add to Match
+                if (newId != -1)
                 {
-                    int newId = FingerprintBase.Compare(uri, out newFingerprint);
-                    //Match was found -> Add to Match
-                    if (newId != -1)
+                    found = _context.Tracks.FirstOrDefault<Track>(x => x.Id == newId);
+                    if (found != null)
                     {
-                        found = _context.Tracks.FirstOrDefault<Track>(x => x.Id == newId);
-                        if (found != null)
-                        {
-                            updateTrackUris(found, trackToAdd);
-                        }
-                    }
-                    //No Match found -> Create new
-                    else
-                    {
-                        trackToAdd.Fingerprints = newFingerprint;
-                        _context.Tracks.Add(trackToAdd);
-                        SaveChanges();
-                        FingerprintBase.AddFingerprint(trackToAdd, newFingerprint);
+                        updateTrackUris(found, trackToAdd);
                     }
                 }
+                //No Match found -> Create new
+                else
+                {
+                    _context.Tracks.Add(trackToAdd);
+                    FingerprintBase.AddFingerprintToModel(trackToAdd);
+                    SaveChanges();
+                }
             }
-
             SaveChanges();
         }
+
 
         private static Track checkTrackISRC(Track trackToAdd)
         {
@@ -272,50 +272,6 @@ namespace TournamentDJ.Model
             return found;
         }
 
-
-        private static Track checkForDuplicateUri(Uri uri)
-        {
-            Track? found = null;
-            foreach (Track track in _context.Tracks)
-            {
-                if (track.Uris.Contains(uri))
-                {
-                    found = track;
-                    break;
-                }
-            }
-            return found;
-        }
-
-        private static Track handleDuplicateUriWithDifferentTrack(Uri uri)
-        {
-            Track? found = null;
-
-            Application.Current.Dispatcher.Invoke(new Action(() => found.Uris.Remove(uri)));
-            
-            if (found.Uris.Count == 0)
-            {
-                _context.Tracks.Remove(found);
-            }
-
-            found = null;
-
-            return found;
-        }
-
-        private static Track handleDuplicateUriWithSimilarTrack(Track trackToAdd, Track found)
-        {
-            void updateTrack()
-            {
-                found.Title = trackToAdd.Title;
-                found.ISRC = (found.ISRC == null || found.ISRC == string.Empty) ? trackToAdd.ISRC : string.Empty;
-            }
-
-            Application.Current.Dispatcher.Invoke(new Action(() => updateTrack()));
-
-            found = null;
-            return found;
-        }
 
         private static void updateTrackUris(Track found, Track trackToAdd)
         {
