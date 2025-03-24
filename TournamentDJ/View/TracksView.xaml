@@ -175,6 +175,7 @@ Background="Transparent"
                 </DataGrid.Resources>
             <DataGrid.Columns>
             <DataGridTextColumn Binding="{Binding Title}" Header="Title" Width="200"/>
+                    <DataGridTextColumn Binding="{Binding Id}" Header="ID" Width="80"/>
                     <DataGridComboBoxColumn
                           Header="Dance"
                           ElementStyle="{StaticResource dances}"

@@ -16,7 +16,7 @@ namespace TournamentDJ.Model
         {
             Directory.CreateDirectory(Path.Combine(System.Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "TournamentDJ"));
 
-            var dataSource = Path.Combine(System.Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "TournamentDJ\\dbMusic.db");
+            var dataSource = Path.Combine(System.Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "TournamentDJ\\dbMusicFingerprinting.db");
             optionsBuilder
                 .UseSqlite($"Data Source={dataSource};");
             optionsBuilder.UseLazyLoadingProxies();

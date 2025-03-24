@@ -31,6 +31,8 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Windows.CsWinRT" Version="2.2.0" />
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.135" />
+    <PackageReference Include="SoundFingerprinting" Version="11.4.0" />
+    <PackageReference Include="SoundFingerprinting.Audio.NAudio" Version="8.0.0" />
     <PackageReference Include="TagLibSharp" Version="2.3.0" />
     <PackageReference Include="UwpDesktop-Updated" Version="10.0.17763.132" />
   </ItemGroup>

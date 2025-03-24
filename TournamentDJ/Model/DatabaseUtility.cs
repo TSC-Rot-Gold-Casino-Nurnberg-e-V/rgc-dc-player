@@ -1,10 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage;
+using SoundFingerprinting.Data;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Windows;
 using TagLib.Ape;
+using TournamentDJ.Deduplication;
 using TournamentDJ.Essentials;
 
 namespace TournamentDJ.Model
@@ -191,60 +193,58 @@ namespace TournamentDJ.Model
             var saved = _context.SaveChanges();
         }
 
+        public static void LoadFingerprints()
+        {
+            foreach (Track track in _context.Tracks)
+            {
+                var fingerprint = track.Fingerprints;
+                if(fingerprint != null)
+                {
+                    FingerprintBase.AddFingerprint(track, fingerprint);
+                }
+            }
+        }
+
         public static void AddToDatabase(Track trackToAdd)
         {
             Track? found = null;
 
             found = checkTrackISRC(trackToAdd);
 
-            //Check for Track with same length and title
-            if (found == null)
+            if (found != null)
             {
-                found = _context.Tracks.FirstOrDefault<Track>(x => x.Title == trackToAdd.Title && x.Duration == trackToAdd.Duration);
-            }
-
-            //There are some really weird and rare cases when duplicate URIS are found, that have to be handled here.
-            //1. A Track gets added, with the same URI, but different lengths and Title, e.g. a file gets replaced
-            //   with a newer version, but the same file name. Solution -> Old Track gets removed, and new Version is added as new Track
-            //2. A new Track gets added with same URI and length, but different Title and ISRC.
-            // Solution -> Old Track is updated to reflect the changes. !!THIS CAN LEAD TO WRONG CATEGORIZATION!!
-            //Because of this, the whole Database has to be searched for duplicate URIs with every insertion.
-
-            if (found == null)
-            {
-                foreach (Uri uri in trackToAdd.Uris)
+                //Track already exist in some way. Just add new Uris
+                if (trackToAdd != null && found != null)
                 {
-                    found = checkForDuplicateUri(uri);
-
-                    if (found != null)
-                    {
-                        //1
-                        if (found.Duration != trackToAdd.Duration && found.Title != trackToAdd.Title)
-                        {
-                            found = handleDuplicateUriWithDifferentTrack(uri);
-                        }
-
-                        //2
-                        if (found.Duration == trackToAdd.Duration)
-                        {
-                            found = handleDuplicateUriWithSimilarTrack(trackToAdd, found);
-                            trackToAdd = null;
-                        }
-                    }
+                    updateTrackUris(found, trackToAdd);
                 }
             }
 
-            //Track already exist in some way. Just add new Uris
-            if (trackToAdd != null && found != null)
+            if (found == null)
             {
-                //TODO: Compare Track Tags
-                updateTrackUris(found, trackToAdd);
-            }
-
-            //Track is completly new
-            if (trackToAdd != null && found == null)
-            {
-                Tracks.Add(trackToAdd);
+                //Create Fingerprints
+                AVHashes newFingerprint = null;
+                foreach (Uri uri in trackToAdd.Uris)
+                {
+                    int newId = FingerprintBase.Compare(uri, out newFingerprint);
+                    //Match was found -> Add to Match
+                    if (newId != -1)
+                    {
+                        found = _context.Tracks.FirstOrDefault<Track>(x => x.Id == newId);
+                        if (found != null)
+                        {
+                            updateTrackUris(found, trackToAdd);
+                        }
+                    }
+                    //No Match found -> Create new
+                    else
+                    {
+                        trackToAdd.Fingerprints = newFingerprint;
+                        _context.Tracks.Add(trackToAdd);
+                        SaveChanges();
+                        FingerprintBase.AddFingerprint(trackToAdd, newFingerprint);
+                    }
+                }
             }
 
             SaveChanges();

@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Input;
+using TournamentDJ.Deduplication;
 using TournamentDJ.Essentials;
 using TournamentDJ.Model;
 
@@ -73,6 +74,7 @@ namespace TournamentDJ.ViewModel
 
         public MainWindowViewModel()
         {
+            FingerprintBase.Init();
             TournamentPlayerViewModel = new TournamentPlayerViewModel();
             WarmupPlayerViewModel = new WarmupPlayerViewModel();
             DualPlayerViewModel = new DualPlayerViewModel();

@@ -1,7 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using SoundFingerprinting.Data;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
+using System.Text.Json;
 using System.Text.RegularExpressions;
 using TagLib;
 using TagLib.Id3v2;
@@ -52,6 +55,11 @@ namespace TournamentDJ.Model
 
         }
 
+        public Track(Uri uri, AVHashes fingerprints) : this(uri)
+        {
+            Fingerprints = fingerprints;
+        }
+
         public Track(Uri uri)
         {
             TagLib.File file;
@@ -82,7 +90,7 @@ namespace TournamentDJ.Model
             {
                 string cpinf = string.Empty;
                 List<TagLib.Id3v2.Frame> frames = tag.GetFrames("COMM").ToList();
-                foreach (Frame frame in frames)
+                foreach (TagLib.Id3v2.Frame frame in frames)
                 {
                     string text = frame.ToString();
                     if (text != null)
@@ -114,6 +122,7 @@ namespace TournamentDJ.Model
 
             Uris.Add(uri);
             Title = (file.Tag.Title != null) ? file.Tag.Title : System.IO.Path.GetFileName(filePath);
+            Artist = (file.Tag.FirstPerformer != null) ? file.Tag.FirstPerformer : "Unknown Artist";
 
         }
 
@@ -123,6 +132,30 @@ namespace TournamentDJ.Model
         public virtual Dance? Dance
         {
             get; set;
+        }
+
+        [Required]
+        private string? _avHashes { get; set;}
+        
+        [NotMapped]
+        public AVHashes Fingerprints
+        {
+            get
+            {
+                try
+                {
+                    return JsonSerializer.Deserialize<AVHashes>(_avHashes);
+                }
+                catch
+                {
+
+                }
+                return null;
+            }
+            set
+            {
+                _avHashes = JsonSerializer.Serialize(value);
+            }
         }
 
         public string? Title
@@ -218,6 +251,10 @@ namespace TournamentDJ.Model
         }
 
         public string? Genre
+        {
+            get; set;
+        }
+        public string? Artist
         {
             get; set;
         }

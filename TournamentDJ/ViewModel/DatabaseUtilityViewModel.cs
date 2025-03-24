@@ -393,6 +393,8 @@ namespace TournamentDJ.ViewModel
             FilesToProcess = TracksToAdd.Count;
             FilesProcessed = 0;
 
+            DatabaseUtility.LoadFingerprints();
+
             await Task.Run(() =>
             {
                 foreach (var trackToAdd in TracksToAdd)
