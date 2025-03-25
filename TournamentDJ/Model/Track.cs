@@ -58,6 +58,47 @@ namespace TournamentDJ.Model
             {4, "5" }
         };
 
+        public static int GetConservativeDifficulty(int diff1, int diff2)
+        {
+            if(diff1 > diff2)
+            {
+                return diff1;
+            }
+            else
+            {
+                return diff2;
+            }
+        }
+
+        public static int GetConservativeCharacteristic(int char1, int char2)
+        {
+            if(char1 < 0)
+            {
+                return char2;
+            }
+
+            if (char1 < char2)
+            {
+                return char1;
+            }
+            else
+            {
+                return char2;
+            }
+        }
+
+        public static int GetConservativeRating(int rat1, int rat2)
+        {
+            if (rat1 < rat2)
+            {
+                return rat1;
+            }
+            else
+            {
+                return rat2;
+            }
+        }
+
         public Track()
         {
 
@@ -142,8 +183,7 @@ namespace TournamentDJ.Model
             get; set;
         }
 
-        [Required]
-        private string? _avHashes { get; set;}
+        public string? _avHashes { get; set;}
 
         [NotMapped]
         public AVHashes Fingerprints
@@ -236,8 +276,11 @@ namespace TournamentDJ.Model
             }
             set
             {
-                Set(value);
-                LastDataUpdateTimestamp = DateTime.Now;
+                if (value != Rating)
+                {
+                    Set(value);
+                    LastDataUpdateTimestamp = DateTime.Now;
+                }
             }
         }
         public int Characteristic {
@@ -247,8 +290,11 @@ namespace TournamentDJ.Model
             }
             set
             {
-                Set(value);
-                LastDataUpdateTimestamp = DateTime.Now;
+                if (value != Rating)
+                {
+                    Set(value);
+                    LastDataUpdateTimestamp = DateTime.Now;
+                }
             }
         }
         public int Rating {
@@ -258,8 +304,11 @@ namespace TournamentDJ.Model
             }
             set
             {
-                Set(value);
-                LastDataUpdateTimestamp = DateTime.Now;
+                if (value != Rating)
+                {
+                    Set(value);
+                    LastDataUpdateTimestamp = DateTime.Now;
+                }
             }
         }
 
@@ -642,48 +691,6 @@ namespace TournamentDJ.Model
             ISRC = (file.Tag.ISRC != null) ? file.Tag.ISRC : string.Empty;
 
             LastDataUpdateTimestamp = DateTime.Now;
-        }
-        
-        ///TODO Finish up
-        /// <summary>
-        /// Compares two tags and writes the newer one to both files.
-        /// if useConservative is true, the more conservative Values for Rating, Difficulty and Characteristic will be used.
-        /// THIS DOES NOT CHECK IF THE TRACKS ARE EQUAL AT ALL
-        /// </summary>
-        /// <param name="track1"></param>
-        /// <param name="track2"></param>
-        public static void CompareAndSetTag(Track track1, Track track2, bool useConservative = false)
-        {
-            try
-            {
-                var file1 = TagLib.File.Create(track1.Uris.FirstOrDefault().LocalPath);
-                var file2 = TagLib.File.Create(track2.Uris.FirstOrDefault().LocalPath);
-
-                var tag1 = file1.Tag;
-                var tag2 = file2.Tag;
-
-                if (useConservative)
-                {
-                    track1.Rating = track1.Rating < track2.Rating ? track1.Rating : track2.Rating;
-                    track1.Difficulty = track1.Difficulty > track2.Difficulty ? track1.Difficulty : track2.Difficulty;
-                    track1.Characteristic = track1.Characteristic < track2.Characteristic ? track1.Characteristic : track2.Characteristic;
-                }
-
-                TagLib.Tag newerTag = null;
-                if (tag1 == null || tag2 == null) { return; }
-                if (tag1.DateTagged.GetValueOrDefault() > tag2.DateTagged.GetValueOrDefault())
-                {
-                    tag1.CopyTo(file2.Tag, true);
-                }
-                else
-                {
-                    tag2.CopyTo(file1.Tag, true);
-                }
-            }
-            catch(Exception e)
-            {
-                Logger.LoggerInstance.LogWrite("Could not compare Tracks " + e.Message);
-            }
         }
     }
 }

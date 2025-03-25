@@ -236,16 +236,19 @@ namespace TournamentDJ.Model
                     if (found != null && CheckMatch(trackToAdd, found))
                     {
                         updateTrackUris(found, trackToAdd);
+                        found.UpdateDataInDatabase();
                     }
                 }
                 //No Match found -> Create new
                 else
                 {
-                    Tracks.Add(trackToAdd);
-                    FingerprintBase.AddFingerprintToModel(trackToAdd);
+                    Application.Current.Dispatcher.Invoke(new Action(() => Tracks.Add(trackToAdd)));
                     SaveChanges();
+                    FingerprintBase.AddFingerprintToModel(trackToAdd);
                 }
+
             }
+
             SaveChanges();
         }
 

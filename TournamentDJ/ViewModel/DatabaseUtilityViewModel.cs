@@ -7,6 +7,7 @@ using TournamentDJ.Model;
 using System.IO;
 using Windows.Security.Isolation;
 using System.Diagnostics;
+using TournamentDJ.Deduplication;
 
 namespace TournamentDJ.ViewModel
 {
@@ -216,6 +217,7 @@ namespace TournamentDJ.ViewModel
             FilesToProcess = TracksToAdd.Count;
             FilesProcessed = 0;
 
+            FingerprintBase.ClearModel();
             DatabaseUtility.LoadFingerprints();
 
             var timer = Stopwatch.StartNew();
@@ -237,6 +239,7 @@ namespace TournamentDJ.ViewModel
 
             IsProcessing = false;
             TracksToAdd.Clear();
+            FingerprintBase.ClearModel();
             ExecuteResetTrackFilterClick();
         }
 

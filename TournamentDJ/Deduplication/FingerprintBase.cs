@@ -13,8 +13,6 @@ using SoundFingerprinting.Data;
 using SoundFingerprinting.InMemory;
 using SoundFingerprinting.Query;
 using TournamentDJ.Model;
-using Castle.Components.DictionaryAdapter.Xml;
-using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 using TournamentDJ.Essentials;
 using SoundFingerprinting.DAO;
 
@@ -31,8 +29,8 @@ namespace TournamentDJ.Deduplication
         {
             ModelService = new InMemoryModelService();
             NAudioService = new NAudioService();
-            SampleRate = 5512;
-            FrequencyRange = new FrequencyRange(318, 2000);
+            SampleRate = 5512 * 2;
+            FrequencyRange = new FrequencyRange(318, 4000);
         }
 
 
@@ -46,11 +44,10 @@ namespace TournamentDJ.Deduplication
                             select part.AsEnumerable();
 
             List<Task<IEnumerable<Track>>> tasks = new List<Task<IEnumerable<Track>>>();
-            int worker = 1;
+            int tracksDone = 0;
             foreach(IEnumerable<Track> tracks in splits)
             {
-                tasks.Add(Task.Run(() => CreateFingerprintsWorker(tracks, worker)));
-                worker++;
+                tasks.Add(Task.Run(() => CreateFingerprintsWorker(tracks, tracksDone)));
             }
 
             await Task.WhenAll(tasks);
@@ -70,50 +67,57 @@ namespace TournamentDJ.Deduplication
 
 
 
-        public static IEnumerable<Track> CreateFingerprintsWorker(IEnumerable<Track> tracks, int worker)
+        public static IEnumerable<Track> CreateFingerprintsWorker(IEnumerable<Track> tracks, int tracksDone)
         {
-            int id = worker;
-            Logger.LoggerInstance.LogWrite("Created Worker: " + id +  " with " + tracks.Count() + " Tracks to do");
             var audioService = new NAudioService();
 
             List<Track> computedTracks = new List<Track>();
 
             foreach (Track track in tracks)
             {
-
-                using (var audioFileReader = new AudioFileReader(track.Uris.FirstOrDefault().LocalPath))
+                try
                 {
-                    double start = 15;
-                    double duration = 20;
-                    if(track.Duration.TotalSeconds > 40)
+                    using (var audioFileReader = new AudioFileReader(track.Uris.FirstOrDefault().LocalPath))
                     {
-                        start = Math.Floor(track.Duration.TotalSeconds) / 2;
-                    }
-                    
-                    
-                    var samples = audioService.ReadMonoSamplesFromFile(track.Uris.FirstOrDefault().LocalPath, SampleRate, duration, start);
-                    AVHashes avHashes = FingerprintCommandBuilder.Instance
-                        .BuildFingerprintCommand()
-                        .From(samples)
-                        .WithFingerprintConfig(config =>
+                        double start = 15;
+                        double duration = 20;
+                        if (track.Duration.TotalSeconds > 40)
                         {
-                            // audio configuration
-                            config.Audio = new DefaultFingerprintConfiguration();
-                            config.Audio.SampleRate = SampleRate;
-                            config.Audio.FrequencyRange = FrequencyRange;
-                            // video configuration
-                            config.Video = new DefaultVideoFingerprintConfiguration();
-                            return config;
-                        })
-                        .UsingServices(audioService)
-                        .Hash()
-                        .Result;
+                            start = Math.Floor(track.Duration.TotalSeconds) / 2;
+                        }
+                        var samples = audioService.ReadMonoSamplesFromFile(track.Uris.FirstOrDefault().LocalPath, SampleRate, duration, start);
 
-                    track.Fingerprints = avHashes;
-                    computedTracks.Add(track);
-                    Logger.LoggerInstance.LogWrite("Worker: " + id + " finished a Track");
 
+                        AVHashes avHashes = FingerprintCommandBuilder.Instance
+                            .BuildFingerprintCommand()
+                            .From(samples)
+                            .WithFingerprintConfig(config =>
+                            {
+                                // audio configuration
+                                config.Audio = new DefaultFingerprintConfiguration();
+                                config.Audio.SampleRate = SampleRate;
+                                config.Audio.FrequencyRange = FrequencyRange;
+                                // video configuration
+                                config.Video = new DefaultVideoFingerprintConfiguration();
+                                return config;
+                            })
+                            .UsingServices(audioService)
+                            .Hash()
+                            .Result;
+
+
+
+                        track.Fingerprints = avHashes;
+                        computedTracks.Add(track);
+
+                    }
                 }
+                catch (Exception ex)
+                {
+                    Logger.LoggerInstance.LogWrite("Creating Fingerprint for Track " + track.Uris.FirstOrDefault() + " failed " + ex.Message);
+                }
+                tracksDone++;
+                Logger.LoggerInstance.LogWrite("Created Fingerprint " + tracksDone);
             }
 
             return computedTracks;
@@ -129,7 +133,7 @@ namespace TournamentDJ.Deduplication
                 .WithQueryConfig(config =>
                 {
                     config.FingerprintConfiguration.Audio.SampleRate = SampleRate;
-                    config.Audio.ThresholdVotes = 8;
+                    config.Audio.ThresholdVotes = 5;
                     config.Audio.FrequencyRange = FrequencyRange;
                     return config;
                 })
@@ -147,6 +151,11 @@ namespace TournamentDJ.Deduplication
             {
                 ModelService.Insert(new TrackInfo(track.Id.ToString(), track.Title, track.Artist), track.Fingerprints);
             }
+        }
+
+        public static void ClearModel()
+        {
+            ModelService = new InMemoryModelService();
         }
 
         public static int FindBestMatchingTrack(Track track)
