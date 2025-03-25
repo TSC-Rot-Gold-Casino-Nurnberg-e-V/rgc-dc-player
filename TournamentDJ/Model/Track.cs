@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Castle.Components.DictionaryAdapter.Xml;
+using Microsoft.EntityFrameworkCore;
 using SoundFingerprinting.Data;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
@@ -9,9 +10,16 @@ using System.Text.RegularExpressions;
 using TagLib;
 using TagLib.Id3v2;
 using TagLib.NonContainer;
+using TournamentDJ.Deduplication;
 using TournamentDJ.Essentials;
 using Windows.Gaming.Input;
 using Windows.UI.Notifications;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.IO;
+using System.Xml.Serialization;
+using System.Runtime.Serialization;
+using System.Xml;
+using Windows.Devices.Sms;
 
 namespace TournamentDJ.Model
 {
@@ -136,7 +144,7 @@ namespace TournamentDJ.Model
 
         [Required]
         private string? _avHashes { get; set;}
-        
+
         [NotMapped]
         public AVHashes Fingerprints
         {
@@ -144,9 +152,12 @@ namespace TournamentDJ.Model
             {
                 try
                 {
-                    return JsonSerializer.Deserialize<AVHashes>(_avHashes);
+                    MemoryStream stream = new MemoryStream(System.Text.Encoding.UTF8.GetBytes(_avHashes));
+                    var ser = new DataContractSerializer(typeof(AVHashes));
+                    var x = ser.ReadObject(stream);
+                    return (AVHashes)x;
                 }
-                catch
+                catch (Exception e)
                 {
 
                 }
@@ -154,10 +165,12 @@ namespace TournamentDJ.Model
             }
             set
             {
-                _avHashes = JsonSerializer.Serialize(value);
+                MemoryStream stream = new MemoryStream();
+                var ser = new DataContractSerializer(typeof(AVHashes));
+                ser.WriteObject(stream, value);
+                _avHashes = Encoding.UTF8.GetString(stream.ToArray());
             }
         }
-
         public string? Title
         {
             get

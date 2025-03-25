@@ -8,6 +8,8 @@ namespace TournamentDJ.Essentials
     public class Logger : NotifyObject
     {
         private static readonly Logger _logger = new Logger();
+        private static readonly string _pathToLogfile = Path.Combine(System.Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "TournamentDJ");
+
         static Logger()
         {
         }
@@ -27,12 +29,12 @@ namespace TournamentDJ.Essentials
 
         public void CreateLog()
         {
-            m_exePath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            m_exePath = _pathToLogfile;
             LogWrite("--------LOGFILE CREATED---------");
         }
         public void LogWrite(string logMessage)
         {
-            m_exePath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            m_exePath = _pathToLogfile;
             try
             {
                 using (StreamWriter w = File.AppendText(m_exePath + "\\" + "log.txt"))

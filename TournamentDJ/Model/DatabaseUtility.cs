@@ -203,9 +203,9 @@ namespace TournamentDJ.Model
         }
 
 
-        public static async Task CreateFingerprints(IEnumerable<Track> tracks)
+        public static async Task<IEnumerable<Track>> CreateFingerprints(IEnumerable<Track> tracks)
         {
-            await FingerprintBase.CreateFingerprints(tracks);
+            return await FingerprintBase.CreateFingerprints(tracks);
         }
 
         public static void AddToDatabase(Track trackToAdd)
@@ -225,15 +225,15 @@ namespace TournamentDJ.Model
 
             //TODO: Check if URI is already in use
 
-            if (found == null)
+            if (found == null && trackToAdd != null)
             {
 
-                int newId = FingerprintBase.Compare(trackToAdd);
-                //Match was found -> Add to Match
+                int newId = FingerprintBase.FindBestMatchingTrack(trackToAdd);
                 if (newId != -1)
                 {
                     found = _context.Tracks.FirstOrDefault<Track>(x => x.Id == newId);
-                    if (found != null)
+                    //Match was found -> Do sanity check
+                    if (found != null && CheckMatch(trackToAdd, found))
                     {
                         updateTrackUris(found, trackToAdd);
                     }
@@ -241,7 +241,7 @@ namespace TournamentDJ.Model
                 //No Match found -> Create new
                 else
                 {
-                    _context.Tracks.Add(trackToAdd);
+                    Tracks.Add(trackToAdd);
                     FingerprintBase.AddFingerprintToModel(trackToAdd);
                     SaveChanges();
                 }
@@ -249,6 +249,17 @@ namespace TournamentDJ.Model
             SaveChanges();
         }
 
+
+        private static bool CheckMatch(Track newTrack, Track existingTrack)
+        {
+            double difference = newTrack.Duration / existingTrack.Duration;
+            //if Track length differs too much, tracks are not equal.
+            if (difference > 1.05 || difference < 0.95)
+            {
+                return false;
+            }
+            return true;
+        }
 
         private static Track checkTrackISRC(Track trackToAdd)
         {

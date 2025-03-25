@@ -6,6 +6,7 @@ using TournamentDJ.Essentials;
 using TournamentDJ.Model;
 using System.IO;
 using Windows.Security.Isolation;
+using System.Diagnostics;
 
 namespace TournamentDJ.ViewModel
 {
@@ -217,11 +218,17 @@ namespace TournamentDJ.ViewModel
 
             DatabaseUtility.LoadFingerprints();
 
-            await DatabaseUtility.CreateFingerprints(TracksToAdd);
+            var timer = Stopwatch.StartNew();
+
+            var computedTracks = await DatabaseUtility.CreateFingerprints(TracksToAdd);
+
+            timer.Stop();
+
+            Logger.LoggerInstance.LogWrite(timer.ElapsedMilliseconds.ToString());
 
             await Task.Run(() =>
             {
-                foreach (var trackToAdd in TracksToAdd)
+                foreach (var trackToAdd in computedTracks)
                 {
                     DatabaseUtility.AddToDatabase(trackToAdd);
                     FilesProcessed++;
