@@ -16,6 +16,7 @@ namespace TournamentDJ.Model
     {
         public DatabaseUtility()
         {
+            //Check if Database exists
             if((_context.Database.GetService<IDatabaseCreator>() as RelationalDatabaseCreator).Exists())
             {
                 _context.Database.Migrate();
@@ -34,7 +35,7 @@ namespace TournamentDJ.Model
                 _context.TrackLists.Load();
                 FillTrackLists();
             }
-            else
+            else //if Database didn't exist before, create defaults.
             {
                 _context.Database.Migrate();
 
@@ -194,20 +195,10 @@ namespace TournamentDJ.Model
             var saved = _context.SaveChanges();
         }
 
-        public static void LoadFingerprints()
-        {
-            foreach (Track track in _context.Tracks)
-            {
-                FingerprintBase.AddFingerprintToModel(track);
-            }
-        }
-
-
-        public static async Task<IEnumerable<Track>> CreateFingerprints(IEnumerable<Track> tracks)
-        {
-            return await FingerprintBase.CreateFingerprints(tracks);
-        }
-
+        /// <summary>
+        /// Trys adding a single Track to the Database. Also checks for Duplicates, using a best-effort approach
+        /// </summary>
+        /// <param name="trackToAdd"></param>
         public static void AddToDatabase(Track trackToAdd)
         {
             Track? found = null;
@@ -217,7 +208,7 @@ namespace TournamentDJ.Model
             if (found != null)
             {
                 //Track already exist in some way. Just add new Uris
-                if (trackToAdd != null && found != null)
+                if (trackToAdd != null && found != null && CheckMatch(trackToAdd, found))
                 {
                     updateTrackUris(found, trackToAdd);
                 }
@@ -252,7 +243,12 @@ namespace TournamentDJ.Model
             SaveChanges();
         }
 
-
+        /// <summary>
+        /// Do a sanity check of two Tracks. Returns true, when a match is plasusible.
+        /// </summary>
+        /// <param name="newTrack"></param>
+        /// <param name="existingTrack"></param>
+        /// <returns></returns>
         private static bool CheckMatch(Track newTrack, Track existingTrack)
         {
             double difference = newTrack.Duration / existingTrack.Duration;
@@ -264,6 +260,11 @@ namespace TournamentDJ.Model
             return true;
         }
 
+        /// <summary>
+        /// Checks if a tracks ISRC is in use already
+        /// </summary>
+        /// <param name="trackToAdd"></param>
+        /// <returns></returns>
         private static Track checkTrackISRC(Track trackToAdd)
         {
             Track? found = null;
@@ -273,32 +274,24 @@ namespace TournamentDJ.Model
                 found = _context.Tracks.FirstOrDefault<Track>(x => x.ISRC == trackToAdd.ISRC);
             }
 
-            //If file with same ISRC is used in different lengths, it should be different Tracks
-            if (found != null)
-            {
-                if (found.Duration != trackToAdd.Duration)
-                {
-                    trackToAdd.ISRC = string.Empty;
-                    found = null;
-                    //Logger.LoggerInstance.LogWrite("Track " + trackToAdd.Uris.First<Uri>().AbsolutePath.ToString() + " with same ISRC, but different lengths was added as new Track");
-                }
-            }
             return found;
         }
 
-
+        /// <summary>
+        /// Adds additional Uris to an already existing track
+        /// </summary>
+        /// <param name="found">Existing track</param>
+        /// <param name="trackToAdd"> new track</param>
         private static void updateTrackUris(Track found, Track trackToAdd)
         {
             foreach (Uri uri in trackToAdd.Uris)
             {
-                //found.Uris.Add(uri);
                 Application.Current.Dispatcher.Invoke(new Action(() => found.Uris.Add(uri)));
             }
 
             //Make sure, every Uri is only saved once
             ObservableCollection<Uri> newUris = new ObservableCollection<Uri>(found.Uris.Distinct<Uri>());
             found.Uris = newUris;
-            //Logger.LoggerInstance.LogWrite("Track " + trackToAdd.Uris.First<Uri>().AbsolutePath.ToString() + " already inserted into Database. Save location updated.");
         }
 
     }

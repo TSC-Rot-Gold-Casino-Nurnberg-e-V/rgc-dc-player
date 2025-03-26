@@ -58,47 +58,6 @@ namespace TournamentDJ.Model
             {4, "5" }
         };
 
-        public static int GetConservativeDifficulty(int diff1, int diff2)
-        {
-            if(diff1 > diff2)
-            {
-                return diff1;
-            }
-            else
-            {
-                return diff2;
-            }
-        }
-
-        public static int GetConservativeCharacteristic(int char1, int char2)
-        {
-            if(char1 < 0)
-            {
-                return char2;
-            }
-
-            if (char1 < char2)
-            {
-                return char1;
-            }
-            else
-            {
-                return char2;
-            }
-        }
-
-        public static int GetConservativeRating(int rat1, int rat2)
-        {
-            if (rat1 < rat2)
-            {
-                return rat1;
-            }
-            else
-            {
-                return rat2;
-            }
-        }
-
         public Track()
         {
 
@@ -175,6 +134,7 @@ namespace TournamentDJ.Model
 
         }
 
+        #region Properties
         [Key]
         public int Id { get; set; }
 
@@ -371,6 +331,7 @@ namespace TournamentDJ.Model
         { get; private set; } =
         new ObservableCollection<TrackList>();
 
+        #endregion
 
         //returns an int array with lenght 4, containing L, C, B and N, as used in Competition Player by Sebastian Spörl
         //Likeness = rating
@@ -419,6 +380,11 @@ namespace TournamentDJ.Model
             return properties;
         }
 
+        /// <summary>
+        /// Creates identifiers from a Dance object
+        /// </summary>
+        /// <param name="dance"></param>
+        /// <returns>List of strings containing the identifier of the current dance</returns>
         private List<string> GetDanceIdentifiers(Dance dance)
         {
             List<string> danceIdentifiers = new List<string>();
@@ -441,6 +407,13 @@ namespace TournamentDJ.Model
 
             return danceIdentifiers;
         }
+
+        /// <summary>
+        /// Tries finding a matching dance to the current file, using a best effort approach
+        /// </summary>
+        /// <param name="file"></param>
+        /// <param name="danceIdent"></param>
+        /// <returns>the dance identifier of the first dance found, otherwise null</returns>
         private Dance SearchDance(TagLib.File file, string danceIdent = null)
         {
             //Compare with danceIdent first
@@ -503,6 +476,11 @@ namespace TournamentDJ.Model
             return null;
         }
 
+        /// <summary>
+        /// Creates a comment from a key/value dictionary using proper delimiters that can be stored
+        /// </summary>
+        /// <param name="dict"></param>
+        /// <returns>a string that can be written to an id3v2 Tag in the correct Format</returns>
         private string CreateNewComment(Dictionary<string, string> dict)
         {
             string newComment = string.Empty;
@@ -513,11 +491,11 @@ namespace TournamentDJ.Model
             return newComment;
         }
 
-        private static Dictionary<string, string> GetFieldsFromComment(TagLib.File file)
-        {
-            return GetFieldsFromComment(file.Tag.Comment);
-        }
-
+        /// <summary>
+        /// Creates key/value pairs from a string
+        /// </summary>
+        /// <param name="comment"></param>
+        /// <returns>a key/value dictionary including the correct properties for creating a comment</returns>
         private static Dictionary<string, string> GetFieldsFromComment(string comment)
         {
             if (string.IsNullOrEmpty(comment)) return new Dictionary<string, string>();
@@ -527,6 +505,10 @@ namespace TournamentDJ.Model
                 .ToDictionary (sp => sp[0], sp  => sp[1]);
         }
 
+        /// <summary>
+        /// Creates key/value pairs from this object
+        /// </summary>
+        /// <returns>a key/value dictionary including the correct properties for creating a comment</returns>
         private Dictionary<string, string> GetFields()
         {
             Dictionary<string, string> fields = new Dictionary<string, string>();
@@ -544,7 +526,10 @@ namespace TournamentDJ.Model
             return fields;
         }
         
-        //returns true, if file was updated
+        /// <summary>
+        /// Writes all relevant data from this object to a files id3v2 Tag
+        /// </summary>
+        /// <returns>true, if data could was written succesfully</returns>
         public bool WriteDataToFile()
         {
             string comment = CreateNewComment(GetFields());
@@ -604,7 +589,10 @@ namespace TournamentDJ.Model
             return true;
         }
 
-
+        /// <summary>
+        /// Compares all comments from all files corresponding to this track. Using the newest tag, data in the database get's updated
+        /// </summary>
+        /// <returns>true if data was updated</returns>
         public bool UpdateDataInDatabase()
         {
             TagLib.Id3v2.Tag newestTag = new TagLib.Id3v2.Tag();
@@ -645,6 +633,11 @@ namespace TournamentDJ.Model
             }
         }
 
+        /// <summary>
+        /// Updates this objects data using a key/value dictionary using best-effort apporach.
+        /// </summary>
+        /// <param name="dict"></param>
+        /// <param name="file"></param>
         private void UpdateData(Dictionary<string, string> dict, TagLib.File file)
         {
             string valString = string.Empty;

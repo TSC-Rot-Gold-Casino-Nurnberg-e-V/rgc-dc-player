@@ -15,6 +15,7 @@ using SoundFingerprinting.Query;
 using TournamentDJ.Model;
 using TournamentDJ.Essentials;
 using SoundFingerprinting.DAO;
+using System.Diagnostics.Metrics;
 
 namespace TournamentDJ.Deduplication
 {
@@ -34,7 +35,11 @@ namespace TournamentDJ.Deduplication
         }
 
 
-
+        /// <summary>
+        /// Creates FIngerprints using multiple workers
+        /// </summary>
+        /// <param name="tracksToFingerprint"></param>
+        /// <returns>A list of tracks with computed Fingerprints</returns>
         public static async Task<IEnumerable<Track>> CreateFingerprints(IEnumerable<Track> tracksToFingerprint)
         {
             int threads = Environment.ProcessorCount;
@@ -44,10 +49,9 @@ namespace TournamentDJ.Deduplication
                             select part.AsEnumerable();
 
             List<Task<IEnumerable<Track>>> tasks = new List<Task<IEnumerable<Track>>>();
-            int tracksDone = 0;
             foreach(IEnumerable<Track> tracks in splits)
             {
-                tasks.Add(Task.Run(() => CreateFingerprintsWorker(tracks, tracksDone)));
+                tasks.Add(Task.Run(() => CreateFingerprintsWorker(tracks)));
             }
 
             await Task.WhenAll(tasks);
@@ -66,8 +70,12 @@ namespace TournamentDJ.Deduplication
         }
 
 
-
-        public static IEnumerable<Track> CreateFingerprintsWorker(IEnumerable<Track> tracks, int tracksDone)
+        /// <summary>
+        /// Creates a new FingerprintWorker that creates Fingerprints for all given tracks.
+        /// </summary>
+        /// <param name="tracks"></param>
+        /// <returns>returns a List with the finished tracks</returns>
+        private static IEnumerable<Track> CreateFingerprintsWorker(IEnumerable<Track> tracks)
         {
             var audioService = new NAudioService();
 
@@ -116,16 +124,20 @@ namespace TournamentDJ.Deduplication
                 {
                     Logger.LoggerInstance.LogWrite("Creating Fingerprint for Track " + track.Uris.FirstOrDefault() + " failed " + ex.Message);
                 }
-                tracksDone++;
-                Logger.LoggerInstance.LogWrite("Created Fingerprint " + tracksDone);
             }
 
             return computedTracks;
         }
 
 
-
-        public static AVQueryResult QueryFingerprints(AVHashes avHashes, IModelService modelService, NAudioService audioService)
+        /// <summary>
+        /// Checks if any tracks can be found, that match avHashes
+        /// </summary>
+        /// <param name="avHashes">Hashes to compare to</param>
+        /// <param name="modelService">Database Service</param>
+        /// <param name="audioService"></param>
+        /// <returns>AVQueryResult containing all possible matches</returns>
+        private static AVQueryResult QueryFingerprints(AVHashes avHashes, IModelService modelService, NAudioService audioService)
         {
             var queryResult = QueryCommandBuilder.Instance
                 .BuildQueryCommand()
@@ -144,6 +156,10 @@ namespace TournamentDJ.Deduplication
             return queryResult;
         }
 
+        /// <summary>
+        /// Insert Fingerprint to static Model
+        /// </summary>
+        /// <param name="track"></param>
         public static void AddFingerprintToModel(Track track)
         {
             var fingerprints = track.Fingerprints;
@@ -153,11 +169,19 @@ namespace TournamentDJ.Deduplication
             }
         }
 
+        /// <summary>
+        /// Emptys the static Model that contains the fingerprints
+        /// </summary>
         public static void ClearModel()
         {
             ModelService = new InMemoryModelService();
         }
 
+        /// <summary>
+        /// Find the ID of the best match with reasonable confidence.
+        /// </summary>
+        /// <param name="track"></param>
+        /// <returns>-1, if no Track was found, otherwise the ID of the best Match</returns>
         public static int FindBestMatchingTrack(Track track)
         {
             var queryResult = QueryFingerprints(track.Fingerprints, ModelService, NAudioService);

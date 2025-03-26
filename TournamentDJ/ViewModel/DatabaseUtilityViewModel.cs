@@ -8,6 +8,7 @@ using System.IO;
 using Windows.Security.Isolation;
 using System.Diagnostics;
 using TournamentDJ.Deduplication;
+using System.Windows.Threading;
 
 namespace TournamentDJ.ViewModel
 {
@@ -17,6 +18,7 @@ namespace TournamentDJ.ViewModel
         public bool isPlaying = false;
         public bool playOnClick = false;
 
+        #region Constructor
         public DatabaseUtilityViewModel()
         {
             trackListEditorViewModel = new TrackListEditorViewModel(this);
@@ -27,7 +29,9 @@ namespace TournamentDJ.ViewModel
             FilteredTracks = new ObservableCollection<Track>();
             TrackFilterString = string.Empty;
         }
+        #endregion
 
+        #region Properties
         public ObservableCollection<Track> TracksToAdd
         {
             get { return Get<ObservableCollection<Track>>(); }
@@ -175,7 +179,43 @@ namespace TournamentDJ.ViewModel
             private set { Track.Ratings = value; }
         }
 
+        #endregion
 
+        #region Methods
+        private async Task LoadFingerprints()
+        {
+            Logger.LoggerInstance.LogWrite("Loading Fingerprints");
+            FilesToProcess = Tracks.Count;
+            FilesProcessed = 0;
+            await Task.Run(() =>
+            {
+                foreach (Track track in Tracks)
+                {
+                    FingerprintBase.AddFingerprintToModel(track);
+                    FilesProcessed++;
+                }
+            });
+        }
+
+        private async Task AddTracks(IEnumerable<Track> computedTracks)
+        {
+            Logger.LoggerInstance.LogWrite("Adding Tracks to existing Database");
+
+            FilesToProcess = TracksToAdd.Count;
+            FilesProcessed = 0;
+            await Task.Run(() =>
+            {
+                foreach (var trackToAdd in computedTracks)
+                {
+                    DatabaseUtility.AddToDatabase(trackToAdd);
+                    FilesProcessed++;
+                }
+            });
+            return;
+        }
+        #endregion
+
+        #region Commands
         public ICommand ChooseFolderCommand { get; private set; }
         public ICommand SaveDataCommand { get; private set; }
 
@@ -205,7 +245,11 @@ namespace TournamentDJ.ViewModel
             UpdateFileDataCommand = new RelayCommand(ExecuteUpdateFileData);
         }
 
-        public async void ExecuteAddToDatabase()
+
+        /// <summary>
+        /// Adds all tracks  in TracksToAdd to Database
+        /// </summary>
+        private async void ExecuteAddToDatabase()
         {
             //Dont do shit, if other Task is running.
             if (IsProcessing == true)
@@ -214,37 +258,26 @@ namespace TournamentDJ.ViewModel
             }
 
             IsProcessing = true;
-            FilesToProcess = TracksToAdd.Count;
-            FilesProcessed = 0;
 
-            FingerprintBase.ClearModel();
-            DatabaseUtility.LoadFingerprints();
+            FingerprintBase.ClearModel(); //Make sure Model is reset before computing new Tracks
 
-            var timer = Stopwatch.StartNew();
+            await LoadFingerprints();
 
-            var computedTracks = await DatabaseUtility.CreateFingerprints(TracksToAdd);
+            Logger.LoggerInstance.LogWrite("Computing fingerprints. This can take some time");
+            var computedTracks = await FingerprintBase.CreateFingerprints(TracksToAdd);
 
-            timer.Stop();
-
-            Logger.LoggerInstance.LogWrite(timer.ElapsedMilliseconds.ToString());
-
-            await Task.Run(() =>
-            {
-                foreach (var trackToAdd in computedTracks)
-                {
-                    DatabaseUtility.AddToDatabase(trackToAdd);
-                    FilesProcessed++;
-                }
-            });
-
-            IsProcessing = false;
+            await AddTracks(computedTracks);
+           
             TracksToAdd.Clear();
-            FingerprintBase.ClearModel();
+            FingerprintBase.ClearModel(); // Clear Model to free some space in Memory
             ExecuteResetTrackFilterClick();
+            IsProcessing = false;
         }
 
-
-        public async void ExecuteExportFileData()
+        /// <summary>
+        /// Takes each track und writes the data that is currently in the database in each file that corresponds to that track
+        /// </summary>
+        private async void ExecuteExportFileData()
         {
             //Dont do shit, if other Task is running.
             if (IsProcessing == true)
@@ -273,7 +306,11 @@ namespace TournamentDJ.ViewModel
             IsProcessing = false;
         }
 
-        public async void ExecuteUpdateFileData()
+
+        /// <summary>
+        /// Reads data from every track and corresponding file and updates the values stored in the Database accordingly
+        /// </summary>
+        private async void ExecuteUpdateFileData()
         {
             //Dont do shit, if other Task is running.
             if (IsProcessing == true)
@@ -303,8 +340,10 @@ namespace TournamentDJ.ViewModel
         }
 
 
-
-        public void ExecuteChooseFile()
+        /// <summary>
+        /// Opens a file dialog to add a single file to TracksToAdd
+        /// </summary>
+        private void ExecuteChooseFile()
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "MP3 files (*.mp3)|*.mp3|All files (*.*)|*.*";
@@ -333,7 +372,10 @@ namespace TournamentDJ.ViewModel
             }
         }
 
-        public async void ExecuteChooseFolder()
+        /// <summary>
+        /// Opens a file Dialog to get all files from a folder-structure
+        /// </summary>
+        private async void ExecuteChooseFolder()
         {
             //Dont do shit, if other Task is running.
             if (IsProcessing == true)
@@ -399,7 +441,10 @@ namespace TournamentDJ.ViewModel
             IsProcessing = false;
         }
 
-        public void ExecutePlayPause()
+        /// <summary>
+        /// Toggle play/pause
+        /// </summary>
+        private void ExecutePlayPause()
         {
             if (isPlaying)
             {
@@ -413,25 +458,36 @@ namespace TournamentDJ.ViewModel
             }
         }
 
-        public void ExecuteTogglePlayOnClick()
+        /// <summary>
+        /// Activates play on click
+        /// </summary>
+        private void ExecuteTogglePlayOnClick()
         {
             playOnClick = !playOnClick;
         }
 
-        public void ExecuteSaveData()
+        /// <summary>
+        /// Save all data to database
+        /// </summary>
+        private void ExecuteSaveData()
         {
             DatabaseUtility.SaveChanges();
         }
 
-
-        public void ExecuteResetTrackFilterClick()
+        /// <summary>
+        /// Resets the current track filter back to defaults (no filter)
+        /// </summary>
+        private void ExecuteResetTrackFilterClick()
         {
             TrackFilterString = string.Empty;
             SelectedDance = null;
             ExecuteApplyTrackFilter();
         }
 
-        public void ExecuteApplyTrackFilter()
+        /// <summary>
+        /// Applies the selected track filter to the track selection and updates FilteredTracks
+        /// </summary>
+        private void ExecuteApplyTrackFilter()
         {
             if (SelectedDance != null)
             {
@@ -459,6 +515,7 @@ namespace TournamentDJ.ViewModel
                 FilteredTracks = newFilterdTracks;
             }
         }
+        #endregion
 
         public void OnWindowClosing(object sender, CancelEventArgs e)
         {
