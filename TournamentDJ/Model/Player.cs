@@ -74,9 +74,9 @@ namespace TournamentDJ.Model
             }
         }
 
-        private void MedPlayer_MediaFailed(MediaPlayer sender, object args)
+        private void MedPlayer_MediaFailed(MediaPlayer sender, MediaPlayerFailedEventArgs args)
         {
-            Logger.LoggerInstance.LogWrite("Media Failed");
+            Logger.LoggerInstance.LogWrite("Media Failed for "  + args.ErrorMessage);
             //TODO Add Handling if first URI fails -> It is unkown, when exactly MediaFailed can occur
             MedPlayer.Source = null;
             //throw new NotImplementedException();
@@ -284,7 +284,7 @@ namespace TournamentDJ.Model
         }
 
 
-        public virtual async void Fadeout(double duration = 5.0)
+        public virtual async Task Fadeout(double duration = 5.0)
         {
             isFading = true;
 
@@ -305,6 +305,7 @@ namespace TournamentDJ.Model
             MedPlayer.Pause();
             GetNextTrack();
             MedPlayer.PlaybackSession.Position = TimeSpan.Zero;
+            await Task.Delay(50);
             MedPlayer.Volume = startingVolume;
 
             isFading = false;

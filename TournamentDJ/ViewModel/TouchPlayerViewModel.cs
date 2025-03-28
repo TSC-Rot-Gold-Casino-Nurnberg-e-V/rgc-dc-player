@@ -60,13 +60,13 @@ namespace TournamentDJ.ViewModel
         {
             if(Player.MedPlayer.PlaybackSession.PlaybackState == MediaPlaybackState.Playing)
             {
-                Player.Fadeout(3.0);
-            }
-            while (Player.MedPlayer.PlaybackSession.PlaybackState == MediaPlaybackState.Playing)
-            {
-                await Task.Delay(100);
+                await Player.Fadeout(1.0);
             }
             Player.TrackPlaying = track;
+            //while (Player.MedPlayer.PlaybackSession.PlaybackState == MediaPlaybackState.Buffering)
+            //{
+            //    await Task.Delay(100);
+            //}
             Player.Fadein(1.0);
         }
 

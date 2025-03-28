@@ -15,11 +15,11 @@ namespace TournamentDJ.Model
             set { Set(value); }
         }
 
-        public override async void Fadeout(double duration = 5.0)
+        public override async Task Fadeout(double duration = 5.0)
         {
             isFading = true;
 
-            int tickrate = 10; //Ticks per second
+            int tickrate = 100; //Ticks per second
             int targetTicks = (int)(duration * tickrate);
             double startingVolume = this.MedPlayer.Volume;
             double decrement = startingVolume / (duration * tickrate);
@@ -32,11 +32,10 @@ namespace TournamentDJ.Model
 
             MedPlayer.Pause();
             MedPlayer.PlaybackSession.Position = TimeSpan.Zero;
+            await Task.Delay(50);
             MedPlayer.Volume = startingVolume;
 
             isFading = false;
-
-            
         }
 
         public virtual async void Fadein(double duration = 3.0)
