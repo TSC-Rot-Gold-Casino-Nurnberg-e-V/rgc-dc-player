@@ -9,6 +9,9 @@ using System.Windows;
 
 namespace TournamentDJ.Essentials
 {
+    /// <summary>
+    /// Provides functionality to select multiple rows in a Datagrid simultaneously and use those in a Binding
+    /// </summary>
     public class BindableMultiSelectDataGrid : DataGrid
     {
         public static readonly DependencyProperty SelectedItemsProperty =

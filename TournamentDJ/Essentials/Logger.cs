@@ -4,7 +4,9 @@ using System.Text;
 
 namespace TournamentDJ.Essentials
 {
-    //This is a Singleton
+    /// <summary>
+    /// Singleton object providing logging-functionality
+    /// </summary>
     public class Logger : NotifyObject
     {
         private static readonly Logger _logger = new Logger();

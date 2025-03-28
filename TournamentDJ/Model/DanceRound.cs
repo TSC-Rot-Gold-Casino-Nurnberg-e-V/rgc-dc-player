@@ -4,6 +4,9 @@ using System.Xml.Linq;
 
 namespace TournamentDJ.Model
 {
+    /// <summary>
+    /// Collection of Dances in a specific order
+    /// </summary>
     public class DanceRound
     {
         [Key]

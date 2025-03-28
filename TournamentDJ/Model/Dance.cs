@@ -12,6 +12,9 @@ namespace TournamentDJ.Model
         public int MinBPM { get; set; }
         public int MaxBPM { get; set; }
 
+        /// <summary>
+        /// Array of strings that identify this specific dance
+        /// </summary>
         public string[]? DanceIdentifiers { get; set; }
 
 
@@ -19,7 +22,10 @@ namespace TournamentDJ.Model
         { get; private set; } =
             new ObservableCollection<Track>();
 
-
+        /// <summary>
+        /// A type of Dance, for which tracks can be categorized
+        /// </summary>
+        /// <param name="name"></param>
         public Dance(string name)
         {
             Name = name;

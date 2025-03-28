@@ -2,6 +2,10 @@
 
 namespace TournamentDJ.Model
 {
+    /// <summary>
+    /// Class that is used to Order other objects in a specific way, using Entity Framework
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class OrderElement<T>
     {
         public OrderElement() { }
