@@ -54,7 +54,7 @@ namespace TournamentDJ.ViewModel
 
         override public void ExecuteCreateDanceRound()
         {
-            TracksToPlay = TrackListBuilder.CreateDanceRound(SelectedDanceRound, SelectedNumberOfHeats, IsSingleSelected, tracklist: SelectedTrackList);
+            TracksToPlay = Player.CreateDanceRound(SelectedDanceRound, SelectedNumberOfHeats, IsSingleSelected, onlyUseUncategorized: false, overrideParams: UseTracklist);
         }
 
         public override void ExecutePlay()

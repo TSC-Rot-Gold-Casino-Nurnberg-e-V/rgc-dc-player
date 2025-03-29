@@ -29,16 +29,6 @@ namespace TournamentDJ.ViewModel
             set { Set(value); }
         }
 
-        public TrackList TracksToPlay
-        {
-            get { return Player.TracksToPlay; }
-            set
-            {
-                Player.TracksToPlay = value;
-                OnPropertyChanged();
-            }
-        }
-
         public Track TrackPlaying
         {
             get { return Player.TrackPlaying; }
@@ -46,6 +36,16 @@ namespace TournamentDJ.ViewModel
             {
                 if (value.Equals(Player.TrackPlaying)) return;
                 Player.TrackPlaying = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public TrackList TracksToPlay
+        {
+            get { return Player.TracksToPlay; }
+            set
+            {
+                Player.TracksToPlay = value;
                 OnPropertyChanged();
             }
         }
@@ -116,14 +116,13 @@ namespace TournamentDJ.ViewModel
 
         public bool UseTracklist
         {
-            get { return Get<bool>(); }
+            get { return Player.UseTracklist; }
             set
             {
-                Set(value);
-                if (value == false)
-                {
-                    SelectedTrackList = null;
-                };
+                Player.UseTracklist = value;
+                SelectedTrackList = SelectedTrackList;
+                ExecuteCreateDanceRound();
+                OnPropertyChanged();
             }
         }
 
@@ -245,12 +244,8 @@ namespace TournamentDJ.ViewModel
         public virtual void ExecuteCreateDanceRound()
         {
             Player.TracksPlayed.Tracks.Clear();
-            TracksToPlay = TrackListBuilder.CreateDanceRound(SelectedDanceRound, tracklist: SelectedTrackList);
+            TracksToPlay = Player.CreateDanceRound(SelectedDanceRound);
         }
-
-
-
-
 
         public void ExecuteOpenSelectSpecificTrackWindow(Track track)
         {

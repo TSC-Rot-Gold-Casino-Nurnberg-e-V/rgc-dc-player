@@ -18,6 +18,11 @@ namespace TournamentDJ.Model
             FindAudioDevices();
             MedPlayer = new MediaPlayer();
             MedPlayer.CurrentStateChanged += MedPlayerHasChanged;
+
+            AllTracks = new TrackList();
+            AllTracks.Name = "All Tracks";
+            AllTracks.OverrideTracks(DatabaseUtility.Tracks);
+
             Timer = new DispatcherTimer();
             TracksToPlay = new TrackList();
             TracksPlayed = new TrackList();
@@ -141,14 +146,49 @@ namespace TournamentDJ.Model
         public TrackList SelectedTrackList
         {
             get { return Get<TrackList>(); }
+            set 
+            { 
+                Set(value);
+            }
+        }
+
+        public TrackList AllTracks
+        {
+            get { return Get<TrackList>(); }
             set { Set(value); }
         }
+
+        private TrackList TracksToUse
+        {
+            get 
+            {
+                if(UseTracklist == true && SelectedTrackList != null)
+                {
+                    return SelectedTrackList;
+                }
+                else
+                {
+                    return AllTracks;
+                }
+            }
+        }
+
+
 
 
         public bool IsPlaying
         {
             get { return Get<bool>(); }
             private set { Set(value); }
+        }
+
+        public bool UseTracklist
+        {
+            get { return Get<bool>(); }
+            set
+            { 
+                Set(value);
+            }
         }
 
         public DeviceInformation SelectedAudioDevice
@@ -320,11 +360,11 @@ namespace TournamentDJ.Model
 
                 if (round == null)
                 {
-                    TrackPlaying = TrackListBuilder.GetRandomTrack(TrackPlaying.Dance, SelectedTrackList, cantBeFavourite: notFavourite, overrideParams: overrideParams, onlyUseUncategorized: onlyUseUncategorized);
+                    TrackPlaying = TrackListBuilder.GetRandomTrack(TrackPlaying.Dance, TracksToUse, cantBeFavourite: notFavourite, overrideParams: overrideParams, onlyUseUncategorized: onlyUseUncategorized);
                 }
                 else
                 {
-                    TrackPlaying = TrackListBuilder.GetRandomTrack(TrackPlaying.Dance, SelectedTrackList, round.MinDifficulty, round.MaxDifficulty, round.MinCharacteristics, cantBeFavourite: notFavourite, overrideParams: overrideParams, onlyUseUncategorized: onlyUseUncategorized);
+                    TrackPlaying = TrackListBuilder.GetRandomTrack(TrackPlaying.Dance, TracksToUse, round.MinDifficulty, round.MaxDifficulty, round.MinCharacteristics, cantBeFavourite: notFavourite, overrideParams: overrideParams, onlyUseUncategorized: onlyUseUncategorized);
                 }
                 return;
             }
@@ -335,11 +375,11 @@ namespace TournamentDJ.Model
                 Track newTrack;
                 if (round == null)
                 {
-                    newTrack = TrackListBuilder.GetRandomTrack(track.Dance, SelectedTrackList, cantBeFavourite: notFavourite, overrideParams: overrideParams, onlyUseUncategorized: onlyUseUncategorized);
+                    newTrack = TrackListBuilder.GetRandomTrack(track.Dance, TracksToUse, cantBeFavourite: notFavourite, overrideParams: overrideParams, onlyUseUncategorized: onlyUseUncategorized);
                 }
                 else
                 {
-                    newTrack = TrackListBuilder.GetRandomTrack(track.Dance, SelectedTrackList, round.MinDifficulty, round.MaxDifficulty, round.MinCharacteristics, cantBeFavourite: notFavourite, overrideParams: overrideParams, onlyUseUncategorized: onlyUseUncategorized);
+                    newTrack = TrackListBuilder.GetRandomTrack(track.Dance, TracksToUse, round.MinDifficulty, round.MaxDifficulty, round.MinCharacteristics, cantBeFavourite: notFavourite, overrideParams: overrideParams, onlyUseUncategorized: onlyUseUncategorized);
                 }
 
                 for (int i = 0; i < TracksToPlay.Tracks.Count; i++)
@@ -366,12 +406,12 @@ namespace TournamentDJ.Model
 
             else if (round == null)
             {
-                TracksToPlay.Tracks[indexToReselect] = TrackListBuilder.GetRandomTrack(TracksToPlay.Tracks[indexToReselect].Dance, SelectedTrackList, cantBeFavourite: notFavourite);
+                TracksToPlay.Tracks[indexToReselect] = TrackListBuilder.GetRandomTrack(TracksToPlay.Tracks[indexToReselect].Dance, TracksToUse, cantBeFavourite: notFavourite);
             }
 
             else
             {
-                TracksToPlay.Tracks[indexToReselect] = TrackListBuilder.GetRandomTrack(TracksToPlay.Tracks[indexToReselect].Dance, SelectedTrackList, round.MinDifficulty, round.MaxDifficulty, round.MinCharacteristics, cantBeFavourite: notFavourite);
+                TracksToPlay.Tracks[indexToReselect] = TrackListBuilder.GetRandomTrack(TracksToPlay.Tracks[indexToReselect].Dance, TracksToUse, round.MinDifficulty, round.MaxDifficulty, round.MinCharacteristics, cantBeFavourite: notFavourite);
             }
         }
 
@@ -439,6 +479,12 @@ namespace TournamentDJ.Model
                 int indexToReselect = TracksToPlay.Tracks.IndexOf(track);
                 TracksToPlay.Tracks[indexToReselect] = SelectedSpecificTrack;
             }
+        }
+
+        public TrackList CreateDanceRound(DanceRound roundToCreate, int heats = 1, bool single = false, bool cantBeFavourite = false, bool overrideParams = false, bool onlyUseUncategorized = false)
+        {
+            TracksPlayed.Tracks.Clear();
+            return TrackListBuilder.CreateDanceRound(roundToCreate, heats, single, TracksToUse, cantBeFavourite, overrideParams, onlyUseUncategorized);
         }
     }
 }

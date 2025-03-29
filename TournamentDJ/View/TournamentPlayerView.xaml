@@ -27,6 +27,7 @@
                 <ResourceDictionary Source="pack://application:,,,/TournamentDJ;component/Styles/BorderStyles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             <conv:UriToStringConverter x:Key="UriToStringConverter" />
+            <conv:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
             <conv:DateTimeToHasBeenPlayedConverter x:Key="DateTimeConverter" />
             <ess:BindingProxy x:Key="BindingProxy" Data="{Binding}"/>
             <SolidColorBrush x:Key="BackgroundBaseBrush" Color="{StaticResource Base900}"/>
@@ -65,7 +66,7 @@
                             <CheckBox IsChecked="{Binding UseTracklist}" HorizontalAlignment="Center" Style="{StaticResource BasicCheckBox}" Margin="2,4,2,0"/>
                         </StackPanel>
                         <StackPanel  Margin="5,0,5,4">
-                            <TextBlock Style="{StaticResource BasicTextBlock}" Text="{DynamicResource Tracklist}"/>
+                            <TextBlock Style="{StaticResource BasicTextBlock}" Text="{DynamicResource Tracklist}" Visibility="{Binding UseTracklist, Converter={StaticResource BoolToVisibilityConverter}}"/>
                             <ComboBox
         Style="{StaticResource BasicComboBox}"
         SelectedItem="{Binding SelectedTrackList, TargetNullValue='Default'}"
@@ -74,6 +75,7 @@
         ItemsSource="{Binding TrackLists}"
         IsEditable="true"
         IsReadOnly="true"
+                                Visibility="{Binding UseTracklist, Converter={StaticResource BoolToVisibilityConverter}}"
                                 ToolTip="{DynamicResource TracklistSelectorTooltip}"/>
                         </StackPanel>
                     </DockPanel>

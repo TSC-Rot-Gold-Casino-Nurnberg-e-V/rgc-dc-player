@@ -8,6 +8,8 @@
     <UseWPF>true</UseWPF>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <Platforms>AnyCPU;</Platforms>
+    <BaseOutputPath>C:\Users\mauri\Nextcloud\Projekte\TournamentDJ_NewestRelease</BaseOutputPath>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>

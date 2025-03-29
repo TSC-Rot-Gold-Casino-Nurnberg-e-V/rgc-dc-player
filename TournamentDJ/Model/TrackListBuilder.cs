@@ -42,7 +42,7 @@
             return tracks;
         }
 
-        public static Track GetRandomTrack(Dance dance, TrackList trackListToUse = null, int minDiff = 0, int maxDiff = 4, int minChar = 0, bool cantBeFavourite = false, bool overrideParams = false, bool onlyUseUncategorized = false)
+        public static Track GetRandomTrack(Dance dance, TrackList trackListToUse, int minDiff = 0, int maxDiff = 4, int minChar = 0, bool cantBeFavourite = false, bool overrideParams = false, bool onlyUseUncategorized = false)
         {
             if (overrideParams)
             {
@@ -53,25 +53,21 @@
 
             Track[] TracksWithDance;
 
-            if (trackListToUse != null)
-            {
-                TracksWithDance = trackListToUse.Tracks.Where(X => X.Dance == dance).ToArray();
-            }
 
-            else if (onlyUseUncategorized)
+            if (onlyUseUncategorized)
             {
-                TracksWithDance = DatabaseUtility.Tracks.Where(X => X.Dance == dance && (X.Difficulty == -1 || X.Characteristic == -1) && !X.FlaggedForReview).ToArray();
+                TracksWithDance = trackListToUse.Tracks.Where(X => X.Dance == dance && (X.Difficulty == -1 || X.Characteristic == -1) && !X.FlaggedForReview).ToArray();
             }
 
             else
             {
                 if (cantBeFavourite)
                 {
-                    TracksWithDance = DatabaseUtility.Tracks.Where(X => X.Dance == dance && X.Difficulty >= minDiff && X.Difficulty <= maxDiff && X.Characteristic >= minChar && X.FlaggedAsFavourite == false && !X.FlaggedForReview).ToArray();
+                    TracksWithDance = trackListToUse.Tracks.Where(X => X.Dance == dance && X.Difficulty >= minDiff && X.Difficulty <= maxDiff && X.Characteristic >= minChar && X.FlaggedAsFavourite == false && !X.FlaggedForReview).ToArray();
                 }
                 else
                 {
-                    TracksWithDance = DatabaseUtility.Tracks.Where(X => X.Dance == dance && X.Difficulty >= minDiff && X.Difficulty <= maxDiff && X.Characteristic >= minChar && !X.FlaggedForReview).ToArray();
+                    TracksWithDance = trackListToUse.Tracks.Where(X => X.Dance == dance && X.Difficulty >= minDiff && X.Difficulty <= maxDiff && X.Characteristic >= minChar && !X.FlaggedForReview).ToArray();
                 }
             }
 
@@ -88,7 +84,7 @@
             }
         }
 
-        public static List<Track> GetRandomTracks(Dance dance, int count, TrackList trackListToUse = null, int minDiff = 0, int maxDiff = 4, int minChar = 1, bool cantBeFavourite = false, bool overrideParams = false, bool onlyUseUncategorized = false)
+        public static List<Track> GetRandomTracks(Dance dance, int count, TrackList trackListToUse, int minDiff = 0, int maxDiff = 4, int minChar = 1, bool cantBeFavourite = false, bool overrideParams = false, bool onlyUseUncategorized = false)
         {
             if (overrideParams)
             {
@@ -99,25 +95,21 @@
 
             List<Track> TracksWithDance;
 
-            if (trackListToUse != null)
+            if (onlyUseUncategorized)
             {
-                TracksWithDance = trackListToUse.Tracks.Where(X => X.Dance == dance).ToList();
-            }
-            else if (onlyUseUncategorized)
-            {
-                TracksWithDance = DatabaseUtility.Tracks.Where(X => X.Dance == dance && (X.Difficulty == -1 || X.Characteristic == -1) && !X.FlaggedForReview).ToList();
+                TracksWithDance = trackListToUse.Tracks.Where(X => X.Dance == dance && (X.Difficulty == -1 || X.Characteristic == -1) && !X.FlaggedForReview).ToList();
             }
 
             else
             {
                 if (cantBeFavourite)
                 {
-                    TracksWithDance = DatabaseUtility.Tracks.Where(X => X.Dance == dance && X.Difficulty >= minDiff && X.Difficulty <= maxDiff && X.Characteristic >= minChar && X.FlaggedAsFavourite == false && !X.FlaggedForReview).ToList();
+                    TracksWithDance = trackListToUse.Tracks.Where(X => X.Dance == dance && X.Difficulty >= minDiff && X.Difficulty <= maxDiff && X.Characteristic >= minChar && X.FlaggedAsFavourite == false && !X.FlaggedForReview).ToList();
 
                 }
                 else
                 {
-                    TracksWithDance = DatabaseUtility.Tracks.Where(X => X.Dance == dance && X.Difficulty >= minDiff && X.Difficulty <= maxDiff && X.Characteristic >= minChar && !X.FlaggedForReview).ToList();
+                    TracksWithDance = trackListToUse.Tracks.Where(X => X.Dance == dance && X.Difficulty >= minDiff && X.Difficulty <= maxDiff && X.Characteristic >= minChar && !X.FlaggedForReview).ToList();
                 }
             }
 

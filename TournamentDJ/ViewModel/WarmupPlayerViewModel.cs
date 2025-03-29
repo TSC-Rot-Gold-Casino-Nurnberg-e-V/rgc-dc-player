@@ -57,8 +57,7 @@ namespace TournamentDJ.ViewModel
 
         public override void ExecuteCreateDanceRound()
         {
-            Player.TracksPlayed.Tracks.Clear();
-            TracksToPlay = TrackListBuilder.CreateDanceRound(SelectedDanceRound, cantBeFavourite: true, overrideParams: true, onlyUseUncategorized: OnlyUseUncategorized);
+            TracksToPlay = Player.CreateDanceRound(SelectedDanceRound, cantBeFavourite: true, overrideParams: true, onlyUseUncategorized: OnlyUseUncategorized);
         }
     }
 }
