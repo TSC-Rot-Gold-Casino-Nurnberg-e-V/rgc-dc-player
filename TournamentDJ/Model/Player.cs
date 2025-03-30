@@ -334,7 +334,7 @@ namespace TournamentDJ.Model
             while (MedPlayer.Volume > 0.0)
             {
                 double newVolume = MedPlayer.Volume - decrement;
-                if (newVolume < 0.0)
+                if (newVolume < 0.001)
                 {
                     newVolume = 0.0;
                 }
