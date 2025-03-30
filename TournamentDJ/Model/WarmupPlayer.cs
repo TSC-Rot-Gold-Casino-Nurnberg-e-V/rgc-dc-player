@@ -21,7 +21,7 @@
 
             else
             {
-                TracksToPlay = TrackListBuilder.CreateDanceRound(SelectedDanceRound, cantBeFavourite: true, overrideParams: true, onlyUseUncategorized: OnlyUseUncategorized);
+                TracksToPlay = TrackListBuilder.CreateDanceRound(SelectedDanceRound, AllTracks, cantBeFavourite: true, overrideParams: true, onlyUseUncategorized: OnlyUseUncategorized);
             }
         }
 

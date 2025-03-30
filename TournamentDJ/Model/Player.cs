@@ -484,7 +484,7 @@ namespace TournamentDJ.Model
         public TrackList CreateDanceRound(DanceRound roundToCreate, int heats = 1, bool single = false, bool cantBeFavourite = false, bool overrideParams = false, bool onlyUseUncategorized = false)
         {
             TracksPlayed.Tracks.Clear();
-            return TrackListBuilder.CreateDanceRound(roundToCreate, heats, single, TracksToUse, cantBeFavourite, overrideParams, onlyUseUncategorized);
+            return TrackListBuilder.CreateDanceRound(roundToCreate, TracksToUse, heats, single,  cantBeFavourite, overrideParams, onlyUseUncategorized);
         }
     }
 }

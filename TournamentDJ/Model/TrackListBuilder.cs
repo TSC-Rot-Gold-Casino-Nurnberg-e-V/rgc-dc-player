@@ -7,7 +7,7 @@
 
         }
 
-        public static TrackList CreateDanceRound(DanceRound roundToCreate, int heats = 1, bool single = false, TrackList tracklist = null, bool cantBeFavourite = false, bool overrideParams = false, bool onlyUseUncategorized = false)
+        public static TrackList CreateDanceRound(DanceRound roundToCreate, TrackList tracklist, int heats = 1, bool single = false,  bool cantBeFavourite = false, bool overrideParams = false, bool onlyUseUncategorized = false)
         {
             if (roundToCreate == null) { return null; }
 
