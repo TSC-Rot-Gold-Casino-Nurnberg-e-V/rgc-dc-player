@@ -117,7 +117,10 @@
                             <DataTemplate>
                                 <Button Style="{StaticResource TrackSelectButton}" HorizontalAlignment="Left" Content="{Binding Title}" 
                                         Height="60" Width="110" Command="{Binding Data.PlayOnTrackSelectedCommand, Source={StaticResource BindingProxy}}" CommandParameter="{Binding}"
-                                        ToolTip="{DynamicResource TouchPlayButtonTooltip}"/>
+                                        ToolTip="{DynamicResource TouchPlayButtonTooltip}"
+                                        
+                                        >
+                                </Button>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                         <ItemsControl.ItemsPanel>
