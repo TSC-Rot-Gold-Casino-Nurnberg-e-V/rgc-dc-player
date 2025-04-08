@@ -29,9 +29,14 @@
     <system:String x:Key="SelectAudioDevicePrompt">Please select the audio out device to be used for the main competition player</system:String>
     <system:String x:Key="AdvancedMode">Advanced Mode</system:String>
     <system:String x:Key="Difficulty">Difficulty</system:String>
+    <system:String x:Key="DifficultyShort">Diff:</system:String>
     <system:String x:Key="DifficultyToolTip">Difficulty</system:String>
+    <system:String x:Key="CharacteristicsShort">Char:</system:String>
     <system:String x:Key="Characteristics">Characteristics</system:String>
     <system:String x:Key="CharacteristicsToolTip">Characteristic</system:String>
+    <system:String x:Key="RatingShort">Rati:</system:String>
+    <system:String x:Key="Rating">Rating</system:String>
+    <system:String x:Key="RatingToolTip">Rating</system:String>
     <system:String x:Key="OpenFile">Open File</system:String>
     <system:String x:Key="Fadeout">Fadeout</system:String>
     <system:String x:Key="FadeoutTooltip">Fades the current track out</system:String>
@@ -52,4 +57,6 @@
     <system:String x:Key="DanceRoundSelectorTooltip">Select the danceround (order of dances) that should be used for this player</system:String>
     <system:String x:Key="LastPlayedTooltip">Time or date the track was last played</system:String>
 
+    
+    
 </ResourceDictionary>

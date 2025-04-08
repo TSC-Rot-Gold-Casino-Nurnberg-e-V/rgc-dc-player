@@ -13,7 +13,7 @@ namespace TournamentDJ.Converter
                 var myKey = values[1].ToString();
                 int id;
                 int.TryParse(myKey, out id);
-                if (myDict != null && id != null)
+                if (myDict != null && id != null && myDict[id] != null)
                 {
                     return myDict[id].ToString();
                 }

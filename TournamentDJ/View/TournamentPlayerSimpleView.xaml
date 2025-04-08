@@ -29,9 +29,11 @@
             <conv:UriToStringConverter x:Key="UriToStringConverter" />
             <conv:DateTimeToHasBeenPlayedConverter x:Key="DateTimeConverter" />
             <conv:DictionaryItemConverter x:Key="DictionaryItemConverter" />
-            <ess:BindingProxy x:Key="BindingProxy" Data="{Binding}"/>
             <SolidColorBrush x:Key="BackgroundBaseBrush" Color="{StaticResource Base900}"/>
             <SolidColorBrush x:Key="BorderBaseBrush" Color="{StaticResource Base600}"/>
+            <CollectionViewSource x:Key="difficulties" Source="{Binding Difficulties}"/>
+            <CollectionViewSource x:Key="characteristics" Source="{Binding Characteristics}"/>
+            <ess:BindingProxy x:Key="BindingProxy" Data="{Binding}"/>
         </ResourceDictionary>
     </UserControl.Resources>
 
@@ -93,7 +95,7 @@
                         IsReadOnly="true" FontSize="20"
                                       ToolTip="{DynamicResource HeatsSelectorTooltip}"/>
                         </StackPanel>
-                        
+
                         <StackPanel HorizontalAlignment="Left" Margin="4" Width="120">
                             <TextBlock Text="{DynamicResource Single}" ToolTip="{StaticResource SingleTooltip}" Style="{StaticResource BasicTextBlock}" FontSize="18" HorizontalAlignment="Center"/>
                             <CheckBox IsChecked="{Binding IsSingleSelected}" 
@@ -154,31 +156,46 @@
                         <TextBox Text="{Binding Player.TrackPlaying.Comment}" Width="160" Margin="4" Height="40" HorizontalAlignment="Left" 
                                  TextWrapping="Wrap" Style="{StaticResource BasicTextBox}" VerticalScrollBarVisibility="Auto"/>
                     </StackPanel>
-                    <StackPanel HorizontalAlignment="Left" Margin="4" Width="100">
-                        <ComboBox Style="{StaticResource BasicComboBox}"
-                                ItemsSource="{Binding Difficulties}"
-                                DisplayMemberPath="Value"
-                                SelectedValuePath="Key"
-                                SelectedValue="{Binding Player.TrackPlaying.Difficulty}"
-                                IsEditable="True"
-                                IsReadOnly="True"
-                                  FontSize="16"
-                                  FontWeight="Thin"
-                                  ToolTip="{DynamicResource DifficultyToolTip}"/>
-                        <ComboBox Style="{StaticResource BasicComboBox}"
-                                ItemsSource="{Binding Characteristics}"
-                                DisplayMemberPath="Value"
-                                SelectedValuePath="Key"
-                                SelectedValue="{Binding Player.TrackPlaying.Characteristic, Mode=TwoWay}"
-                                IsEditable="True"
-                                 IsReadOnly="True"
-                            FontSize="16"
-                            FontWeight="Thin"
-                                  Margin="0,15,0,0"
-                                  ToolTip="{DynamicResource CharacteristicsToolTip}"/>
-                    </StackPanel>
+                    <StackPanel Height="60" HorizontalAlignment="Left" Margin="5,0,5,4">
+    <DockPanel Height="20" Width="160">
+                            <TextBlock FontSize="14" Text="{DynamicResource DifficultyShort}" ToolTip="{DynamicResource DifficultyToolTip}" 
+   Style="{StaticResource BasicTextBlock}" HorizontalAlignment="Left"/>
+                            <TextBlock FontSize="14" Style="{StaticResource BasicTextBlock}" FontWeight="Light" Width="120" HorizontalAlignment="Right">
+            <TextBlock.Text>
+                <MultiBinding Converter="{StaticResource DictionaryItemConverter}">
+                    <Binding Source="{StaticResource BindingProxy}" Path="Data.Difficulties"/>
+                    <Binding Path="Player.TrackPlaying.Difficulty"/>
+                </MultiBinding>
+            </TextBlock.Text>
+        </TextBlock>
+    </DockPanel>
+    <DockPanel Height="20" Width="160">
+                            <TextBlock FontSize="14" Text="{DynamicResource CharacteristicsShort}" ToolTip="{DynamicResource CharacteristicsToolTip}" 
+   Style="{StaticResource BasicTextBlock}" HorizontalAlignment="Left"/>
+                            <TextBlock FontSize="14" Style="{StaticResource BasicTextBlock}" FontWeight="Light" Width="120" HorizontalAlignment="Right">
+            <TextBlock.Text>
+                <MultiBinding Converter="{StaticResource DictionaryItemConverter}">
+                    <Binding Source="{StaticResource BindingProxy}" Path="Data.Characteristics"/>
+                    <Binding Path="Player.TrackPlaying.Characteristic"/>
+                </MultiBinding>
+            </TextBlock.Text>
+        </TextBlock>
+    </DockPanel>
+    <DockPanel Height="20" Width="160">
+                            <TextBlock FontSize="14" Text="{DynamicResource RatingShort}" ToolTip="{DynamicResource RatingToolTip}" 
+   Style="{StaticResource BasicTextBlock}" HorizontalAlignment="Left"/>
+                            <TextBlock FontSize="14" Style="{StaticResource BasicTextBlock}" FontWeight="Light" Width="120" HorizontalAlignment="Right">
+            <TextBlock.Text>
+                <MultiBinding Converter="{StaticResource DictionaryItemConverter}">
+                    <Binding Source="{StaticResource BindingProxy}" Path="Data.Ratings"/>
+                    <Binding Path="Player.TrackPlaying.Rating"/>
+                </MultiBinding>
+            </TextBlock.Text>
+        </TextBlock>
+    </DockPanel>
+</StackPanel>
 
-                    <Button Margin="6" VerticalAlignment="Center" Style="{StaticResource BasicTouchButton}" Content="{DynamicResource Reselect}" Width="100" Height="60" 
+                    <Button Margin="6" VerticalAlignment="Center" Style="{StaticResource ReselectButton}" Width="60" Height="60" 
                             Command="{Binding ReselectClickCommand}" CommandParameter="{Binding Player.TrackPlaying}" ToolTip="{DynamicResource ReselectTooltip}"/>
                     <StackPanel HorizontalAlignment="Right" Margin="8">
                         <TextBlock Text="{DynamicResource Review}" Style="{StaticResource BasicTextBlock}" FontSize="16" ToolTip="{DynamicResource ReviewTooltip}"
@@ -191,7 +208,7 @@
                                 <ScaleTransform ScaleX="2" ScaleY="2"/>
                             </CheckBox.LayoutTransform>
                         </CheckBox>
-                    </StackPanel>                
+                    </StackPanel>
                 </DockPanel>
             </Border>
             <Border  Grid.Row="1" BorderBrush="{StaticResource BorderBaseBrush}" BorderThickness="2" CornerRadius="2" Margin="4,2,2,2">
@@ -201,8 +218,8 @@
                     </ScrollViewer.Resources>
                     <ItemsControl ItemsSource="{Binding TracksToPlay.Tracks}"
                               >
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
                                 <Border BorderBrush="{StaticResource ButtonBackgroundGradientBrush}" BorderThickness="1" Margin="2" CornerRadius="2">
                                     <DockPanel Height="80">
                                         <TextBlock Style="{StaticResource BasicTextBlock}" VerticalAlignment="Top" Width="160" Height="40" 
@@ -216,26 +233,62 @@
                                         </StackPanel>
                                         <StackPanel HorizontalAlignment="Left" MinHeight="100">
                                             <TextBlock Text="{DynamicResource Comment}" Style="{StaticResource BasicTextBlock}" FontSize="16" FontWeight="Thin" Margin="4"/>
-                                            <TextBox Text="{Binding Comment}" Width="160" Margin="4" Height="40" HorizontalAlignment="Left" 
+                                            <TextBox Text="{Binding Comment}" Width="160" Margin="2" Height="40" HorizontalAlignment="Left" 
                                                      TextWrapping="Wrap" Style="{StaticResource BasicTextBox}" VerticalScrollBarVisibility="Auto"/>
                                         </StackPanel>
-                                        <Button Style="{StaticResource BasicTouchButton}" Content="{DynamicResource ChooseTrack}" Width="100" Height="60" 
-                                                Command="{Binding Data.OpenSelectSpecificTrackWindowCommand, Source={StaticResource BindingProxy}}" 
-                                                CommandParameter="{Binding}" ToolTip="{DynamicResource ChooseTrackTooltip}"/>
-                                        <Button Style="{StaticResource BasicTouchButton}" Margin="6" Content="{DynamicResource Reselect}" Width="100" 
+                                        <StackPanel Height="60" HorizontalAlignment="Left" Margin="5,0,5,4">
+                                            <DockPanel Height="20" Width="160">
+                                                <TextBlock Text="{DynamicResource DifficultyShort}" ToolTip="{DynamicResource DifficultyToolTip}" 
+   Style="{StaticResource BasicTextBlock}" HorizontalAlignment="Left" FontSize="14"/>
+                                                <TextBlock FontSize="14" Style="{StaticResource BasicTextBlock}" FontWeight="Light" Width="120" HorizontalAlignment="Right">
+                                                    <TextBlock.Text>
+                                                        <MultiBinding Converter="{StaticResource DictionaryItemConverter}">
+                                                            <Binding Source="{StaticResource BindingProxy}" Path="Data.Difficulties"/>
+                                                            <Binding Path="Difficulty"/>
+                                                        </MultiBinding>
+                                                    </TextBlock.Text>
+                                                </TextBlock>
+                                            </DockPanel>
+                                            <DockPanel Height="20" Width="160">
+                                                <TextBlock FontSize="14" Text="{DynamicResource CharacteristicsShort}" ToolTip="{DynamicResource CharacteristicsToolTip}" 
+   Style="{StaticResource BasicTextBlock}" HorizontalAlignment="Left"/>
+                                                <TextBlock FontSize="14" Style="{StaticResource BasicTextBlock}" FontWeight="Light" Width="120" HorizontalAlignment="Right">
+                                                    <TextBlock.Text>
+                                                        <MultiBinding Converter="{StaticResource DictionaryItemConverter}">
+                                                            <Binding Source="{StaticResource BindingProxy}" Path="Data.Characteristics"/>
+                                                            <Binding Path="Characteristic"/>
+                                                        </MultiBinding>
+                                                    </TextBlock.Text>
+                                                </TextBlock>
+                                            </DockPanel>
+                                            <DockPanel Height="20" Width="160">
+                                                <TextBlock FontSize="14" Text="{DynamicResource RatingShort}" ToolTip="{DynamicResource RatingToolTip}" 
+   Style="{StaticResource BasicTextBlock}" HorizontalAlignment="Left"/>
+                                                <TextBlock FontSize="14" Style="{StaticResource BasicTextBlock}" FontWeight="Light" Width="120" HorizontalAlignment="Right">
+                                                    <TextBlock.Text>
+                                                        <MultiBinding Converter="{StaticResource DictionaryItemConverter}">
+                                                            <Binding Source="{StaticResource BindingProxy}" Path="Data.Ratings"/>
+                                                            <Binding Path="Rating"/>
+                                                        </MultiBinding>
+                                                    </TextBlock.Text>
+                                                </TextBlock>
+                                            </DockPanel>
+                                        </StackPanel>
+                                        <Button Style="{StaticResource ReselectButton}" Margin="6" Width="60" 
                                                 Height="60" HorizontalAlignment="Left" Command="{Binding Data.ReselectClickCommand, Source={StaticResource BindingProxy}}" 
                                                 CommandParameter="{Binding}" ToolTip="{DynamicResource ReselectTooltip}"/>
+                                       
                                     </DockPanel>
                                 </Border>
                             </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <StackPanel/>
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                </ItemsControl>
-            </ScrollViewer>
+                        </ItemsControl.ItemTemplate>
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                    </ItemsControl>
+                </ScrollViewer>
             </Border>
         </Grid>
     </Grid>

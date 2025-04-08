@@ -92,8 +92,35 @@
         </Setter>
     </Style>
 
+    <Style x:Key="ReselectButton" TargetType="Button">
+        <Setter Property="Margin" Value="2,4,2,4"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Grid Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Width}" Height="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Height}">
+                            <Border Margin="0"  ToolTip="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ToolTip}" Name="border" CornerRadius="5" BorderThickness="0" Height="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Height}" Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Width}" Background="{StaticResource ButtonBackgroundGradientBrush}">
+                                <Viewbox>
+                                <Border Margin="10">
+                                    <Path Stroke="White" StrokeThickness="7" StrokeEndLineCap="Round" StrokeStartLineCap="Round"
+                                Data="M 30,47 A 22,22 0 1 0 5,30 M 30,47 L 43,52 M 30,47 L 36,34"/>
+                                </Border>
+                            </Viewbox>
+                            </Border>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="{StaticResource ButtonMouseOverGradientBrush}" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="{StaticResource ButtonIsPressedGradientBrush}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 
-  <Style x:Key="ImageButtonActive" TargetType="Button">
+    <Style x:Key="ImageButtonActive" TargetType="Button">
     <Setter Property="Margin" Value="2,4,2,4"/>
     <Setter Property="Template">
       <Setter.Value>

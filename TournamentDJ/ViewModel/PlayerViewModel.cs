@@ -142,7 +142,7 @@ namespace TournamentDJ.ViewModel
             private set { Track.Difficulties = value; }
         }
 
-        public Dictionary<int, string> Characteristics
+        public static Dictionary<int, string> Characteristics
         {
             get { return Track.Characteristics; }
             private set { Track.Characteristics = value; }
