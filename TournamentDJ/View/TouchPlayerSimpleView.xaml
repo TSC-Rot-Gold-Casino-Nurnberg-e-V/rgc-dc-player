@@ -28,6 +28,8 @@
             </ResourceDictionary.MergedDictionaries>
             <conv:UriToStringConverter x:Key="UriToStringConverter" />
             <ess:BindingProxy x:Key="BindingProxy" Data="{Binding}"/>
+            <CollectionViewSource x:Key="difficulties" Source="{Binding Difficulties}"/>
+            <CollectionViewSource x:Key="characteristics" Source="{Binding Characteristics}"/>
         </ResourceDictionary>
     </UserControl.Resources>
 

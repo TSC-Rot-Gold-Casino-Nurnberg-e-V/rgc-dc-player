@@ -32,7 +32,8 @@
             new TimeSpan(0, 0, 95),
             new TimeSpan(0, 0, 100),
             new TimeSpan(0, 0, 105),
-            new TimeSpan(0, 0, 110)
+            new TimeSpan(0, 0, 110),
+            new TimeSpan(1, 0, 0)
         };
 
         public static List<TimeSpan> DefaultWarmupRuntimes = new List<TimeSpan>

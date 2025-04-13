@@ -36,7 +36,7 @@
 
     <Grid Margin="4">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="10*"/>
+            <ColumnDefinition Width="9*"/>
             <ColumnDefinition Width="10*"/>
         </Grid.ColumnDefinitions>
         <Border Style="{StaticResource BorderActivitySensitive}"  Margin="2" BorderThickness="2" CornerRadius="2" Grid.Column="0" Grid.ColumnSpan="1">
@@ -83,34 +83,31 @@
                 <Button  Style="{StaticResource ImageButton}" Content="pack://application:,,,/Assets/stop.png" ToolTip="{DynamicResource StopTooltip}" Width="60" Height="60" HorizontalAlignment="Left" Command="{Binding StopClickCommand}"/>
                 <Button  Style="{StaticResource ImageButton}" Content="pack://application:,,,/Assets/next.png" ToolTip="{DynamicResource NextTooltip}" Width="60" Height="60" HorizontalAlignment="Left" Command="{Binding NextClickCommand}"/>
                 <Button  Style="{StaticResource BasicTouchButton}" Content="{DynamicResource Fadeout}" ToolTip="{DynamicResource FadeoutTooltip}" Width="100" Height="60" HorizontalAlignment="Left" Command="{Binding FadeoutClickCommand}"/>
-            </DockPanel>
-        </StackPanel>
-        <Slider Margin="4" HorizontalAlignment="Right" Grid.Row="0" Grid.RowSpan="2" VerticalAlignment="Center"
-                    Width="120" Height="40" Value="{Binding Player.MedPlayer.Volume}" Maximum="1.0" 
+                <Slider Margin="4" HorizontalAlignment="Right" Grid.Row="0" Grid.RowSpan="2" VerticalAlignment="Center"
+                    Width="190" Height="40" Value="{Binding Player.MedPlayer.Volume}" Maximum="1.0" 
                         Style="{StaticResource TouchSlider}"
                         LargeChange="0.1"
                 ToolTip="{DynamicResource VolumeSliderTooltip}">
-            <Slider.LayoutTransform>
-                <RotateTransform Angle="270"/>
-            </Slider.LayoutTransform>
+                    <Slider.LayoutTransform>
+                        <RotateTransform Angle="0"/>
+                    </Slider.LayoutTransform>
 
-            <i:Interaction.Behaviors>
-                <ess:MouseWheelSliderBehavior Amount="0.03" />
-            </i:Interaction.Behaviors>
-        </Slider>
+                    <i:Interaction.Behaviors>
+                        <ess:MouseWheelSliderBehavior Amount="0.03" />
+                    </i:Interaction.Behaviors>
+                </Slider>
+            </DockPanel>
+        </StackPanel>
+
 
         <Border BorderBrush="{StaticResource BasicHighlightBorderBrush}"  Margin="2" BorderThickness="2" CornerRadius="2" Grid.Column="1" Grid.ColumnSpan="1">
-
-
             <DockPanel Height="200">
                 <StackPanel Width="160">
                     <TextBlock Style="{StaticResource BasicTextBlock}" FontSize="16" FontWeight="Thin" Margin="4" HorizontalAlignment="Left" 
                                VerticalAlignment="Top" Width="160" Height="40" Text="{Binding Player.TrackPlaying.Title}" ToolTip="{Binding Player.TrackPlaying.Title}"/>
                     <TextBlock Style="{StaticResource BasicTextBlock}" FontSize="16" FontWeight="Thin" Margin="4" HorizontalAlignment="Left" 
                                Width="160" Height="20" Text="{Binding Player.timeData}" ToolTip="{DynamicResource TimeDataTooltip}"/>
-
                 </StackPanel>
-                
                 <StackPanel Width="120">
                     <TextBlock Style="{StaticResource BasicTextBlock}" FontSize="16" FontWeight="Thin" Margin="4" HorizontalAlignment="Left" 
                                VerticalAlignment="Top" Width="100" Height="40" Text="{Binding Player.TrackPlaying.Dance.Name}" ToolTip="{DynamicResource DanceTooltip}"/>
@@ -122,8 +119,8 @@
                     <TextBox Text="{Binding Player.TrackPlaying.Comment}" Width="140" Margin="4" Height="90" 
                              HorizontalAlignment="Left" TextWrapping="Wrap" Style="{StaticResource BasicTextBox}" VerticalScrollBarVisibility="Auto"/>
                 </StackPanel>
-                <Button Margin="6" VerticalAlignment="Top" Style="{StaticResource BasicTouchButton}" Content="{DynamicResource Reselect}" 
-                        Width="100" Height="60" Command="{Binding ReselectClickCommand}"
+                <Button Margin="6" VerticalAlignment="Top" Style="{StaticResource ReselectButton}" 
+                        Width="60" Height="60" Command="{Binding ReselectClickCommand}"
                         ToolTip="{DynamicResource ReselectTooltip}" CommandParameter="{Binding Player.TrackPlaying}"/>
                 <StackPanel HorizontalAlignment="Right" Margin="8">
                     <TextBlock Text="{DynamicResource Review}" ToolTip="{DynamicResource ReviewTooltip}" Style="{StaticResource BasicTextBlock}" FontSize="16" FontWeight="Thin" Margin="4"/>
