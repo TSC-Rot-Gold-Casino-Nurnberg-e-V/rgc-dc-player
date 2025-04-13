@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Configuration;
 using System.Windows;
 using System.Windows.Input;
 using TournamentDJ.Deduplication;
@@ -80,10 +81,44 @@ namespace TournamentDJ.ViewModel
             DualPlayerViewModel = new DualPlayerViewModel();
             TouchPlayerViewModel = new TouchPlayerViewModel();
             CreateCommands();
-            AdvancedModeActive = true;
+            GetModeConfig();
         }
 
+        /// <summary>
+        /// Reads the mode config from the config file and applies it to the Main-Window
+        /// </summary>
+        private void GetModeConfig()
+        {
+            string? mode = ConfigurationManager.AppSettings["StartupMode"];
+            if (mode != null)
+            {
+                switch (mode)
+                {
+                    case "simple":
+                        AdvancedModeActive = false;
+                    break;
+                    case "advanced":
+                        AdvancedModeNotActive = true;
+                        break;
+                    default:
+                        AdvancedModeActive = false;
+                    break;
+                }
+            }
+        }
 
+        /// <summary>
+        /// Example for how to update a Setting in the config file
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        public void UpdateSettings(string key, string value)
+        {
+            Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            config.AppSettings.Settings[key].Value = value;
+            config.Save(ConfigurationSaveMode.Modified);
+            ConfigurationManager.RefreshSection("appSettings");
+        }
 
         public ICommand OpenDatabaseUtilityCommand { get; private set; }
 

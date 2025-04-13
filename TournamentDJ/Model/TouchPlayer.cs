@@ -20,12 +20,15 @@ namespace TournamentDJ.Model
             isFading = true;
 
             int tickrate = 100; //Ticks per second
-            int targetTicks = (int)(duration * tickrate);
             double startingVolume = this.MedPlayer.Volume;
             double decrement = startingVolume / (duration * tickrate);
-            for (int i = 0; i < targetTicks; i++)
+            while (MedPlayer.Volume > 0.0)
             {
                 double newVolume = MedPlayer.Volume - decrement;
+                if (newVolume < 0.001)
+                {
+                    newVolume = 0.0;
+                }
                 MedPlayer.Volume = newVolume;
                 await Task.Delay(1000 / tickrate);
             }
