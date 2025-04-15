@@ -7,7 +7,7 @@ using System.IO;
 using System.Windows;
 using System.Threading;
 using TagLib.Ape;
-using TournamentDJ.Deduplication;
+using TournamentDJ.Audio;
 using TournamentDJ.Essentials;
 
 namespace TournamentDJ.Model

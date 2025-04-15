@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.Configuration;
 using System.Windows;
 using System.Windows.Input;
-using TournamentDJ.Deduplication;
+using TournamentDJ.Audio;
 using TournamentDJ.Essentials;
 using TournamentDJ.Model;
 

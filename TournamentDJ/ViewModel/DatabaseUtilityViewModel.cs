@@ -7,7 +7,7 @@ using TournamentDJ.Model;
 using System.IO;
 using Windows.Security.Isolation;
 using System.Diagnostics;
-using TournamentDJ.Deduplication;
+using TournamentDJ.Audio;
 using System.Windows.Threading;
 
 namespace TournamentDJ.ViewModel
@@ -228,8 +228,7 @@ namespace TournamentDJ.ViewModel
         public ICommand ChooseFileCommand { get; private set; }
         public ICommand ExportFileDataCommand { get; private set; }
         public ICommand UpdateFileDataCommand { get; private set; }
-
-        public ICommand AddToDatabaseMultithread { get; private set; }
+        public ICommand CalculateBPM { get; private set; }
 
         public void CreateCommands()
         {
@@ -243,8 +242,17 @@ namespace TournamentDJ.ViewModel
             ChooseFileCommand = new RelayCommand(ExecuteChooseFile);
             ExportFileDataCommand = new RelayCommand(ExecuteExportFileData);
             UpdateFileDataCommand = new RelayCommand(ExecuteUpdateFileData);
+            CalculateBPM = new RelayCommand(ExecuteCalculateBPM);
+
         }
 
+        private void ExecuteCalculateBPM()
+        {
+            foreach(Track track in TracksToAdd)
+            {
+                track.CalculateBPM();
+            }
+        }
 
         /// <summary>
         /// Adds all tracks  in TracksToAdd to Database

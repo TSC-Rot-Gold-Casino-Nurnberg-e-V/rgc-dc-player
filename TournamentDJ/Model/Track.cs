@@ -10,7 +10,7 @@ using System.Text.RegularExpressions;
 using TagLib;
 using TagLib.Id3v2;
 using TagLib.NonContainer;
-using TournamentDJ.Deduplication;
+using TournamentDJ.Audio;
 using TournamentDJ.Essentials;
 using Windows.Gaming.Input;
 using Windows.UI.Notifications;
@@ -684,6 +684,33 @@ namespace TournamentDJ.Model
             ISRC = (file.Tag.ISRC != null) ? file.Tag.ISRC : string.Empty;
 
             LastDataUpdateTimestamp = DateTime.Now;
+        }
+
+
+        public void CalculateBPM()
+        {
+            try
+            {
+                BPMDetector bpmDetector = new BPMDetector(Uris.FirstOrDefault().AbsoluteUri);
+                if (bpmDetector.Groups.Length > 0)
+                {
+                    this.BeatsPerMinute = (uint?) bpmDetector.Groups[0].Tempo;
+
+                    if (bpmDetector.Groups.Length > 1)
+                    {
+                        Console.WriteLine("Other options are:");
+                        for (int i = 1; i < bpmDetector.Groups.Length; ++i)
+                        {
+                            Console.WriteLine(String.Format("{0} BPM ({1} samples)", bpmDetector.Groups[i].Tempo, bpmDetector.Groups[i].Count));
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.LoggerInstance.LogWrite("Calculating BPM failed:    " + ex.Message);
+            }
+
         }
     }
 }

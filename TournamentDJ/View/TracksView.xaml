@@ -48,6 +48,7 @@
             <Button Height="50" Width="100" Content="Add to Database" Command="{Binding AddToDatabaseCommand}" Margin="2" Style="{StaticResource BasicButton}"/>
             <Button Height="50" Width="100" Content="Export Data" Command="{Binding ExportFileDataCommand}" Margin="2" Style="{StaticResource BasicButton}"/>
             <Button Height="50" Width="100" Content="Update Data" Command="{Binding UpdateFileDataCommand}" Margin="2" Style="{StaticResource BasicButton}"/>
+            <Button Height="50" Width="100" Content="Calculate BPM" Command="{Binding CalculateBPM}" Margin="2" Style="{StaticResource BasicButton}"/>
             <ProgressBar Height="40" Minimum="0" Maximum="100" Value="{Binding WorkerProgress}" Visibility="{Binding IsProcessing, Converter={StaticResource BoolToVisibilityConverter}}"/>
         </DockPanel>
         <DataGrid Grid.Row="1" AutoGenerateColumns="False" ItemsSource="{Binding TracksToAdd}" SelectedItem="{Binding TrackPlaying}"
@@ -83,6 +84,7 @@ Background="Transparent"
                           Width="80"
                           DisplayMemberPath="Name"/>
                 <DataGridTextColumn Binding="{Binding Comment}" Header="Comment" Width="80" IsReadOnly="True"/>
+                <DataGridTextColumn Binding="{Binding BeatsPerMinute}" Header="BPM" Width="80" IsReadOnly="True"/>
                 <DataGridTextColumn Binding="{Binding Album}" Header="Album" Width="80" IsReadOnly="True"/>
                 <DataGridTextColumn Binding="{Binding Year}" Header="Year" Width="80" IsReadOnly="True"/>
                 <DataGridTextColumn Binding="{Binding Duration, StringFormat=mm\\:ss}" Header="Duration" Width="90" IsReadOnly="True"/>
