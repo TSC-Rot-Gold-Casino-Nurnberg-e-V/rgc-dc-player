@@ -12,6 +12,7 @@ namespace TournamentDJ.Audio
         public short Tempo;
     }
 
+
     class BPMDetector
     {
         private BPMGroup[] groups;
