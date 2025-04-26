@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using NAudio.Wave;
 using NAudio.Dsp;
+using System.Windows.Controls.Primitives;
 
 namespace TournamentDJ.Audio
 {
@@ -34,6 +35,10 @@ namespace TournamentDJ.Audio
             public float Volume;
         }
 
+        public int GetBpm(string path)
+        {
+            return 0;
+        }  //Soll-Ausgabe
         private Peak[] getPeaks(float[] data)
         {
             // What we're going to do here, is to divide up our audio into parts.
